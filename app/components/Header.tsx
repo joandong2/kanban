@@ -3,15 +3,21 @@ import Image from "next/image";
 
 const Header = () => {
   return (
-		<span className="flex">
-			<Image
-				src="/assets/logo-light.svg"
-				alt="Image Best Gear"
-                width="138"
-                height="40"
-				className="w-[120px] h-[25px]"
-			/>{" "}
-			<span className="font-bold text-[24px] drop-shadow-xl">kanban</span>
+		<span className="flex justify-between">
+			<span className="flex">
+				<span>
+					<Image
+						src="/assets/logo-dark.svg"
+						alt="Image Best Gear"
+						width="153"
+						height="26"
+					/>{" "}
+				</span>
+				<span className="border-r-1">
+					<p>Platform Launch</p>
+				</span>
+			</span>
+			<span>Add New Task</span>
 		</span>
 	);
 }
