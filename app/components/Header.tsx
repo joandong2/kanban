@@ -1,11 +1,12 @@
 import React from 'react'
 import Image from "next/image";
+import NewTask from './NewTask';
 
 const Header = () => {
   return (
-		<span className="flex justify-between">
-			<span className="flex">
-				<span>
+		<span className="py-6 px-10 flex justify-between border-b border-[#e4ebfa] bg-white">
+			<span className="flex gap-4 md:gap-0">
+				<span className="hidden md:block w-[260px]">
 					<Image
 						src="/assets/logo-dark.svg"
 						alt="Image Best Gear"
@@ -13,11 +14,21 @@ const Header = () => {
 						height="26"
 					/>{" "}
 				</span>
+				<span className="block md:hidden">
+					<Image
+						src="/assets/logo-mobile.svg"
+						alt="Image Best Gear"
+						width="25"
+						height="25"
+					/>{" "}
+				</span>
 				<span className="border-r-1">
-					<p>Platform Launch</p>
+					<p className="text-[20px] font-bold">Platform Launch</p>
 				</span>
 			</span>
-			<span>Add New Task</span>
+			<span>
+				<NewTask />
+			</span>
 		</span>
 	);
 }
