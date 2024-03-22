@@ -11,7 +11,7 @@ body {
 .sidebar li {
   display: flex;
   gap: 0.5rem;
-  padding: 12px 35px 12px 20px;
+  padding: 12px 35px 12px 40px;
   color: #828fa3;
   max-width: 90%;
 }
