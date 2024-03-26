@@ -4,7 +4,7 @@ import NewTask from './NewTask';
 
 const Header = () => {
   return (
-		<span className="py-6 px-10 flex justify-between border-b border-[#e4ebfa] bg-white z-1">
+		<span className="relative py-6 px-10 flex justify-between border-b border-[#e4ebfa] bg-white z-50">
 			<span className="flex gap-4 md:gap-0">
 				<span className="hidden md:block w-[260px]">
 					<Image

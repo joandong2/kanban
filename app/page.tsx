@@ -4,9 +4,12 @@ import Sidebar from "./components/Sidebar";
 
 export default function Home() {
   return (
-    <main className="">
-        <Header />
-        <Sidebar />
-    </main>
-  );
+		<main className="">
+			<Header />
+			<div className="flex">
+				<Sidebar />
+				<h1>hello world</h1>
+			</div>
+		</main>
+	);
 }
