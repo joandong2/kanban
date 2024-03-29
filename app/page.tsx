@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import Task from "./components/Task";
 
 export default function Home() {
   return (
@@ -8,7 +8,7 @@ export default function Home() {
 			<Header />
 			<div className="flex">
 				<Sidebar />
-				<h1>hello world</h1>
+				<Task />
 			</div>
 		</main>
 	);

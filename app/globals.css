@@ -14,11 +14,29 @@ body {
   padding: 12px 35px 12px 40px;
   color: #828fa3;
   max-width: 90%;
+  cursor: pointer
 }
 
 .sidebar li.active {
   background: #635fc7;
   border-top-right-radius: 45px;
   border-bottom-right-radius: 45px;
-  color: #fff
+  color: #fff;
+}
+
+.sidebar li:hover {
+  background: #f0effa;
+  border-top-right-radius: 45px;
+  border-bottom-right-radius: 45px;
+  color: #635fc7;
+}
+
+.sub-tasks {
+  max-width: 340px
+}
+
+.task {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px
 }

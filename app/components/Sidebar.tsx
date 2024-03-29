@@ -13,14 +13,14 @@ const Sidebar = () => {
 	}
 
 	const toggleClass = clsx({
-		"transition duration-300 h-screen pt-4 flex flex-col bg-white h-screen pointer mt-[-86px] pt-[86px] relative z-1":
+		"transition-all duration-1500 h-screen pt-4 flex flex-col bg-white h-screen pointer mt-[-86px] pt-[86px] relative z-1":
 			true,
 		"opacity-0 w-0": hideSide,
 		"opacity-100 w-[260px]": !hideSide,
 	});
 
 	const toggleEye = clsx({
-		"z-[99] absolute bottom-20 cursor-pointer bg-[#635fc7] text-white text-[18px] p-2 rounded-r-[15px]": true,
+		"z-[99] absolute bottom-20 cursor-pointer bg-[#635fc7] text-white text-[18px] py-3 px-5 rounded-r-[15px]": true,
 		"hidden": !hideSide,
 		"visible": hideSide,
 	});
@@ -41,8 +41,8 @@ const Sidebar = () => {
 								<Image
 									src="/assets/icon-board.svg"
 									alt="Image Best Gear"
-									width="24"
-									height="10"
+									width="12"
+									height="1"
 									className=""
 								/>{" "}
 								Platform Launch
