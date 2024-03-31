@@ -10,8 +10,7 @@ body {
 
 .sidebar li {
   display: flex;
-  gap: 0.5rem;
-  padding: 12px 35px 12px 40px;
+  padding: 12px 15px 12px 30px;
   color: #828fa3;
   max-width: 90%;
   cursor: pointer
@@ -24,7 +23,7 @@ body {
   color: #fff;
 }
 
-.sidebar li:hover {
+.sidebar li:hover:not(:first-child) {
   background: #f0effa;
   border-top-right-radius: 45px;
   border-bottom-right-radius: 45px;

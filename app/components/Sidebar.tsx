@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Image from "next/image";
 import clsx from 'clsx';
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Sidebar = () => {
 	const [hideSide, setHideSide] = useState<boolean>(false)
@@ -36,43 +36,45 @@ const Sidebar = () => {
 				<span className="flex justify-between flex-col h-full ">
 					<span>
 						<ul className="flex flex-col gap-1 sidebar">
-							<li>All Boards (3)</li>
-							<li className="active">
+							<li className="uppercase">All Boards (3)</li>
+							<li className="active flex gap-2">
 								<Image
 									src="/assets/icon-board.svg"
 									alt="Image Best Gear"
-									width="12"
-									height="1"
+									width="20"
+									height="20"
 									className=""
 								/>{" "}
 								Platform Launch
 							</li>
-							<li className="">
+							<li className="flex gap-2">
 								<Image
 									src="/assets/icon-board.svg"
 									alt="Image Best Gear"
-									width="24"
-									height="10"
+									width="20"
+									height="20"
 								/>{" "}
 								Roadmap
 							</li>
 							<li className="flex gap-2">
-								<a href="#">
-									<Image
-										src="/assets/icon-board.svg"
-										alt="Image Best Gear"
-										width="24"
-										height="10"
-									/>{" "}
-									Marketing Plan
-								</a>
+								<Image
+									src="/assets/icon-board.svg"
+									alt="Image Best Gear"
+									width="20"
+									height="20"
+								/>{" "}
+								Marketing Plan
 							</li>
 							<li className="!text-[#635fc7]">+ Create A New Board</li>
 						</ul>
 					</span>
 					<span className="relative p-12 flex flex-col gap-3">
 						<span></span>
-						<span onClick={hideSidebar} className="cursor-pointer">
+						<span
+							onClick={hideSidebar}
+							className="cursor-pointer flex items-center gap-3 text-[#828fa3]"
+						>
+							<FaEyeSlash />
 							Hide Sidebar
 						</span>
 					</span>
