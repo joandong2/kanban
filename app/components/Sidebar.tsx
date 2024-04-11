@@ -25,7 +25,7 @@ const Sidebar = () => {
 		"visible": hideSide,
 	});
 
-	console.log(hideSide)
+	//console.log(hideSide)
 
 	return (
 		<span className="relative">

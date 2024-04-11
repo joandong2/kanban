@@ -57,15 +57,26 @@ const Column: React.FC<IColumns> = ({
 	const filteredTasks = tasks.filter((c: ITask) => c.column === column);
 
 	const handleDragStart = (e: any, task: ITask) => {
-		console.log(e);
-		console.log(task);
+		//console.log(e);
+		//console.log(task);
 		e.dataTransfer.setData("cardId", task.id);
 	};
 
 	// set highlight column active on drag
 	const handleDragOver: DragEventHandler<HTMLDivElement> = (e) => {
 		e.preventDefault();
+		highlightIndicator(e);
 		setActive(true);
+	};
+
+	const highlightIndicator = (e: any) => {
+		const indicators = getIndicators();
+		console.log(indicators)
+	}
+
+	// get columns tasks
+	const getIndicators = () => {
+		return Array.from(document.querySelectorAll(`[data-column="${column}"]`));
 	};
 
 	// set highlight column active=false on drag
