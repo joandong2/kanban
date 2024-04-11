@@ -56,15 +56,28 @@ const Column: React.FC<IColumns> = ({
 	const [active, setActive] = useState(false);
 	const filteredTasks = tasks.filter((c: ITask) => c.column === column);
 
-	const handleDragStart  = (e: any, task: ITask) => {
+	const handleDragStart = (e: any, task: ITask) => {
 		console.log(e);
 		console.log(task);
 		e.dataTransfer.setData("cardId", task.id);
 	};
 
+	// set highlight column active on drag
 	const handleDragOver: DragEventHandler<HTMLDivElement> = (e) => {
 		e.preventDefault();
 		setActive(true);
+	};
+
+	// set highlight column active=false on drag
+	const handleDragLeave: DragEventHandler<HTMLDivElement> = (e) => {
+		e.preventDefault();
+		setActive(false);
+	};
+
+	// set highlight column active=false on drag
+	const handleDragEnd: DragEventHandler<HTMLDivElement> = (e) => {
+		e.preventDefault();
+		setActive(false);
 	};
 
 	return (
@@ -76,9 +89,9 @@ const Column: React.FC<IColumns> = ({
 				</span>
 			</div>
 			<div
-				// onDrop={handleDragEnd}
+				onDrop={handleDragEnd}
 				onDragOver={handleDragOver}
-				// onDragLeave={handleDragLeave}
+				onDragLeave={handleDragLeave}
 				className={`h-full w-full transition-colors ${
 					active ? "bg-neutral-800/50" : "bg-neutral-800/0"
 				}`}
