@@ -1,21 +1,29 @@
 import { DragHandlers } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
 
-export interface ColumnProps {
+export interface IColumns {
 	title: string;
 	headingColor: any;
-	cards: any;
+	tasks: any;
 	column: string;
-	setCards: Dispatch<SetStateAction<Cards[]>>;
+	setTasks: Dispatch<SetStateAction<ITask[]>>;
 }
 
 export interface Item {
 
 }
 
-export interface Cards {
+export interface ITaskData {
 	id: string;
 	title: string;
 	column: string;
-	handleDragStart?: DragHandlers["onDragStart"];
 }
+
+export interface ITask {
+	id: string;
+	title: string;
+	column: string;
+	handleDragStart?: (e : any, info: ITask) => void;
+}
+
+export type HandleDragStart = (e: MouseEvent | TouchEvent | PointerEvent, task: ITask) => void;

@@ -1,6 +1,6 @@
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import Task from "./components/Task";
+import { Tasks } from "./components/Task";
 
 export default function Home() {
   return (
@@ -8,7 +8,7 @@ export default function Home() {
 			<Header />
 			<div className="flex">
 				<Sidebar />
-				<Task />
+				<Tasks />
 			</div>
 		</main>
 	);

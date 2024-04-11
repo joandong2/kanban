@@ -1,63 +1,110 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { DragEventHandler, useState } from 'react'
 import { FaCircle } from "react-icons/fa";
 import { motion, PanInfo } from "framer-motion";
-import { Card, Cards, ColumnProps } from '@/lib/type';
+import { IColumns, ITask, ITaskData } from '@/lib/type';
 
-
-export const Task = () => {
+export const Tasks = () => {
 	// Define draggable item component
-	const [cards, setCards] = useState<Card[]>(DEFAULT_CARDS)
+	const [tasks, setTasks] = useState<ITask[]>(DEFAULT_CARDS);
 
 	return (
 		<div className="h-screen w-full bg-neutral-900 text-neutral-50">
 			<div className="flex h-full w-full gap-3 overflow-scroll p-12">
-			<Column
-				title="Backlog"
-				column="backlog"
-				headingColor="text-neutral-500"
-				cards={cards}
-				setCards={setCards}
-			/>
-			<Column
-				title="TODO"
-				column="todo"
-				headingColor="text-yellow-200"
-				cards={cards}
-				setCards={setCards}
-			/>
-			<Column
-				title="In progress"
-				column="doing"
-				headingColor="text-blue-200"
-				cards={cards}
-				setCards={setCards}
-			/>
-			<Column
-				title="Complete"
-				column="done"
-				headingColor="text-emerald-200"
-				cards={cards}
-				setCards={setCards}
-			/>
-			{/* <BurnBarrel setCards={setCards} /> */}
+				<Column
+					title="Backlog"
+					column="backlog"
+					headingColor="text-neutral-500"
+					tasks={tasks}
+					setTasks={setTasks}
+				/>
+				<Column
+					title="TODO"
+					column="todo"
+					headingColor="text-yellow-200"
+					tasks={tasks}
+					setTasks={setTasks}
+				/>
+				<Column
+					title="In progress"
+					column="doing"
+					headingColor="text-blue-200"
+					tasks={tasks}
+					setTasks={setTasks}
+				/>
+				<Column
+					title="Complete"
+					column="done"
+					headingColor="text-emerald-200"
+					tasks={tasks}
+					setTasks={setTasks}
+				/>
+				{/* <BurnBarrel setCards={setCards} /> */}
 			</div>
-	 	</div>
-  );
+		</div>
+	);
 };
 
-const Card: React.FC<Cards> = ({ title, id, column, handleDragStart }) => {
+const Column: React.FC<IColumns> = ({
+	title,
+	headingColor,
+	column,
+	tasks,
+	setTasks,
+}) => {
+	const [active, setActive] = useState(false);
+	const filteredTasks = tasks.filter((c: ITask) => c.column === column);
+
+	const handleDragStart  = (e: any, task: ITask) => {
+		console.log(e);
+		console.log(task);
+		e.dataTransfer.setData("cardId", task.id);
+	};
+
+	const handleDragOver: DragEventHandler<HTMLDivElement> = (e) => {
+		e.preventDefault();
+		setActive(true);
+	};
+
+	return (
+		<div className="w-56 shrink-0">
+			<div className="mb-3 flex items-center justify-between">
+				<h3 className={`font-medium ${headingColor}`}>{title}</h3>
+				<span className="rounded text-sm text-neutral-400">
+					{filteredTasks.length}
+				</span>
+			</div>
+			<div
+				// onDrop={handleDragEnd}
+				onDragOver={handleDragOver}
+				// onDragLeave={handleDragLeave}
+				className={`h-full w-full transition-colors ${
+					active ? "bg-neutral-800/50" : "bg-neutral-800/0"
+				}`}
+			>
+				{filteredTasks.map((c: ITask) => {
+					return <Task key={c.id} {...c} handleDragStart={handleDragStart} />;
+				})}
+				<DropIndicator beforeId="-1" column={column} />
+				{/* <DropIndicator beforeId={null} column={column} />
+				<AddCard column={column} setCards={setCards} /> */}
+			</div>
+		</div>
+	);
+};
+
+const Task: React.FC<ITask> = ({ title, id, column, handleDragStart }) => {
 	return (
 		<>
-			{/* <DropIndicator beforeId={id} column={column} /> */}
+			<DropIndicator beforeId={id} column={column} />
 			<motion.div
 				layout
 				layoutId={id}
 				draggable="true"
 				onDragStart={(e) =>
-					handleDragStart && handleDragStart(e, { title, id, column } as Card)
-				} // Provide the custom type for the second argument
+					handleDragStart && handleDragStart(e, {title, id, column})
+				}
 				className="cursor-grab rounded border border-neutral-700 bg-neutral-800 p-3 active:cursor-grabbing"
 			>
 				<p className="text-sm text-neutral-100">{title}</p>
@@ -66,45 +113,15 @@ const Card: React.FC<Cards> = ({ title, id, column, handleDragStart }) => {
 	);
 };
 
-
-const Column: React.FC<ColumnProps> = ({
-		title,
-		headingColor,
-		column,
-		cards,
-		setCards,
-	}) => {
-
-	const [active, setActive] = useState(false);
-	const filteredCards = cards.filter((c: Cards) => c.column === column);
-
-		const handleDragStart = (e: any, card : Card) => {
-			e.dataTransfer.setData("cardId", card.id);
-		};
-
+const DropIndicator = ({ beforeId, column }: {beforeId : any, column: any}) => {
 	return (
-		<div className="w-56 shrink-0">
-			<div className="mb-3 flex items-center justify-between">
-				<h3 className={`font-medium ${headingColor}`}>{title}</h3>
-				<span className="rounded text-sm text-neutral-400">
-					{filteredCards.length}
-				</span>
-			</div>
-			<div
-				// onDrop={handleDragEnd}
-				// onDragOver={handleDragOver}
-				// onDragLeave={handleDragLeave}
-				className={`h-full w-full transition-colors ${
-					active ? "bg-neutral-800/50" : "bg-neutral-800/0"
-				}`}
-			>
-				{filteredCards.map((c) => {
-					return <Card key={c.id} {...c} handleDragStart={handleDragStart} />;
-				})}
-				{/* <DropIndicator beforeId={null} column={column} />
-				<AddCard column={column} setCards={setCards} /> */}
-			</div>
-		</div>
+		<div
+			// which card is dragging near
+			data-before={beforeId || "-1"}
+			// what column
+			data-column={column}
+			className="my-0.5 h-0.5 w-full bg-violet-400 opacity-0"
+		/>
 	);
 };
 
