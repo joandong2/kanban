@@ -2,150 +2,75 @@
 
 import React, { DragEventHandler, useState } from 'react'
 import { FaCircle } from "react-icons/fa";
-import { motion, PanInfo } from "framer-motion";
-import { IColumns, ITask, ITaskData } from '@/lib/type';
+import { ITask, ITaskData } from '@/lib/type';
+import { TbAsterisk } from 'react-icons/tb';
 
 export const Tasks = () => {
 	// Define draggable item component
 	const [tasks, setTasks] = useState<ITask[]>(DEFAULT_CARDS);
 
+	const backlog = tasks.filter((task) => task.column === 'backlog')
+	const todo = tasks.filter((task) => task.column === "todo");
+	const doing = tasks.filter((task) => task.column === "doing");
+
 	return (
-		<div className="h-screen w-full bg-neutral-900 text-neutral-50">
-			<div className="flex h-full w-full gap-3 overflow-scroll p-12">
-				<Column
-					title="Backlog"
-					column="backlog"
-					headingColor="text-neutral-500"
-					tasks={tasks}
-					setTasks={setTasks}
-				/>
-				<Column
-					title="TODO"
-					column="todo"
-					headingColor="text-yellow-200"
-					tasks={tasks}
-					setTasks={setTasks}
-				/>
-				<Column
-					title="In progress"
-					column="doing"
-					headingColor="text-blue-200"
-					tasks={tasks}
-					setTasks={setTasks}
-				/>
-				<Column
-					title="Complete"
-					column="done"
-					headingColor="text-emerald-200"
-					tasks={tasks}
-					setTasks={setTasks}
-				/>
-				{/* <BurnBarrel setCards={setCards} /> */}
-			</div>
-		</div>
+		<span className="flex gap-4">
+			<Column tasks={backlog}/>
+			<Column tasks={todo} />
+		</span>
 	);
 };
 
-const Column: React.FC<IColumns> = ({
-	title,
-	headingColor,
-	column,
-	tasks,
-	setTasks,
-}) => {
-	const [active, setActive] = useState(false);
-	const filteredTasks = tasks.filter((c: ITask) => c.column === column);
+const Column = ({ tasks }: {tasks : ITask[]}) => {
 
-	const handleDragStart = (e: any, task: ITask) => {
-		//console.log(e);
-		//console.log(task);
-		e.dataTransfer.setData("cardId", task.id);
+	const handleDragStart = (e: React.DragEvent, task: ITask) => {
+		console.log(e);
+		// console.log(task);
+		e.dataTransfer.setData("id", task.id); // set data drag id to be used in dropping
 	};
 
-	// set highlight column active on drag
-	const handleDragOver: DragEventHandler<HTMLDivElement> = (e) => {
-		e.preventDefault();
-		highlightIndicator(e);
-		setActive(true);
+	const handleDrop = (e: React.DragEvent) => {
+		e.preventDefault(); // Prevent the default behavior
+		const id = e.dataTransfer.getData("id"); // id from setData
+		console.log("id", id);
 	};
 
-	const highlightIndicator = (e: any) => {
-		const indicators = getIndicators();
-		console.log(indicators)
-	}
-
-	// get columns tasks
-	const getIndicators = () => {
-		return Array.from(document.querySelectorAll(`[data-column="${column}"]`));
-	};
-
-	// set highlight column active=false on drag
-	const handleDragLeave: DragEventHandler<HTMLDivElement> = (e) => {
-		e.preventDefault();
-		setActive(false);
-	};
-
-	// set highlight column active=false on drag
-	const handleDragEnd: DragEventHandler<HTMLDivElement> = (e) => {
-		e.preventDefault();
-		setActive(false);
+	 const handleDragOver = (e: React.DragEvent) => {
+		e.preventDefault(); // Prevent default to allow dropping
 	};
 
 	return (
-		<div className="w-56 shrink-0">
-			<div className="mb-3 flex items-center justify-between">
-				<h3 className={`font-medium ${headingColor}`}>{title}</h3>
-				<span className="rounded text-sm text-neutral-400">
-					{filteredTasks.length}
-				</span>
-			</div>
-			<div
-				onDrop={handleDragEnd}
-				onDragOver={handleDragOver}
-				onDragLeave={handleDragLeave}
-				className={`h-full w-full transition-colors ${
-					active ? "bg-neutral-800/50" : "bg-neutral-800/0"
-				}`}
-			>
-				{filteredTasks.map((c: ITask) => {
-					return <Task key={c.id} {...c} handleDragStart={handleDragStart} />;
-				})}
-				<DropIndicator beforeId="-1" column={column} />
-				{/* <DropIndicator beforeId={null} column={column} />
-				<AddCard column={column} setCards={setCards} /> */}
-			</div>
-		</div>
+		<span
+			className="flex flex-col gap-4"
+			onDrop={(e) => handleDrop(e)}
+			onDragOver={(e) => handleDragOver(e)}
+		>
+			{tasks &&
+				tasks.map((task: ITask, index) => (
+					<span key={index}>
+						<Task
+							title={task.title}
+							id={task.id}
+							column={task.column}
+							handleDragStart={handleDragStart}
+						/>
+					</span>
+				))}
+		</span>
 	);
-};
+}
 
 const Task: React.FC<ITask> = ({ title, id, column, handleDragStart }) => {
 	return (
-		<>
-			<DropIndicator beforeId={id} column={column} />
-			<motion.div
-				layout
-				layoutId={id}
-				draggable="true"
-				onDragStart={(e) =>
-					handleDragStart && handleDragStart(e, {title, id, column})
-				}
-				className="cursor-grab rounded border border-neutral-700 bg-neutral-800 p-3 active:cursor-grabbing"
-			>
-				<p className="text-sm text-neutral-100">{title}</p>
-			</motion.div>
-		</>
-	);
-};
-
-const DropIndicator = ({ beforeId, column }: {beforeId : any, column: any}) => {
-	return (
-		<div
-			// which card is dragging near
-			data-before={beforeId || "-1"}
-			// what column
-			data-column={column}
-			className="my-0.5 h-0.5 w-full bg-violet-400 opacity-0"
-		/>
+		<span
+			draggable
+			onDragStart={(e) =>
+				handleDragStart && handleDragStart(e, { title, id, column })
+			}
+			className="rounded border p-3 border-neutral-700 bg-white-800 active:cursor-grabbing"
+		>
+			{title}
+		</span>
 	);
 };
 
@@ -171,13 +96,7 @@ const DEFAULT_CARDS = [
 		column: "doing",
 	},
 	{ title: "Add logging to daily CRON", id: "9", column: "doing" },
-	// DONE
-	{
-		title: "Set up DD dashboards for Lambda listener",
-		id: "10",
-		column: "done",
-	},
 ];
 
 
-export default Task
+export default Tasks

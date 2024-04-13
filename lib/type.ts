@@ -1,4 +1,3 @@
-import { DragHandlers } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
 
 export interface IColumns {
@@ -23,7 +22,7 @@ export interface ITask {
 	id: string;
 	title: string;
 	column: string;
-	handleDragStart?: (e : any, info: ITask) => void;
+	handleDragStart?: (e :React.DragEvent, info: ITask) => void;
 }
 
 export type HandleDragStart = (e: MouseEvent | TouchEvent | PointerEvent, task: ITask) => void;

@@ -44,7 +44,6 @@ const Board = () => {
         cards={cards}
         setCards={setCards}
       />
-      <BurnBarrel setCards={setCards} />
     </div>
   );
 };
