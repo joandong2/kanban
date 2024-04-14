@@ -15,13 +15,13 @@ export const Tasks = () => {
 
 	return (
 		<span className="flex gap-4">
-			<Column tasks={backlog}/>
-			<Column tasks={todo} />
+			<Column tasks={backlog} column="backlog"/>
+			<Column tasks={todo} column="todo"/>
 		</span>
 	);
 };
 
-const Column = ({ tasks }: {tasks : ITask[]}) => {
+const Column = ({ tasks, column }: {tasks : ITask[], column: string}) => {
 
 	const handleDragStart = (e: React.DragEvent, task: ITask) => {
 		console.log(e);
@@ -32,7 +32,8 @@ const Column = ({ tasks }: {tasks : ITask[]}) => {
 	const handleDrop = (e: React.DragEvent) => {
 		e.preventDefault(); // Prevent the default behavior
 		const id = e.dataTransfer.getData("id"); // id from setData
-		console.log("id", id);
+		//console.log("id", id);
+		//console.log(e)
 	};
 
 	 const handleDragOver = (e: React.DragEvent) => {
@@ -45,16 +46,16 @@ const Column = ({ tasks }: {tasks : ITask[]}) => {
 			onDrop={(e) => handleDrop(e)}
 			onDragOver={(e) => handleDragOver(e)}
 		>
+			<DropSpot id="0" column={column}/>
 			{tasks &&
 				tasks.map((task: ITask, index) => (
-					<span key={index}>
-						<Task
-							title={task.title}
-							id={task.id}
-							column={task.column}
-							handleDragStart={handleDragStart}
-						/>
-					</span>
+					<Task
+						key={index}
+						title={task.title}
+						id={task.id}
+						column={task.column}
+						handleDragStart={handleDragStart}
+					/>
 				))}
 		</span>
 	);
@@ -62,14 +63,46 @@ const Column = ({ tasks }: {tasks : ITask[]}) => {
 
 const Task: React.FC<ITask> = ({ title, id, column, handleDragStart }) => {
 	return (
+		<>
+			<span
+				draggable
+				onDragStart={(e) =>
+					handleDragStart && handleDragStart(e, { title, id, column })
+				}
+				className="rounded border p-3 border-neutral-700 bg-white-800 active:cursor-grabbing"
+			>
+				{title}
+			</span>
+			<DropSpot id={id} column={column}/>
+		</>
+	);
+};
+
+const DropSpot = ({id, column} : {id:string, column:string}) => {
+	const [active, setActive] = useState(false);
+
+	const handleDragOver = (e: React.DragEvent) => {
+		e.preventDefault();
+		setActive(true)
+	}
+
+	const handleDrop = (e: React.DragEvent) => {
+		e.preventDefault();
+		console.log('drop area');
+		console.log('id', id);
+		console.log('column', column)
+	}
+
+	return (
 		<span
-			draggable
-			onDragStart={(e) =>
-				handleDragStart && handleDragStart(e, { title, id, column })
-			}
-			className="rounded border p-3 border-neutral-700 bg-white-800 active:cursor-grabbing"
+			onDragOver={handleDragOver}
+			onDragLeave={() => setActive(false)}
+			onDrop={(e) => handleDrop(e)}
+			className={`shrink-0 place-content-center rounded border ${
+				active ? "active_drop" : "hide_drop"
+			}`}
 		>
-			{title}
+			Drop Here
 		</span>
 	);
 };
