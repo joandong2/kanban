@@ -22,7 +22,8 @@ export interface ITask {
 	id: string;
 	title: string;
 	column: string;
-	handleDragStart?: (e :React.DragEvent, info: ITask) => void;
+	position?: number | undefined;
+	handleDragStart?: (e :React.DragEvent, info: ITask) => void
 }
 
 export type HandleDragStart = (e: MouseEvent | TouchEvent | PointerEvent, task: ITask) => void;

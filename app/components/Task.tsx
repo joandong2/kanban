@@ -13,6 +13,10 @@ export const Tasks = () => {
 	const todo = tasks.filter((task) => task.column === "todo");
 	const doing = tasks.filter((task) => task.column === "doing");
 
+	const onDrop = () => {
+
+	}
+
 	return (
 		<span className="flex gap-4">
 			<Column tasks={backlog} column="backlog"/>
@@ -24,15 +28,15 @@ export const Tasks = () => {
 const Column = ({ tasks, column }: {tasks : ITask[], column: string}) => {
 
 	const handleDragStart = (e: React.DragEvent, task: ITask) => {
-		console.log(e);
-		// console.log(task);
 		e.dataTransfer.setData("id", task.id); // set data drag id to be used in dropping
 	};
 
+	// task drop position
 	const handleDrop = (e: React.DragEvent) => {
 		e.preventDefault(); // Prevent the default behavior
 		const id = e.dataTransfer.getData("id"); // id from setData
-		//console.log("id", id);
+		console.log("column_area---move task id", id);
+		console.log("column_area---move column", column);
 		//console.log(e)
 	};
 
@@ -46,12 +50,14 @@ const Column = ({ tasks, column }: {tasks : ITask[], column: string}) => {
 			onDrop={(e) => handleDrop(e)}
 			onDragOver={(e) => handleDragOver(e)}
 		>
-			<DropSpot id="0" column={column}/>
+			<h2>{column}</h2>
+			<DropSpot id="0" column={column} position={-1} />
 			{tasks &&
 				tasks.map((task: ITask, index) => (
 					<Task
 						key={index}
 						title={task.title}
+						position={index}
 						id={task.id}
 						column={task.column}
 						handleDragStart={handleDragStart}
@@ -61,43 +67,44 @@ const Column = ({ tasks, column }: {tasks : ITask[], column: string}) => {
 	);
 }
 
-const Task: React.FC<ITask> = ({ title, id, column, handleDragStart }) => {
+const Task: React.FC<ITask> = ({ title, id, column, position, handleDragStart }) => {
 	return (
 		<>
 			<span
 				draggable
 				onDragStart={(e) =>
-					handleDragStart && handleDragStart(e, { title, id, column })
+					handleDragStart && handleDragStart(e, { title, id, column, position })
 				}
 				className="rounded border p-3 border-neutral-700 bg-white-800 active:cursor-grabbing"
 			>
 				{title}
 			</span>
-			<DropSpot id={id} column={column}/>
+			<DropSpot id={id} column={column} position={position ?? 0}/>
 		</>
 	);
 };
 
-const DropSpot = ({id, column} : {id:string, column:string}) => {
+const DropSpot = ({ handleOnDrop } : {handleOnDrop : any}) => {
 	const [active, setActive] = useState(false);
 
 	const handleDragOver = (e: React.DragEvent) => {
 		e.preventDefault();
-		setActive(true)
-	}
+		setActive(true);
+	};
 
 	const handleDrop = (e: React.DragEvent) => {
 		e.preventDefault();
-		console.log('drop area');
-		console.log('id', id);
-		console.log('column', column)
-	}
+		setActive(false);
+		// console.log('drop_spot---drop id', id);
+		// console.log("drop_spot---position", position);
+		// console.log('drop_spot---column', column)
+	};
 
 	return (
 		<span
 			onDragOver={handleDragOver}
 			onDragLeave={() => setActive(false)}
-			onDrop={(e) => handleDrop(e)}
+			onDrop={() => handleOnDrop()}
 			className={`shrink-0 place-content-center rounded border ${
 				active ? "active_drop" : "hide_drop"
 			}`}
