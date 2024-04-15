@@ -2,9 +2,9 @@ import { Dispatch, SetStateAction } from "react";
 
 export interface IColumns {
 	title: string;
-	headingColor: any;
 	tasks: any;
 	column: string;
+	position?: number;
 	setTasks: Dispatch<SetStateAction<ITask[]>>;
 }
 

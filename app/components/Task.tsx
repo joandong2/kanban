@@ -2,89 +2,106 @@
 
 import React, { DragEventHandler, useState } from 'react'
 import { FaCircle } from "react-icons/fa";
-import { ITask, ITaskData } from '@/lib/type';
-import { TbAsterisk } from 'react-icons/tb';
+import { IColumns, ITask, ITaskData } from '@/lib/type';
 
 export const Tasks = () => {
 	// Define draggable item component
 	const [tasks, setTasks] = useState<ITask[]>(DEFAULT_CARDS);
 
-	const backlog = tasks.filter((task) => task.column === 'backlog')
-	const todo = tasks.filter((task) => task.column === "todo");
-	const doing = tasks.filter((task) => task.column === "doing");
-
-	const onDrop = () => {
-
-	}
-
 	return (
 		<span className="flex gap-4">
-			<Column tasks={backlog} column="backlog"/>
-			<Column tasks={todo} column="todo"/>
+			<Column
+				title="Backlog"
+				column="backlog"
+				tasks={tasks}
+				setTasks={setTasks}
+			/>
+			<Column
+				title="Todo"
+				column="todo"
+				tasks={tasks}
+				setTasks={setTasks}
+			/>
 		</span>
 	);
 };
 
-const Column = ({ tasks, column }: {tasks : ITask[], column: string}) => {
+const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 
 	const handleDragStart = (e: React.DragEvent, task: ITask) => {
 		e.dataTransfer.setData("id", task.id); // set data drag id to be used in dropping
 	};
 
 	// task drop position
-	const handleDrop = (e: React.DragEvent) => {
+	const handleColumnDrop = (e: React.DragEvent) => {
 		e.preventDefault(); // Prevent the default behavior
 		const id = e.dataTransfer.getData("id"); // id from setData
-		console.log("column_area---move task id", id);
-		console.log("column_area---move column", column);
-		//console.log(e)
+		//setTasks((pv) => pv.filter((c) => c.id !== id));
 	};
 
 	 const handleDragOver = (e: React.DragEvent) => {
-		e.preventDefault(); // Prevent default to allow dropping
+		e.preventDefault();
 	};
+
+	// udpate task data
+	const handleSpotDrop = (e: React.DragEvent, position: number) => {
+		const id = e.dataTransfer.getData("id");
+		// console.log('task id to move', id)
+		// console.log("spot drop column", column);
+		// console.log("spot drop position", position);
+
+		const taskToMove = tasks.find((task: ITask) => task.id == id);
+		const updatedTasks = tasks.filter((c : ITask) => c.id !== id);
+		// console.log("updated", taskToMove);
+		// console.log("updated", updatedTasks);
+
+		updatedTasks.splice(position, 0, {
+			...taskToMove,
+			column: column,
+		})
+		setTasks(updatedTasks);
+	}
 
 	return (
 		<span
 			className="flex flex-col gap-4"
-			onDrop={(e) => handleDrop(e)}
+			onDrop={(e) => handleColumnDrop(e)}
 			onDragOver={(e) => handleDragOver(e)}
 		>
 			<h2>{column}</h2>
-			<DropSpot id="0" column={column} position={-1} />
+			<DropSpot handleSpotDrop={handleSpotDrop} position={0} />
 			{tasks &&
-				tasks.map((task: ITask, index) => (
-					<Task
-						key={index}
-						title={task.title}
-						position={index}
-						id={task.id}
-						column={task.column}
-						handleDragStart={handleDragStart}
-					/>
-				))}
+				tasks.map(
+					(task: ITask, index: number) =>
+						task.column === column && (
+							<span key={index} className="flex flex-col">
+								<span
+									draggable
+									onDragStart={(e) =>
+										handleDragStart && handleDragStart(e, { ...task })
+									}
+									className="rounded border p-3 border-neutral-700 bg-white-800 active:cursor-grabbing"
+								>
+									{task.title}
+								</span>
+								<DropSpot
+									handleSpotDrop={handleSpotDrop}
+									position={index + 1}
+								/>
+							</span>
+						)
+				)}
 		</span>
 	);
 }
 
-const Task: React.FC<ITask> = ({ title, id, column, position, handleDragStart }) => {
-	return (
-		<>
-			<span
-				draggable
-				onDragStart={(e) =>
-					handleDragStart && handleDragStart(e, { title, id, column, position })
-				}
-				className="rounded border p-3 border-neutral-700 bg-white-800 active:cursor-grabbing"
-			>
-				{title}
-			</span>
-			<DropSpot id={id} column={column} position={position ?? 0}/>
-		</>
-	);
-};
-
-const DropSpot = ({ handleOnDrop } : {handleOnDrop : any}) => {
+const DropSpot = ({
+	handleSpotDrop,
+	position,
+}: {
+	handleSpotDrop: any;
+	position: number;
+}) => {
 	const [active, setActive] = useState(false);
 
 	const handleDragOver = (e: React.DragEvent) => {
@@ -92,20 +109,15 @@ const DropSpot = ({ handleOnDrop } : {handleOnDrop : any}) => {
 		setActive(true);
 	};
 
-	const handleDrop = (e: React.DragEvent) => {
-		e.preventDefault();
-		setActive(false);
-		// console.log('drop_spot---drop id', id);
-		// console.log("drop_spot---position", position);
-		// console.log('drop_spot---column', column)
-	};
-
 	return (
 		<span
 			onDragOver={handleDragOver}
 			onDragLeave={() => setActive(false)}
-			onDrop={() => handleOnDrop()}
-			className={`shrink-0 place-content-center rounded border ${
+			onDrop={(e) => {
+				handleSpotDrop(e, position);
+				setActive(false);
+			}}
+			className={`rounded border text-black ${
 				active ? "active_drop" : "hide_drop"
 			}`}
 		>
