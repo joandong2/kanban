@@ -25,15 +25,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ColumnDataSchema } from '@/lib/schema';
 import { AiFillDelete } from 'react-icons/ai';
-import { createBoard } from "@/lib/_actions";
+import { createBoard, getBoard } from "@/lib/_actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 type FormValues = z.infer<typeof ColumnDataSchema>;
 
-const Sidebar = () => {
+const Sidebar = ({boards} : {boards : any}) => {
 	const [hideSide, setHideSide] = useState<boolean>(false)
 	const router = useRouter();
+
+	console.log('sidebar', boards)
 
 	const {
 		register,

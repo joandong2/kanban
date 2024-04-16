@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { plusJakartaSans } from "./utils/font";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,6 +16,7 @@ export default function RootLayout({
   return (
 		<html lang="en">
 			<body className={`${plusJakartaSans.variable}light h-[100%]`}>
+				<Toaster position="top-right" />
 				{children}
 			</body>
 		</html>
