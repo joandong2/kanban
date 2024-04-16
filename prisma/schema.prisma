@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Board {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  boardCode String @unique
+  columns BoardColumn[]
+}
+
+model BoardColumn {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  columnCode String @unique
+  name String
+
+  boardColumnReferCode String
+  boardcolumn Board @relation(fields: [boardColumnReferCode], references:[boardCode])
+
+  tasks Task[]
+}
+
+model Task {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  taskCode String @unique
+  title String
+  description String
+  createdAt DateTime @default(now())
+  udpatedAt DateTime @updatedAt
+
+  boardReferCode String
+  boardcolumn BoardColumn @relation(fields: [boardReferCode], references:[columnCode])
+
+  subTasks SubTask[]
+}
+
+model SubTask {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  subTaskCode String @unique
+  title String
+  taskReferCode String
+  task Task @relation(fields: [taskReferCode], references:[taskCode])
+
+  @@unique([taskReferCode, title], name: "taskReferCode_Title")
+}

@@ -47,3 +47,19 @@ body {
 .hide_drop {
   opacity: 0;
 }
+
+.light-button {
+  background: #f0effa;
+  border-radius: 45px;
+  color: #635fc7;
+  text-align: center;
+  padding: 10px
+}
+
+.violet-button {
+  background: #635fc7;
+  border-radius: 45px;
+  color: white;
+  text-align: center;
+  padding: 10px
+}

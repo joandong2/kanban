@@ -8,10 +8,6 @@ export interface IColumns {
 	setTasks: Dispatch<SetStateAction<ITask[]>>;
 }
 
-export interface Item {
-
-}
-
 export interface ITaskData {
 	id: string;
 	title: string;
@@ -25,5 +21,3 @@ export interface ITask {
 	position?: number | undefined;
 	handleDragStart?: (e :React.DragEvent, info: ITask) => void
 }
-
-export type HandleDragStart = (e: MouseEvent | TouchEvent | PointerEvent, task: ITask) => void;
