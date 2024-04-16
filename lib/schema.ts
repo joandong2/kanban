@@ -6,6 +6,7 @@ export const ColumnDataSchema = z.object({
 		.array(
 			z.object({
 				columnName: z.string().nonempty("Field is required."),
+				columnCode: z.string(),
 			})
 		)
 		.nonempty("Items area required."),

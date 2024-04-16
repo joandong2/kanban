@@ -26,15 +26,20 @@ import { z } from "zod";
 import { ColumnDataSchema } from '@/lib/schema';
 import { AiFillDelete } from 'react-icons/ai';
 import { createBoard } from "@/lib/_actions";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type FormValues = z.infer<typeof ColumnDataSchema>;
 
 const Sidebar = () => {
 	const [hideSide, setHideSide] = useState<boolean>(false)
+	const router = useRouter();
+
 	const {
 		register,
 		handleSubmit,
 		watch,
+		reset,
 		control,
 		formState: { errors },
 	} = useForm<FormValues>({
@@ -71,10 +76,10 @@ const Sidebar = () => {
 
 
 	const processEditForm: SubmitHandler<FormValues> = async (data) => {
-		console.log("data", data);
+		//console.log("data", data);
 		const result = await createBoard(data);
 		if (result?.status == "success") {
-			toast.success("Invoice Created", {});
+			toast.success("Board Created", {});
 			reset();
 			router.refresh();
 		}
@@ -151,13 +156,20 @@ const Sidebar = () => {
 												{...register(`columnLists.${index}.columnName`)}
 												className="input p-3 border rounded w-full mb-2"
 											/>
+											<input
+												type="hidden"
+												{...register(`columnLists.${index}.columnCode`)}
+												defaultValue={Math.random()
+													.toString(36)
+													.slice(1, 9)
+													.toUpperCase()}
+											/>
 											<span
 												onClick={() => remove(index)}
 												className="total col-span-1 cursor-pointer flex flex-col justify-center"
 											>
 												<AiFillDelete className="text-[18px] text-[#888eb0]" />
 											</span>
-											<span className="flex md:hidden h-[1px] w-[96%] bg-[#e1e1e1] m-auto my-4"></span>
 										</span>
 									))}
 									<button
@@ -166,6 +178,7 @@ const Sidebar = () => {
 										onClick={() =>
 											append({
 												columnName: "",
+												columnCode: "",
 											})
 										}
 									>

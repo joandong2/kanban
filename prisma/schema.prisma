@@ -13,6 +13,8 @@ datasource db {
 model Board {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   boardCode String @unique
+  name String
+
   columns BoardColumn[]
 }
 
@@ -21,8 +23,8 @@ model BoardColumn {
   columnCode String @unique
   name String
 
-  boardColumnReferCode String
-  boardcolumn Board @relation(fields: [boardColumnReferCode], references:[boardCode])
+  boardCode String
+  board Board @relation(fields: [boardCode], references:[boardCode])
 
   tasks Task[]
 }
@@ -35,8 +37,8 @@ model Task {
   createdAt DateTime @default(now())
   udpatedAt DateTime @updatedAt
 
-  boardReferCode String
-  boardcolumn BoardColumn @relation(fields: [boardReferCode], references:[columnCode])
+  columnCode String
+  boardcolumn BoardColumn @relation(fields: [columnCode], references:[columnCode])
 
   subTasks SubTask[]
 }
@@ -45,8 +47,9 @@ model SubTask {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   subTaskCode String @unique
   title String
-  taskReferCode String
-  task Task @relation(fields: [taskReferCode], references:[taskCode])
 
-  @@unique([taskReferCode, title], name: "taskReferCode_Title")
+  taskCode String
+  task Task @relation(fields: [taskCode], references:[taskCode])
+
+  @@unique([taskCode, title], name: "taskCode_Title")
 }

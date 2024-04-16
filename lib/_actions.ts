@@ -13,8 +13,8 @@ export const createBoard = async (data: ColumnData) => {
 
         const newBoard = await prisma.board.create({
             data: {
-                name: ,
-                boardCode: ,
+                name: data.name,
+                boardCode: data.name,
             }
         })
 
@@ -22,16 +22,17 @@ export const createBoard = async (data: ColumnData) => {
         if (data.columnLists.length > 0) {
             for (let i = 0; i < Number(data.columnLists.length); i++) {
             await prisma.boardColumn.create({
-                data: {
-                    name: data.columnLists as string,
-                    columnCode: data.columnLists[i].itemName as string,
-                },
-            });
-        }
+							data: {
+                                boardCode: newBoard.boardCode,
+								name: data.columnLists[i].columnName as string,
+								columnCode: (data.columnLists[i].columnName +
+									data.columnLists[i].columnCode) as string,
+							},
+						});
+            }
         }
 
         if (newBoard) {
-            //revalidatePath('/')
             return {
                 status: "success",
             };
