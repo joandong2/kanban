@@ -25,6 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ColumnDataSchema } from '@/lib/schema';
 import { AiFillDelete } from 'react-icons/ai';
+import { createBoard } from "@/lib/_actions";
 
 type FormValues = z.infer<typeof ColumnDataSchema>;
 
@@ -49,7 +50,7 @@ const Sidebar = () => {
 			control, // control props comes from useForm (optional: if you are using FormContext)
 		});
 
-	const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
+	// const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
 
 	const hideSidebar = () => {
 		setHideSide(!hideSide);
@@ -71,6 +72,12 @@ const Sidebar = () => {
 
 	const processEditForm: SubmitHandler<FormValues> = async (data) => {
 		console.log("data", data);
+		const result = await createBoard(data);
+		if (result?.status == "success") {
+			toast.success("Invoice Created", {});
+			reset();
+			router.refresh();
+		}
 	};
 
 	return (
@@ -129,9 +136,9 @@ const Sidebar = () => {
 										{...register("name")}
 									/>
 									{errors.name?.message && (
-										<p className="text-sm text-red-400 mt-2">
+										<span className="text-sm text-red-400 mt-2">
 											{errors.name.message}
-										</p>
+										</span>
 									)}
 								</span>
 								<span className="columns" id="columns">
