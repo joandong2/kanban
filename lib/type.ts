@@ -21,3 +21,7 @@ export interface ITask {
 	position?: number | undefined;
 	handleDragStart?: (e :React.DragEvent, info: ITask) => void
 }
+
+export interface IBoard {
+	id: string;
+}

@@ -36,14 +36,20 @@ const Sidebar = () => {
 		watch,
 		control,
 		formState: { errors },
-	} = useForm<FormValues>();
-	const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
+	} = useForm<FormValues>({
+		resolver: zodResolver(ColumnDataSchema),
+		defaultValues: {
+			columnLists: [{ columnName: "" }],
+		},
+	});
 
 	const { fields, append, prepend, remove, update, swap, move, insert } =
 		useFieldArray({
 			name: "columnLists", // unique name for your Field Array
 			control, // control props comes from useForm (optional: if you are using FormContext)
 		});
+
+	const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
 
 	const hideSidebar = () => {
 		setHideSide(!hideSide);
@@ -66,7 +72,6 @@ const Sidebar = () => {
 	const processEditForm: SubmitHandler<FormValues> = async (data) => {
 		console.log("data", data);
 	};
-	//console.log(hideSide)
 
 	return (
 		<Dialog>
@@ -88,24 +93,6 @@ const Sidebar = () => {
 										className=""
 									/>{" "}
 									Platform Launch
-								</li>
-								<li className="flex gap-2">
-									<Image
-										src="/assets/icon-board.svg"
-										alt="Image Best Gear"
-										width="20"
-										height="20"
-									/>{" "}
-									Roadmap
-								</li>
-								<li className="flex gap-2">
-									<Image
-										src="/assets/icon-board.svg"
-										alt="Image Best Gear"
-										width="20"
-										height="20"
-									/>{" "}
-									Marketing Plan
 								</li>
 								<li>
 									<DialogTrigger asChild className="border-none">
@@ -138,7 +125,7 @@ const Sidebar = () => {
 										Name
 									</span>
 									<input
-										className="input p-3 border rounded-lg w-full mb-2"
+										className="input p-3 border rounded w-full mb-2"
 										{...register("name")}
 									/>
 									{errors.name?.message && (
@@ -152,13 +139,11 @@ const Sidebar = () => {
 										Columns
 									</span>
 									{fields.map((field, index) => (
-										<span className="flex gap-2 mb-3" key={index}>
-											<span className="">
-												<input
-													{...register(`columnLists.${index}.columnName`)}
-													className="input border rounded-lg w-full mb-2"
-												/>
-											</span>
+										<span className="flex gap-2 mb-1 w-full" key={index}>
+											<input
+												{...register(`columnLists.${index}.columnName`)}
+												className="input p-3 border rounded w-full mb-2"
+											/>
 											<span
 												onClick={() => remove(index)}
 												className="total col-span-1 cursor-pointer flex flex-col justify-center"
@@ -170,7 +155,7 @@ const Sidebar = () => {
 									))}
 									<button
 										type="button"
-										className="btn text-[16px] text-[#7e88c3] font-bold bg-[#f9fafe] rounded-[25px] w-full border-none mb-4 py-3 mt-5"
+										className="btn text-[#7e88c3] font-bold bg-[#f9fafe] rounded-[25px] w-full border-none mb-4 py-3 mt-5"
 										onClick={() =>
 											append({
 												columnName: "",
@@ -182,7 +167,7 @@ const Sidebar = () => {
 								</span>
 								<button
 									type="submit"
-									className="text-[16px] text-[#fff] font-bold bg-[#7c5dfa] rounded-[25px] py-3 px-8 border-none w-full"
+									className="text-[#fff] font-bold bg-[#7c5dfa] rounded-[25px] py-3 px-8 border-none w-full"
 								>
 									Create New Board
 								</button>
