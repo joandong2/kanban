@@ -28,10 +28,11 @@ import { AiFillDelete } from 'react-icons/ai';
 import { createBoard, getBoard } from "@/lib/_actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { IBoard } from '@/lib/type';
 
 type FormValues = z.infer<typeof ColumnDataSchema>;
 
-const Sidebar = ({boards} : {boards : any}) => {
+const Sidebar = ({boards} : {boards : IBoard[]}) => {
 	const [hideSide, setHideSide] = useState<boolean>(false)
 	const router = useRouter();
 
@@ -57,8 +58,6 @@ const Sidebar = ({boards} : {boards : any}) => {
 			control, // control props comes from useForm (optional: if you are using FormContext)
 		});
 
-	// const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
-
 	const hideSidebar = () => {
 		setHideSide(!hideSide);
 	}
@@ -77,8 +76,7 @@ const Sidebar = ({boards} : {boards : any}) => {
 	});
 
 
-	const processEditForm: SubmitHandler<FormValues> = async (data) => {
-		//console.log("data", data);
+	const processAddBoard: SubmitHandler<FormValues> = async (data) => {
 		const result = await createBoard(data);
 		if (result?.status == "success") {
 			toast.success("Board Created", {});
@@ -133,8 +131,8 @@ const Sidebar = ({boards} : {boards : any}) => {
 					<DialogTitle className="text-[24px]">Add New Board</DialogTitle>
 					<DialogDescription>
 						<span className="flex flex-col">
-							<form onSubmit={handleSubmit(processEditForm)}>
-								<span className="form-control w-full mb-2">
+							<form onSubmit={handleSubmit(processAddBoard)}>
+								<span className="form-control w-full mb-2 flex flex-col">
 									<span className="label-text text-[#7e88c3] font-medium">
 										Name
 									</span>
@@ -143,7 +141,7 @@ const Sidebar = ({boards} : {boards : any}) => {
 										{...register("name")}
 									/>
 									{errors.name?.message && (
-										<span className="text-sm text-red-400 mt-2">
+										<span className="text-sm text-red-400">
 											{errors.name.message}
 										</span>
 									)}

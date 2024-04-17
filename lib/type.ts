@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
 
 export interface IColumns {
-	title: string;
-	tasks: any;
-	column: string;
+	id: string;
+	columnCode: any;
+	name: string;
 	position?: number;
-	setTasks: Dispatch<SetStateAction<ITask[]>>;
+	setTasks?: Dispatch<SetStateAction<ITask[]>>;
 }
 
 export interface ITaskData {
@@ -24,4 +24,7 @@ export interface ITask {
 
 export interface IBoard {
 	id: string;
+	boardCode: string;
+	name: string;
+	columns: IColumns[];
 }

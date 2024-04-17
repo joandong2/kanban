@@ -8,12 +8,12 @@ export default async function Home() {
 	//console.log("boards", boards);
 
 	return (
-			<main className="">
-				<Header />
-				<div className="flex">
-					<Sidebar boards={boards}/>
-					<Tasks />
-				</div>
-			</main>
-		);
+		<main className="">
+			<Header />
+			<div className="flex">
+				{boards && <Sidebar boards={boards} />}
+				<Tasks />
+			</div>
+		</main>
+	);
 	}
