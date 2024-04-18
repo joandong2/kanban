@@ -35,6 +35,7 @@ type FormValues = z.infer<typeof ColumnDataSchema>;
 
 const Sidebar = ({boards} : {boards : IBoard[]}) => {
 	const [hideSide, setHideSide] = useState<boolean>(false)
+	const [open, setOpen] = useState<boolean>(false);
 	const router = useRouter();
 
 	// console.log('sidebar', boards)
@@ -80,6 +81,7 @@ const Sidebar = ({boards} : {boards : IBoard[]}) => {
 	const processAddBoard: SubmitHandler<FormValues> = async (data) => {
 		const result = await createBoard(data);
 		if (result?.status == "success") {
+			setOpen(false);
 			toast.success("Board Created", {});
 			reset();
 			router.refresh();
@@ -87,7 +89,7 @@ const Sidebar = ({boards} : {boards : IBoard[]}) => {
 	};
 
 	return (
-		<Dialog>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<span className="relative">
 				<span onClick={hideSidebar} className={toggleEye}>
 					<FaEye />
@@ -111,10 +113,7 @@ const Sidebar = ({boards} : {boards : IBoard[]}) => {
 								{boards &&
 									boards.map((board: IBoard, index) => (
 										<li key={index}>
-											<Link
-												className=""
-												href={`/${board.name.toLowerCase()}`}
-											>
+											<Link className="" href={`/${board.name.toLowerCase()}`}>
 												{board.name}
 											</Link>
 										</li>

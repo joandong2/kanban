@@ -12,11 +12,11 @@ export const createBoard = async (data: ColumnData) => {
 	try {
 
         const newBoard = await prisma.board.create({
-            data: {
-                name: data.name,
-                boardCode: data.name,
-            }
-        })
+					data: {
+						name: data.name,
+						boardCode: data.name.replace(/[^A-Z0-9]/gi, "-"),
+					},
+				});
 
         // optional
         if (data.columnLists.length > 0) {
