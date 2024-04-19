@@ -14,7 +14,7 @@ export const createBoard = async (data: ColumnData) => {
         const newBoard = await prisma.board.create({
 					data: {
 						name: data.name,
-						boardCode: data.name.replace(/[^A-Z0-9]/gi, "-"),
+						boardCode: data.name.replace(/[^A-Z0-9]/gi, "-").toLowerCase(),
 					},
 				});
 

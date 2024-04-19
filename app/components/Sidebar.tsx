@@ -113,7 +113,7 @@ const Sidebar = ({boards} : {boards : IBoard[]}) => {
 								{boards &&
 									boards.map((board: IBoard, index) => (
 										<li key={index}>
-											<Link className="" href={`/${board.name.toLowerCase()}`}>
+											<Link className="" href={`/${board.boardCode.toLowerCase()}`}>
 												{board.name}
 											</Link>
 										</li>

@@ -9,23 +9,15 @@ export const Tasks = () => {
 
 	return (
 		<span className="flex gap-4">
-			<Column
-				title="Backlog"
-				column="backlog"
-				tasks={tasks}
-				setTasks={setTasks}
-			/>
-			<Column
-				title="Todo"
-				column="todo"
-				tasks={tasks}
-				setTasks={setTasks}
-			/>
+			<Column column="backlog" name="backlog" tasks={tasks} setTasks={setTasks} />
+			<Column column="todo" name="todo" tasks={tasks} setTasks={setTasks} />
 		</span>
 	);
 };
 
 const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
+
+	//console.log('columns tasks', tasks);
 
 	const handleDragStart = (e: React.DragEvent, task: ITask) => {
 		e.dataTransfer.setData("id", task.id); // set data drag id to be used in dropping
@@ -46,19 +38,23 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 	const handleSpotDrop = (e: React.DragEvent, position: number) => {
 		const id = e.dataTransfer.getData("id");
 		// console.log('task id to move', id)
-		// console.log("spot drop column", column);
+		console.log("spot drop column", column);
 		// console.log("spot drop position", position);
 
-		const taskToMove = tasks.find((task: ITask) => task.id == id);
-		const updatedTasks = tasks.filter((c : ITask) => c.id !== id);
-		// console.log("updated", taskToMove);
-		// console.log("updated", updatedTasks);
+		if(tasks) {
+			const taskToMove = tasks.find((task: ITask) => task.id == id);
+			const updatedTasks = tasks.filter((c: ITask) => c.id !== id);
 
-		updatedTasks.splice(position, 0, {
-			...taskToMove,
-			column: column,
-		})
-		setTasks(updatedTasks);
+			updatedTasks.splice(position, 0, {
+				...taskToMove,
+				column: column || "",
+			});
+
+			if (setTasks) {
+				setTasks(updatedTasks);
+			}
+		}
+
 	}
 
 	return (
@@ -85,7 +81,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 								</span>
 								<DropSpot
 									handleSpotDrop={handleSpotDrop}
-									position={index + 1}
+									position={index}
 								/>
 							</span>
 						)
