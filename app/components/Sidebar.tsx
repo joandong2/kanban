@@ -14,7 +14,6 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import {
 	useForm,
 	SubmitHandler,
@@ -33,12 +32,12 @@ import Link from 'next/link';
 
 type FormValues = z.infer<typeof ColumnDataSchema>;
 
-const Sidebar = ({boards} : {boards : IBoard[]}) => {
+const Sidebar = ({board, setBoard} : {board: any, setBoard: any}) => {
 	const [hideSide, setHideSide] = useState<boolean>(false)
 	const [open, setOpen] = useState<boolean>(false);
 	const router = useRouter();
 
-	// console.log('sidebar', boards)
+	console.log("board", );
 
 	const {
 		register,
@@ -110,14 +109,14 @@ const Sidebar = ({boards} : {boards : IBoard[]}) => {
 									/>{" "}
 									Platform Launch
 								</li>
-								{boards &&
+								{/* {boards &&
 									boards.map((board: IBoard, index) => (
 										<li key={index}>
 											<Link className="" href={`/${board.boardCode.toLowerCase()}`}>
 												{board.name}
 											</Link>
 										</li>
-									))}
+									))} */}
 								<li>
 									<DialogTrigger asChild className="border-none">
 										<button>+ Create a New Board</button>

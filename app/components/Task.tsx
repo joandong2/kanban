@@ -20,7 +20,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 	//console.log('columns tasks', tasks);
 
 	const handleDragStart = (e: React.DragEvent, task: ITask) => {
-		e.dataTransfer.setData("id", task.id); // set data drag id to be used in dropping
+		e.dataTransfer.setData("id", task?.id || ''); // set data drag id to be used in dropping
 	};
 
 	// task drop position
@@ -38,7 +38,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 	const handleSpotDrop = (e: React.DragEvent, position: number) => {
 		const id = e.dataTransfer.getData("id");
 		// console.log('task id to move', id)
-		console.log("spot drop column", column);
+		//console.log("spot drop column", column);
 		// console.log("spot drop position", position);
 
 		if(tasks) {
