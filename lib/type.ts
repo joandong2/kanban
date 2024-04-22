@@ -17,7 +17,7 @@ export interface IColumns {
 	id?: string;
 	columnCode?: string;
 	boardCode?: string;
-	name: string;
+	name?: string;
 	column?: string;
 	tasks?: ITask[];
 	position?: number;

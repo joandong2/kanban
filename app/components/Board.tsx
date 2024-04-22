@@ -9,17 +9,17 @@ import Header from './Header';
 
 const Board = (boards : {boards: IBoard[]}) => {;
     const board = useKanbanStore((state) => state.board);
-    const setBoard = useKanbanStore((state) => state.setBoard);
+    const setBoardCode = useKanbanStore((state) => state.setBoardCode);
 
 	useEffect(() => {
 		if(boards) {
-			setBoard(boards.boards[0].boardCode);
+			setBoardCode(boards.boards[0].boardCode);
 		}
 	}, [])
 
   	return (
 		<>
-			<Header board={board} />
+			{/* <Header board={board} /> */}
 			<div className="flex">
 				<Sidebar boards={boards.boards} />
 				{board ? <Tasks /> : "No active board"}

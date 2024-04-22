@@ -34,6 +34,7 @@ type FormValues = z.infer<typeof ColumnDataSchema>;
 const Sidebar = ({ boards }: { boards: IBoard[] }) => {
 	const [hideSide, setHideSide] = useState<boolean>(false);
 	const [open, setOpen] = useState<boolean>(false);
+	const setBoardCode = useKanbanStore((state) => state.setBoardCode);
 	const setBoard = useKanbanStore((state) => state.setBoard);
 	const router = useRouter();
 
@@ -86,9 +87,12 @@ const Sidebar = ({ boards }: { boards: IBoard[] }) => {
 	};
 
 	const handleBoardLinks = async (e: string) => {
-		setBoard(e);
+		setBoardCode(e);
 		const board = await getBoard(e);
-		console.log('board column', board);
+		console.log("board column", board);
+		if(board) {
+			setBoard(board);
+		}
 	}
 
 	return (
