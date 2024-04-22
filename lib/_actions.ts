@@ -45,16 +45,46 @@ export const createBoard = async (data: ColumnData) => {
 
 
 // GET
-//export const getBoard = async (status?: string[]) => {
+// parameter is optional object
+//export const getBoards = async ( boardCode? : {boardCode: string}) => {
 
-export const getBoard = async () => {
+export const getBoards = async ( boardCode? : string) => {
 	try {
+        if (boardCode) {
+					const columns = await prisma.boardColumn.findMany({
+						where: {
+							boardCode: boardCode,
+						},
+						include: {
+							tasks: true
+						},
+					});
+					return columns;
+				}
+
 		const boards = await prisma.board.findMany({
 			include: {
 				columns: true,
 			},
 		});
 		return boards;
+	} catch (error) {
+		console.error("Error editing invoice:", error);
+	}
+};
+
+
+export const getBoard = async (boardCode: string) => {
+	try {
+		const columns = await prisma.boardColumn.findMany({
+			where: {
+				boardCode: boardCode,
+			},
+			include: {
+				tasks: true,
+			},
+		});
+		return columns;
 	} catch (error) {
 		console.error("Error editing invoice:", error);
 	}

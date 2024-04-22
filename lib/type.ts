@@ -10,7 +10,7 @@ export interface IBoard {
 	id: string;
 	boardCode: string;
 	name: string;
-	columns: IColumns[];
+	columns?: IColumns[];
 }
 
 export interface IColumns {

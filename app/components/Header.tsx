@@ -1,8 +1,10 @@
 import React from 'react'
 import Image from "next/image";
 import NewTask from './NewTask';
+import { IBoard } from '@/lib/type';
 
-const Header = () => {
+const Header = ({board} : {board: string}) => {
+
   return (
 		<span className="relative py-6 px-10 flex justify-between border-b border-[#e4ebfa] bg-white z-50">
 			<span className="flex gap-4 md:gap-0">
@@ -23,7 +25,9 @@ const Header = () => {
 					/>{" "}
 				</span>
 				<span className="border-r-1">
-					<p className="text-[20px] font-bold">Platform Launch</p>
+					<p className="text-[20px] font-bold">
+						{board ? board : "No active board!"}
+					</p>
 				</span>
 			</span>
 			<span>

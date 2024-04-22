@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react'
-import Image from "next/image";
 import clsx from 'clsx';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import {
@@ -24,20 +23,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ColumnDataSchema } from '@/lib/schema';
 import { AiFillDelete } from 'react-icons/ai';
-import { createBoard, getBoard } from "@/lib/_actions";
+import { createBoard, getBoard, getBoards } from "@/lib/_actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { IBoard } from '@/lib/type';
-import Link from 'next/link';
+import { useKanbanStore } from "@/lib/store";
 
 type FormValues = z.infer<typeof ColumnDataSchema>;
 
-const Sidebar = ({board, setBoard} : {board: any, setBoard: any}) => {
-	const [hideSide, setHideSide] = useState<boolean>(false)
+const Sidebar = ({ boards }: { boards: IBoard[] }) => {
+	const [hideSide, setHideSide] = useState<boolean>(false);
 	const [open, setOpen] = useState<boolean>(false);
+	const setBoard = useKanbanStore((state) => state.setBoard);
 	const router = useRouter();
-
-	console.log("board", );
 
 	const {
 		register,
@@ -61,7 +59,7 @@ const Sidebar = ({board, setBoard} : {board: any, setBoard: any}) => {
 
 	const hideSidebar = () => {
 		setHideSide(!hideSide);
-	}
+	};
 
 	const toggleClass = clsx({
 		"transition-all duration-1500 h-screen pt-4 flex flex-col bg-white h-screen pointer mt-[-86px] pt-[86px] relative z-1":
@@ -71,11 +69,11 @@ const Sidebar = ({board, setBoard} : {board: any, setBoard: any}) => {
 	});
 
 	const toggleEye = clsx({
-		"z-[99] absolute bottom-20 cursor-pointer bg-[#635fc7] text-white text-[18px] py-3 px-5 rounded-r-[15px]": true,
-		"hidden": !hideSide,
-		"visible": hideSide,
+		"z-[99] absolute bottom-20 cursor-pointer bg-[#635fc7] text-white text-[18px] py-3 px-5 rounded-r-[15px]":
+			true,
+		hidden: !hideSide,
+		visible: hideSide,
 	});
-
 
 	const processAddBoard: SubmitHandler<FormValues> = async (data) => {
 		const result = await createBoard(data);
@@ -87,6 +85,12 @@ const Sidebar = ({board, setBoard} : {board: any, setBoard: any}) => {
 		}
 	};
 
+	const handleBoardLinks = async (e: string) => {
+		setBoard(e);
+		const board = await getBoard(e);
+		console.log('board column', board);
+	}
+
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<span className="relative">
@@ -97,30 +101,28 @@ const Sidebar = ({board, setBoard} : {board: any, setBoard: any}) => {
 					<span className="flex justify-between flex-col h-full ">
 						<span>
 							<ul className="flex flex-col gap-1 sidebar">
-								<li className="uppercase">All Boards (3)</li>
-
-								<li className="active flex gap-2">
-									<Image
-										src="/assets/icon-board.svg"
-										alt="Image Best Gear"
-										width="20"
-										height="20"
-										className=""
-									/>{" "}
-									Platform Launch
+								<li className="uppercase">
+									<span>All Boards (3)</span>
 								</li>
-								{/* {boards &&
-									boards.map((board: IBoard, index) => (
-										<li key={index}>
-											<Link className="" href={`/${board.boardCode.toLowerCase()}`}>
-												{board.name}
-											</Link>
-										</li>
-									))} */}
+								{boards
+									? boards.map((board: IBoard, index: number) => (
+											<li key={index}>
+												<span
+													onClick={() =>
+														handleBoardLinks(board.boardCode.toLowerCase())
+													}
+												>
+													{board.name}
+												</span>
+											</li>
+									  ))
+									: "No boards created!"}
 								<li>
-									<DialogTrigger asChild className="border-none">
-										<button>+ Create a New Board</button>
-									</DialogTrigger>
+									<span>
+										<DialogTrigger asChild className="border-none">
+											<button>+ Create a New Board</button>
+										</DialogTrigger>
+									</span>
 								</li>
 							</ul>
 						</span>
@@ -209,6 +211,6 @@ const Sidebar = ({board, setBoard} : {board: any, setBoard: any}) => {
 			</DialogContent>
 		</Dialog>
 	);
-}
+};
 
 export default Sidebar

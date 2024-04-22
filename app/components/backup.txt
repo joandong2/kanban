@@ -5,7 +5,7 @@ import { IColumns, ITask, ITaskData } from '@/lib/type';
 
 export const Tasks = () => {
 	// Define draggable item component
-	const [tasks, setTasks] = useState<ITask[]>();
+	const [tasks, setTasks] = useState<ITask[]>(DEFAULT_CARDS);
 
 	return (
 		<span className="flex gap-4">
