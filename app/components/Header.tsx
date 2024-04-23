@@ -1,11 +1,11 @@
 import React from 'react'
 import Image from "next/image";
 import NewTask from './NewTask';
-import { IBoard } from '@/lib/type';
+import { IBoard, IColumns } from '@/lib/type';
 
-const Header = ({board} : {board: string}) => {
+const Header = ({board}: {board: IColumns}) => {
 
-  return (
+  	return (
 		<span className="relative py-6 px-10 flex justify-between border-b border-[#e4ebfa] bg-white z-50">
 			<span className="flex gap-4 md:gap-0">
 				<span className="hidden md:block w-[260px]">
@@ -26,7 +26,7 @@ const Header = ({board} : {board: string}) => {
 				</span>
 				<span className="border-r-1">
 					<p className="text-[20px] font-bold">
-						{board ? board : "No active board!"}
+						{board ? board.name: "No active board!"}
 					</p>
 				</span>
 			</span>

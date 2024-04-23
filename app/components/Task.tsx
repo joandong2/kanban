@@ -3,9 +3,11 @@
 import React, { useState } from 'react'
 import { IColumns, ITask, ITaskData } from '@/lib/type';
 
-export const Tasks = () => {
+export const Tasks = ({board} : {board: IColumns[]}) => {
 	// Define draggable item component
 	const [tasks, setTasks] = useState<ITask[]>();
+
+	// console.log('task component', board);
 
 	return (
 		<span className="flex gap-4">

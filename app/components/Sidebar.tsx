@@ -89,7 +89,7 @@ const Sidebar = ({ boards }: { boards: IBoard[] }) => {
 	const handleBoardLinks = async (e: string) => {
 		setBoardCode(e);
 		const board = await getBoard(e);
-		console.log("board column", board);
+		//console.log("board column", board);
 		if(board) {
 			setBoard(board);
 		}

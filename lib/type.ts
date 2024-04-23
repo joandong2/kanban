@@ -14,6 +14,7 @@ export interface IBoard {
 }
 
 export interface IColumns {
+	board?: IBoard;
 	id?: string;
 	columnCode?: string;
 	boardCode?: string;
