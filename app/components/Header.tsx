@@ -3,7 +3,7 @@ import Image from "next/image";
 import NewTask from './NewTask';
 import { IBoard, IColumns } from '@/lib/type';
 
-const Header = ({board}: {board: IColumns}) => {
+const Header = (board: IColumns[]) => {
 
   	return (
 		<span className="relative py-6 px-10 flex justify-between border-b border-[#e4ebfa] bg-white z-50">

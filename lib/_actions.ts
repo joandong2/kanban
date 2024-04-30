@@ -44,10 +44,6 @@ export const createBoard = async (data: ColumnData) => {
 };
 
 
-// GET
-// parameter is optional object
-//export const getBoards = async ( boardCode? : {boardCode: string}) => {
-
 export const getBoards = async () => {
 	try {
 		const boards = await prisma.board.findMany({
@@ -61,9 +57,16 @@ export const getBoards = async () => {
 	}
 };
 
-
-export const getColumns = async (boardCode: string) => {
+export const getBoardAndColumns = async (boardCode: string) => {
 	try {
+		// Fetch the board details
+		const board = await prisma.board.findUnique({
+			where: {
+				boardCode: boardCode,
+			},
+		});
+
+		// Fetch the columns associated with the board, including tasks
 		const columns = await prisma.boardColumn.findMany({
 			where: {
 				boardCode: boardCode,
@@ -72,23 +75,16 @@ export const getColumns = async (boardCode: string) => {
 				tasks: true,
 			},
 		});
-		return columns;
 
-		// const board = await prisma.board.findUnique({
-		// 	where: {
-		// 		boardCode: boardCode,
-		// 	},
-		// 	include: {
-		// 		columns: {
-		// 			include: {
-		// 				tasks: true,
-		// 			},
-		// 		},
-		// 	},
-		// });
-		// return board;
+		// Combine the board and columns into a single object or array
+		const boardWithColumns = {
+			board: board,
+			columns: columns,
+		};
 
+		return boardWithColumns;
 	} catch (error) {
-		console.error("Error editing invoice:", error);
+		console.error("Error fetching board and columns:", error);
+		throw error; // Optionally handle or rethrow the error
 	}
 };

@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ColumnDataSchema } from '@/lib/schema';
 import { AiFillDelete } from 'react-icons/ai';
-import { createBoard, getBoard, getBoards } from "@/lib/_actions";
+import { createBoard, getColumns,  } from "@/lib/_actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { IBoard } from '@/lib/type';
@@ -31,12 +31,14 @@ import { useKanbanStore } from "@/lib/store";
 
 type FormValues = z.infer<typeof ColumnDataSchema>;
 
-const Sidebar = ({ boards }: { boards: IBoard[] }) => {
+const Sidebar = (boards : { boards: IBoard[] | undefined}) => {
 	const [hideSide, setHideSide] = useState<boolean>(false);
 	const [open, setOpen] = useState<boolean>(false);
 	const setBoardCode = useKanbanStore((state) => state.setBoardCode);
-	const setBoard = useKanbanStore((state) => state.setBoard);
+	//const setBoard = useKanbanStore((state) => state.setBoard);
 	const router = useRouter();
+
+	console.log('boards', boards)
 
 	const {
 		register,
@@ -87,12 +89,13 @@ const Sidebar = ({ boards }: { boards: IBoard[] }) => {
 	};
 
 	const handleBoardLinks = async (e: string) => {
+		console.log(e)
 		setBoardCode(e);
-		const board = await getBoard(e);
+		const board = await getColumns(e);
 		//console.log("board column", board);
-		if(board) {
-			setBoard(board);
-		}
+		// if(board) {
+		// 	setBoard(board);
+		// }
 	}
 
 	return (
@@ -108,7 +111,7 @@ const Sidebar = ({ boards }: { boards: IBoard[] }) => {
 								<li className="uppercase">
 									<span>All Boards (3)</span>
 								</li>
-								{boards
+								{/* {boards
 									? boards.map((board: IBoard, index: number) => (
 											<li key={index}>
 												<span
@@ -120,7 +123,7 @@ const Sidebar = ({ boards }: { boards: IBoard[] }) => {
 												</span>
 											</li>
 									  ))
-									: "No boards created!"}
+									: "No boards created!"} */}
 								<li>
 									<span>
 										<DialogTrigger asChild className="border-none">
