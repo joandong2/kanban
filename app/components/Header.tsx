@@ -3,8 +3,8 @@ import Image from "next/image";
 import NewTask from './NewTask';
 import { IBoard, IColumns } from '@/lib/type';
 
-const Header = (board: IColumns[]) => {
-
+// destructure props
+const Header = ({board}: {board: IBoard}) => {
   	return (
 		<span className="relative py-6 px-10 flex justify-between border-b border-[#e4ebfa] bg-white z-50">
 			<span className="flex gap-4 md:gap-0">

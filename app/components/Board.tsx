@@ -10,11 +10,13 @@ import { getBoards, getBoardAndColumns } from "@/lib/_actions";
 
 const Board = () => {
 	const [loading, setLoading] = useState<boolean>(false);
-	const [board, setBoard] = useState<IBoard>();
-	const [boards, setBoards] = useState<IBoard[]>([]);
-	const [columns, setColumns] = useState<IColumns[]>();
+	const board = useKanbanStore((state) => state.board);
+	const columns = useKanbanStore((state) => state.columns);
 	const boardCode = useKanbanStore((state) => state.boardCode);
 	const setBoardCode = useKanbanStore((state) => state.setBoardCode);
+	const setBoards = useKanbanStore((state) => state.setBoards);
+	const setBoard = useKanbanStore((state) => state.setBoard);
+	const setColumns = useKanbanStore((state) => state.setColumns);
 
 	useEffect(() => {
 		const fetchBoards = async () => {
@@ -39,8 +41,6 @@ const Board = () => {
 					setLoading(false);
 				} else {
 					console.warn("No board found for the specified boardCode.");
-					setBoard(undefined);
-					setColumns([]);
 				}
 			} catch (error) {
 				console.error("Error fetching board and columns:", error);
@@ -52,7 +52,7 @@ const Board = () => {
 
 	//console.log("boardcode", boards[0].boardCode);
 	// console.log("boardcode", boardCode);
-	// console.log("board", board);
+	//console.log("board", board);
 	// console.log("boards", boards);
 
   	return (
@@ -62,8 +62,9 @@ const Board = () => {
 					<p>Loading...</p>
 				) : (
 					<>
+						<Header board={board}/>
 						<div className="flex">
-							<Sidebar boards={boards} />
+							<Sidebar />
 							{/*board ? <Tasks board={board} /> : "No active board"} */}
 						</div>
 					</>

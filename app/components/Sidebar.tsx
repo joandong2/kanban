@@ -31,9 +31,10 @@ import { useKanbanStore } from "@/lib/store";
 
 type FormValues = z.infer<typeof ColumnDataSchema>;
 
-const Sidebar = (boards : { boards: IBoard[] | undefined}) => {
+const Sidebar = () => {
 	const [hideSide, setHideSide] = useState<boolean>(false);
 	const [open, setOpen] = useState<boolean>(false);
+	const boards = useKanbanStore((state) => state.boards);
 	const setBoardCode = useKanbanStore((state) => state.setBoardCode);
 	//const setBoard = useKanbanStore((state) => state.setBoard);
 	const router = useRouter();
@@ -91,7 +92,7 @@ const Sidebar = (boards : { boards: IBoard[] | undefined}) => {
 	const handleBoardLinks = async (e: string) => {
 		console.log(e)
 		setBoardCode(e);
-		const board = await getColumns(e);
+		//1const board = await getColumns(e);
 		//console.log("board column", board);
 		// if(board) {
 		// 	setBoard(board);
@@ -111,7 +112,7 @@ const Sidebar = (boards : { boards: IBoard[] | undefined}) => {
 								<li className="uppercase">
 									<span>All Boards (3)</span>
 								</li>
-								{/* {boards
+								{boards
 									? boards.map((board: IBoard, index: number) => (
 											<li key={index}>
 												<span
@@ -123,7 +124,7 @@ const Sidebar = (boards : { boards: IBoard[] | undefined}) => {
 												</span>
 											</li>
 									  ))
-									: "No boards created!"} */}
+									: "No boards created!"}
 								<li>
 									<span>
 										<DialogTrigger asChild className="border-none">
