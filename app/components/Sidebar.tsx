@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ColumnDataSchema } from '@/lib/schema';
 import { AiFillDelete } from 'react-icons/ai';
-import { createBoard, getColumns,  } from "@/lib/_actions";
+import { createBoard } from "@/lib/_actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { IBoard } from '@/lib/type';

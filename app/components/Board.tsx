@@ -11,7 +11,7 @@ import { getBoards, getBoardAndColumns } from "@/lib/_actions";
 const Board = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [board, setBoard] = useState<IBoard>();
-	const [boards, setBoards] = useState<IBoard[]>();
+	const [boards, setBoards] = useState<IBoard[]>([]);
 	const [columns, setColumns] = useState<IColumns[]>();
 	const boardCode = useKanbanStore((state) => state.boardCode);
 	const setBoardCode = useKanbanStore((state) => state.setBoardCode);
