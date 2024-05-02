@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ColumnDataSchema } from '@/lib/schema';
 import { AiFillDelete } from 'react-icons/ai';
-import { createBoard } from "@/lib/_actions";
+import { createBoard, getBoardAndColumns } from "@/lib/_actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { IBoard } from '@/lib/type';
@@ -35,11 +35,10 @@ const Sidebar = () => {
 	const [hideSide, setHideSide] = useState<boolean>(false);
 	const [open, setOpen] = useState<boolean>(false);
 	const boards = useKanbanStore((state) => state.boards);
+	const board = useKanbanStore((state) => state.board);
 	const setBoardCode = useKanbanStore((state) => state.setBoardCode);
-	//const setBoard = useKanbanStore((state) => state.setBoard);
+	const setBoard = useKanbanStore((state) => state.setBoard);
 	const router = useRouter();
-
-	console.log('boards', boards)
 
 	const {
 		register,
@@ -90,14 +89,19 @@ const Sidebar = () => {
 	};
 
 	const handleBoardLinks = async (e: string) => {
-		console.log(e)
+		//console.log(e)
 		setBoardCode(e);
-		//1const board = await getColumns(e);
-		//console.log("board column", board);
-		// if(board) {
-		// 	setBoard(board);
-		// }
+		const board = await getBoardAndColumns(e);
+		if (board && board.board) {
+			setBoard(board.board);
+		} else {
+			// Handle the case where board is null or undefined
+			// For example, you could set a default value or show an error message
+			console.error("Board not found");
+		}
 	}
+
+	//console.log('sidebar board', board)
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -222,3 +226,7 @@ const Sidebar = () => {
 };
 
 export default Sidebar
+function setBoard(board: any) {
+	throw new Error('Function not implemented.');
+}
+
