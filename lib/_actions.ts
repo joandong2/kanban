@@ -1,7 +1,5 @@
 "use server"
 
-"use server";
-
 import { prisma } from "@/prisma";
 import { z } from "zod";
 import { ColumnDataSchema } from "@/lib/schema";
@@ -21,7 +19,7 @@ export const createBoard = async (data: ColumnData) => {
         // optional
         if (data.columnLists.length > 0) {
             for (let i = 0; i < Number(data.columnLists.length); i++) {
-            await prisma.boardColumn.create({
+            await prisma.column.create({
                     data: {
                         boardCode: newBoard.boardCode,
                         name: data.columnLists[i].columnName as string,
@@ -64,27 +62,46 @@ export const getBoardAndColumns = async (boardCode: string) => {
 			where: {
 				boardCode: boardCode,
 			},
+			include: {
+				columns: true,
+			}
 		});
 
 		// Fetch the columns associated with the board, including tasks
-		const columns = await prisma.boardColumn.findMany({
-			where: {
-				boardCode: boardCode,
-			},
+		// const columns = await prisma.column.findMany({
+		// 	where: {
+		// 		boardCode: boardCode,
+		// 	},
+		// 	include: {
+		// 		tasks: true,
+		// 	},
+		// });
+
+		// Combine the board and columns into a single object or array
+		// const boardWithColumns = {
+		// 	board: board,
+		// 	columns: columns,
+		// };
+
+		return board;
+	} catch (error) {
+		console.error("Error fetching board and columns:", error);
+		throw error; // Optionally handle or rethrow the error
+	}
+};
+
+export const getTasks = async () => {
+	try {
+		// Fetch the board details
+		const tasks = await prisma.task.findMany({
 			include: {
-				tasks: true,
+				subTasks: true,
 			},
 		});
 
-		// Combine the board and columns into a single object or array
-		const boardWithColumns = {
-			board: board,
-			columns: columns,
-		};
-
-		return boardWithColumns;
+		return tasks;
 	} catch (error) {
-		console.error("Error fetching board and columns:", error);
+		console.error("Error fetching tasks:", error);
 		throw error; // Optionally handle or rethrow the error
 	}
 };

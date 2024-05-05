@@ -1,18 +1,19 @@
 'use client'
 
 import React, { useState } from 'react'
-import { IColumns, ITask, ITaskData } from '@/lib/type';
+import { IColumns, ITask } from '@/lib/type';
 
-export const Tasks = ({board} : {board: IColumns[]}) => {
-	// Define draggable item component
-	const [tasks, setTasks] = useState<ITask[]>();
+export const Tasks = ({ columns, tasks }: { columns: IColumns[] | undefined, tasks: ITask[] }) => {
 
-	// console.log('task component', board);
+	// console.log("columns", columns);
+	// console.log("tasks", tasks);
 
 	return (
 		<span className="flex gap-4">
-			<Column column="backlog" name="backlog" tasks={tasks} setTasks={setTasks} />
-			<Column column="todo" name="todo" tasks={tasks} setTasks={setTasks} />
+			{columns &&
+				columns.map((column) => (
+					<Column key={column.id} column={column.name} name={column.name} tasks={tasks} />
+				))}
 		</span>
 	);
 };
@@ -47,10 +48,10 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 			const taskToMove = tasks.find((task: ITask) => task.id == id);
 			const updatedTasks = tasks.filter((c: ITask) => c.id !== id);
 
-			updatedTasks.splice(position, 0, {
-				...taskToMove,
-				column: column || "",
-			});
+			// updatedTasks.splice(position, 0, {
+			// 	...taskToMove,
+			// 	column: column || "",
+			// });
 
 			if (setTasks) {
 				setTasks(updatedTasks);
@@ -66,7 +67,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 		>
 			<h2>{column}</h2>
 			<DropSpot handleSpotDrop={handleSpotDrop} position={0} />
-			{tasks &&
+			{/* {tasks &&
 				tasks.map(
 					(task: ITask, index: number) =>
 						task.column === column && (
@@ -86,7 +87,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 								/>
 							</span>
 						)
-				)}
+				)} */}
 		</span>
 	);
 }

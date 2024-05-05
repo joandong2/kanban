@@ -28,7 +28,9 @@ export interface IColumns {
 export interface ITask {
 	id?: string;
 	title?: string;
-	column?: string;
-	position?: number | undefined;
+	taskCode?: string;
+	description?: string;
+	order: number;
+	//position?: number | undefined;
 	handleDragStart?: (e: React.DragEvent, info: ITask) => void;
 }

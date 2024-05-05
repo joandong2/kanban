@@ -84,7 +84,6 @@ const Sidebar = () => {
 			setOpen(false);
 			toast.success("Board Created", {});
 			reset();
-			router.refresh();
 		}
 	};
 
@@ -92,16 +91,12 @@ const Sidebar = () => {
 		//console.log(e)
 		setBoardCode(e);
 		const board = await getBoardAndColumns(e);
-		if (board && board.board) {
-			setBoard(board.board);
-		} else {
-			// Handle the case where board is null or undefined
-			// For example, you could set a default value or show an error message
-			console.error("Board not found");
+		if (board) {
+			setBoard(board);
 		}
 	}
 
-	//console.log('sidebar board', board)
+	console.log('sidebar board', board)
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -226,7 +221,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar
-function setBoard(board: any) {
-	throw new Error('Function not implemented.');
-}
-

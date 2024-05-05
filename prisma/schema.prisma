@@ -15,18 +15,18 @@ model Board {
   boardCode String @unique
   name String
 
-  columns BoardColumn[]
+  columns Column[]
+  task Task[]
 }
 
-model BoardColumn {
+model Column {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  columnCode String @unique
+  columnCode String
   name String
 
   boardCode String
   board Board @relation(fields: [boardCode], references:[boardCode])
 
-  tasks Task[]
 }
 
 model Task {
@@ -34,11 +34,14 @@ model Task {
   taskCode String @unique
   title String
   description String
+  order Int
   createdAt DateTime @default(now())
   udpatedAt DateTime @updatedAt
 
-  columnCode String
-  boardcolumn BoardColumn @relation(fields: [columnCode], references:[columnCode])
+  boardCode String
+  columnName String
+
+  board Board @relation(fields: [boardCode], references:[boardCode])
 
   subTasks SubTask[]
 }
