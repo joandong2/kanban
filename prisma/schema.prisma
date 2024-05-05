@@ -14,6 +14,8 @@ model Board {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   boardCode String @unique
   name String
+  createdAt DateTime @default(now())
+  udpatedAt DateTime @updatedAt
 
   columns Column[]
   task Task[]
@@ -35,11 +37,9 @@ model Task {
   title String
   description String
   order Int
-  createdAt DateTime @default(now())
-  udpatedAt DateTime @updatedAt
 
   boardCode String
-  columnName String
+  columnCode String
 
   board Board @relation(fields: [boardCode], references:[boardCode])
 
