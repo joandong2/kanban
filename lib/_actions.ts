@@ -20,13 +20,14 @@ export const createBoard = async (data: ColumnData) => {
         if (data.columnLists.length > 0) {
             for (let i = 0; i < Number(data.columnLists.length); i++) {
             await prisma.column.create({
-                    data: {
-                        boardCode: newBoard.boardCode,
-                        name: data.columnLists[i].columnName as string,
-                        columnCode: (data.columnLists[i].columnName +
-                            data.columnLists[i].columnCode) as string,
-                    },
-                });
+							data: {
+								boardCode: newBoard.boardCode,
+								name: data.columnLists[i].columnName as string,
+								columnCode: data.columnLists[i].columnName
+									.replace(/[^A-Z0-9]/gi, "-")
+									.toLowerCase() as string,
+							},
+						});
             }
         }
 
@@ -90,10 +91,13 @@ export const getBoardAndColumns = async (boardCode: string) => {
 	}
 };
 
-export const getTasks = async () => {
+export const getTasks = async (boardCode : string) => {
 	try {
 		// Fetch the board details
 		const tasks = await prisma.task.findMany({
+			where: {
+				boardCode: boardCode,
+			},
 			include: {
 				subTasks: true,
 			},

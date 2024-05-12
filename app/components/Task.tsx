@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useState } from 'react'
 import { IColumns, ITask } from '@/lib/type';
 

@@ -16,7 +16,6 @@ model Board {
   name String
   createdAt DateTime @default(now())
   udpatedAt DateTime @updatedAt
-
   columns Column[]
   task Task[]
 }
@@ -25,10 +24,8 @@ model Column {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   columnCode String
   name String
-
   boardCode String
   board Board @relation(fields: [boardCode], references:[boardCode])
-
 }
 
 model Task {
@@ -37,12 +34,9 @@ model Task {
   title String
   description String
   order Int
-
   boardCode String
-  columnCode String
-
+  column String
   board Board @relation(fields: [boardCode], references:[boardCode])
-
   subTasks SubTask[]
 }
 
@@ -50,9 +44,7 @@ model SubTask {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   subTaskCode String @unique
   title String
-
   taskCode String
   task Task @relation(fields: [taskCode], references:[taskCode])
-
   @@unique([taskCode, title], name: "taskCode_Title")
 }

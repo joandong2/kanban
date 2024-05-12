@@ -96,8 +96,6 @@ const Sidebar = () => {
 		}
 	}
 
-	console.log('sidebar board', board)
-
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<span className="relative">

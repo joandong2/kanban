@@ -10,7 +10,6 @@ import Tasks from './Task';
 const Board = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const board = useKanbanStore((state) => state.board);
-	const boards = useKanbanStore((state) => state.boards);
 	const tasks = useKanbanStore((state) => state.tasks);
 	//const boardCode = useKanbanStore((state) => state.boardCode);
 	//const setBoardCode = useKanbanStore((state) => state.setBoardCode);
@@ -25,16 +24,22 @@ const Board = () => {
 			setLoading(true);
 			const boardsRes = await getBoards();
 			if (boardsRes) {
-				const tasks = await getTasks();
 				setBoards(boardsRes);
 				setBoard(boardsRes[0]);
-				if(tasks) {
-					setTasks(tasks);
-				}
 			}
 		};
 		fetchBoards();
 	}, []);
+
+	useEffect(() => {
+		const fetchBoard = async () => {
+			const tasks = await getTasks(board.boardCode);
+			if (tasks) {
+				setTasks(tasks);
+			}
+		};
+		fetchBoard();
+	}, [board.boardCode]);
 
 	// console.log("board", board);
 	// console.log('boards', boards)
