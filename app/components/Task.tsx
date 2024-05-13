@@ -3,22 +3,18 @@ import { IColumns, ITask } from '@/lib/type';
 
 export const Tasks = ({ columns, tasks }: { columns: IColumns[] | undefined, tasks: ITask[] }) => {
 
-	// console.log("columns", columns);
-	// console.log("tasks", tasks);
-
 	return (
 		<span className="flex gap-4">
 			{columns &&
 				columns.map((column) => (
-					<Column key={column.id} column={column.name} name={column.name} tasks={tasks} />
+					<Column key={column.id} column={column.columnCode} name={column.name} tasks={tasks} />
 				))}
+
 		</span>
 	);
 };
 
 const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
-
-	//console.log('columns tasks', tasks);
 
 	const handleDragStart = (e: React.DragEvent, task: ITask) => {
 		e.dataTransfer.setData("id", task?.id || ''); // set data drag id to be used in dropping
@@ -65,10 +61,10 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 		>
 			<h2>{column}</h2>
 			<DropSpot handleSpotDrop={handleSpotDrop} position={0} />
-			{/* {tasks &&
+			{tasks &&
 				tasks.map(
 					(task: ITask, index: number) =>
-						task.column === column && (
+						task.column == column && (
 							<span key={index} className="flex flex-col">
 								<span
 									draggable
@@ -77,7 +73,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 									}
 									className="rounded border p-3 border-neutral-700 bg-white-800 active:cursor-grabbing"
 								>
-									{task.title}
+									{task.title + " " + task.order + " " + task.column}
 								</span>
 								<DropSpot
 									handleSpotDrop={handleSpotDrop}
@@ -85,7 +81,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 								/>
 							</span>
 						)
-				)} */}
+				)}
 		</span>
 	);
 }

@@ -30,6 +30,7 @@ export interface ITask {
 	title?: string;
 	taskCode?: string;
 	description?: string;
+	column: string;
 	order: number;
 	//position?: number | undefined;
 	handleDragStart?: (e: React.DragEvent, info: ITask) => void;
