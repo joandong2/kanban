@@ -109,3 +109,7 @@ export const getTasks = async (boardCode : string) => {
 		throw error; // Optionally handle or rethrow the error
 	}
 };
+
+export const updateTaskOrder = async (taskCode : string, position: number) => {
+
+}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { IColumns, ITask } from '@/lib/type';
+import { updateTaskOrder } from '@/lib/_actions';
 
 export const Tasks = ({ columns, tasks }: { columns: IColumns[] | undefined, tasks: ITask[] }) => {
 
@@ -15,15 +16,16 @@ export const Tasks = ({ columns, tasks }: { columns: IColumns[] | undefined, tas
 };
 
 const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
-
+	const counter = 0;
 	const handleDragStart = (e: React.DragEvent, task: ITask) => {
-		e.dataTransfer.setData("id", task?.id || ''); // set data drag id to be used in dropping
+		e.dataTransfer.setData("id", task?.order.toString() || "");
+		e.dataTransfer.setData("code", task?.taskCode || "");
 	};
 
 	// task drop position
 	const handleColumnDrop = (e: React.DragEvent) => {
 		e.preventDefault(); // Prevent the default behavior
-		const id = e.dataTransfer.getData("id"); // id from setData
+		//const id = e.dataTransfer.getData("id"); // id from setData
 		//setTasks((pv) => pv.filter((c) => c.id !== id));
 	};
 
@@ -34,22 +36,14 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 	// udpate task data
 	const handleSpotDrop = (e: React.DragEvent, position: number) => {
 		const id = e.dataTransfer.getData("id");
-		// console.log('task id to move', id)
-		//console.log("spot drop column", column);
-		// console.log("spot drop position", position);
+		const code = e.dataTransfer.getData("code");
+		console.log('task id to move', id)
+		console.log("task code", code);
+		console.log("spot drop column", column);
+		console.log("spot drop position", position);
 
-		if(tasks) {
-			const taskToMove = tasks.find((task: ITask) => task.id == id);
-			const updatedTasks = tasks.filter((c: ITask) => c.id !== id);
-
-			// updatedTasks.splice(position, 0, {
-			// 	...taskToMove,
-			// 	column: column || "",
-			// });
-
-			if (setTasks) {
-				setTasks(updatedTasks);
-			}
+		if (code) {
+			updateTaskOrder(code, position);
 		}
 	}
 
@@ -116,31 +110,6 @@ const DropSpot = ({
 		</span>
 	);
 };
-
-const DEFAULT_CARDS = [
-	// BACKLOG
-	{ title: "Look into render bug in dashboard", id: "1", column: "backlog" },
-	{ title: "SOX compliance checklist", id: "2", column: "backlog" },
-	{ title: "[SPIKE] Migrate to Azure", id: "3", column: "backlog" },
-	{ title: "Document Notifications service", id: "4", column: "backlog" },
-	// TODO
-	{
-		title: "Research DB options for new microservice",
-		id: "5",
-		column: "todo",
-	},
-	{ title: "Postmortem for outage", id: "6", column: "todo" },
-	{ title: "Sync with product on Q3 roadmap", id: "7", column: "todo" },
-
-	// DOING
-	{
-		title: "Refactor context providers to use Zustand",
-		id: "8",
-		column: "doing",
-	},
-	{ title: "Add logging to daily CRON", id: "9", column: "doing" },
-];
-
 
 export default Tasks
 
