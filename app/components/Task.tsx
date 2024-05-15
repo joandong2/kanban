@@ -19,7 +19,8 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 	const counter = 0;
 	const handleDragStart = (e: React.DragEvent, task: ITask) => {
 		e.dataTransfer.setData("id", task?.order.toString() || "");
-		e.dataTransfer.setData("code", task?.taskCode || "");
+		e.dataTransfer.setData("task_code", task?.taskCode || "");
+		e.dataTransfer.setData("current_column", task?.column || "");
 	};
 
 	// task drop position
@@ -35,15 +36,18 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 
 	// udpate task data
 	const handleSpotDrop = (e: React.DragEvent, position: number) => {
-		const id = e.dataTransfer.getData("id");
-		const code = e.dataTransfer.getData("code");
-		console.log('task id to move', id)
-		console.log("task code", code);
+		const old_position = e.dataTransfer.getData("id");
+		const task_code = e.dataTransfer.getData("task_code");
+		const old_column = e.dataTransfer.getData("current_column");
+
+		console.log("current column", old_column);
+		console.log("current position", old_position);
+		console.log("task code", task_code);
 		console.log("spot drop column", column);
 		console.log("spot drop position", position);
 
-		if (code) {
-			updateTaskOrder(code, position);
+		if (task_code && old_column && column) {
+			updateTaskOrder(task_code, position, Number(old_position), column, old_column);
 		}
 	}
 

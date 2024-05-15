@@ -101,6 +101,11 @@ export const getTasks = async (boardCode : string) => {
 			include: {
 				subTasks: true,
 			},
+			orderBy: [
+				{
+					order: "asc",
+				},
+			],
 		});
 
 		return tasks;
@@ -108,8 +113,86 @@ export const getTasks = async (boardCode : string) => {
 		console.error("Error fetching tasks:", error);
 		throw error; // Optionally handle or rethrow the error
 	}
+};111
+
+export const updateTaskOrder = async (
+	taskCode: string,
+	position: number,
+	old_position: number,
+	column: string,
+	old_column: string,
+) => {
+
+	if(column != old_column) {
+		// Update each task in old column
+		const old_column_tasks = await prisma.task.findMany({
+			where: {
+				column: old_column,
+			},
+			orderBy: [
+				{
+					order: "asc",
+				},
+			],
+		});
+
+		if (old_column_tasks) {
+			for (let i = old_position; i < old_column_tasks.length; i++) {
+				await prisma.task.update({
+					where: { id: old_column_tasks[i].id },
+					data: { order: i - 1 },
+				});
+			}
+		}
+
+		// Update each task in new column
+		const new_column = await prisma.task.findMany({
+			where: {
+				column: column,
+			},
+			orderBy: [
+				{
+					order: "asc",
+				},
+			],
+		});
+
+		for (let i = position; i < new_column.length; i++) {
+			await prisma.task.update({
+				where: { id: new_column[i].id },
+				data: { order: i + 1 },
+			});
+		}
+	} else {
+		const new_column = await prisma.task.findMany({
+			where: {
+				column: column,
+			},
+			orderBy: [
+				{
+					order: "asc",
+				},
+			],
+		});
+
+		for (let i = position; i < new_column.length; i++) {
+			await prisma.task.update({
+				where: { id: new_column[i].id },
+				data: { order: i + 1 },
+			});
+		}
+	}
+
+	// find task & update order
+	const tasks = await prisma.task.update({
+		where: {
+			taskCode,
+		},
+		data: {
+			order: position as number,
+			column: column
+		},
+	});
+
+	// find task after then decrement
 };
-
-export const updateTaskOrder = async (taskCode : string, position: number) => {
-
-}
