@@ -48,7 +48,9 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 		console.log("spot drop position", position);
 
 		if (task_code && old_column && column) {
-			updateTaskOrder(task_code, position, Number(old_position), column, old_column);
+			const tasks = updateTaskOrder(task_code, position, Number(old_position), column, old_column);
+
+			console.log('tasks', tasks);
 		}
 	}
 
