@@ -123,76 +123,100 @@ export const updateTaskOrder = async (
 	old_column: string,
 ) => {
 
-	if(column != old_column) {
-		// Update each task in old column
-		const old_column_tasks = await prisma.task.findMany({
-			where: {
-				column: old_column,
-			},
-			orderBy: [
-				{
-					order: "asc",
+	try {
+		// find task & update order
+		if (column != old_column) {
+			// Update each task in old column
+			const old_column_tasks = await prisma.task.findMany({
+				where: {
+					column: old_column,
 				},
-			],
-		});
+				orderBy: [
+					{
+						order: "asc",
+					},
+				],
+			});
 
-		if (old_column_tasks) {
-			for (let i = old_position; i < old_column_tasks.length; i++) {
+			if (old_column_tasks) {
+				for (let i = old_position; i < old_column_tasks.length; i++) {
+					await prisma.task.update({
+						where: { id: old_column_tasks[i].id },
+						data: { order: i - 1 },
+					});
+				}
+			}
+
+			// Update each task in new column
+			const new_column = await prisma.task.findMany({
+				where: {
+					column: column,
+				},
+				orderBy: [
+					{
+						order: "asc",
+					},
+				],
+			});
+
+			for (let i = position; i < new_column.length; i++) {
 				await prisma.task.update({
-					where: { id: old_column_tasks[i].id },
-					data: { order: i - 1 },
+					where: { id: new_column[i].id },
+					data: { order: i + 1 },
+				});
+			}
+		} else {
+			const new_column = await prisma.task.findMany({
+				where: {
+					column: column,
+				},
+				orderBy: [
+					{
+						order: "asc",
+					},
+				],
+			});
+
+			for (let i = position; i < new_column.length; i++) {
+				await prisma.task.update({
+					where: { id: new_column[i].id },
+					data: { order: i + 1 },
 				});
 			}
 		}
 
-		// Update each task in new column
-		const new_column = await prisma.task.findMany({
+		const task = await prisma.task.update({
 			where: {
+				taskCode,
+			},
+			data: {
+				order: position as number,
 				column: column,
 			},
-			orderBy: [
-				{
-					order: "asc",
-				},
-			],
 		});
 
-		for (let i = position; i < new_column.length; i++) {
-			await prisma.task.update({
-				where: { id: new_column[i].id },
-				data: { order: i + 1 },
-			});
-		}
-	} else {
-		const new_column = await prisma.task.findMany({
-			where: {
-				column: column,
-			},
-			orderBy: [
-				{
-					order: "asc",
+		if(task) {
+			const tasks = await prisma.task.findMany({
+				include: {
+					subTasks: true,
 				},
-			],
-		});
-
-		for (let i = position; i < new_column.length; i++) {
-			await prisma.task.update({
-				where: { id: new_column[i].id },
-				data: { order: i + 1 },
+				orderBy: [
+					{
+						order: "asc",
+					},
+				],
 			});
+
+
+			return {
+				status: "success",
+				tasks: tasks
+			};
 		}
+
+	} catch (error) {
+		console.error("Error editing invoice:", error);
 	}
 
-	// find task & update order
-	const tasks = await prisma.task.update({
-		where: {
-			taskCode,
-		},
-		data: {
-			order: position as number,
-			column: column
-		},
-	});
 
-	// find task after then decrement
 };

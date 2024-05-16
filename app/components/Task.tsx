@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { IColumns, ITask } from '@/lib/type';
 import { updateTaskOrder } from '@/lib/_actions';
+import { revalidatePath } from 'next/cache';
 
 export const Tasks = ({ columns, tasks }: { columns: IColumns[] | undefined, tasks: ITask[] }) => {
 
@@ -61,7 +62,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 			<DropSpot handleSpotDrop={handleSpotDrop} position={0} />
 			{tasks &&
 				tasks.map(
-					(task: ITask, index: number) =>
+					(task: ITask, index) =>
 						task.column == column && (
 							<span key={index} className="flex flex-col">
 								<span
@@ -75,8 +76,9 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 								</span>
 								<DropSpot
 									handleSpotDrop={handleSpotDrop}
-									position={index}
+									position={task.order + 1}
 								/>
+								{task.order + 1}
 							</span>
 						)
 				)}
