@@ -43,14 +43,13 @@ const Board = () => {
 
 	// console.log("board", board);
 	// console.log('boards', boards)
-	// console.log("tasks", tasks);
 
   	return (
 			<>
 				<Header board={board}/>
 				<div className="flex">
 					<Sidebar />
-					{board && tasks ? <Tasks tasks={tasks} columns={board.columns}/> : "No active board"}
+					{board && tasks ? <Tasks tasks={tasks} columns={board.columns} setTasks={setTasks}/> : "No active board"}
 				</div>
 			</>
 		);

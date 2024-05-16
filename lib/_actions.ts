@@ -208,10 +208,7 @@ export const updateTaskOrder = async (
 			});
 
 
-			return {
-				status: "success",
-				tasks: tasks
-			};
+			return tasks
 		}
 
 	} catch (error) {
