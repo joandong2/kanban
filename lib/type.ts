@@ -22,7 +22,7 @@ export interface IColumns {
 	column?: string;
 	tasks?: ITask[];
 	position?: number;
-	setTasks?: Dispatch<SetStateAction<ITask[]>>;
+	setTasks?: (tasks: ITask[]) => void;
 }
 
 export interface ITask {

@@ -11,11 +11,8 @@ const Board = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const board = useKanbanStore((state) => state.board);
 	const tasks = useKanbanStore((state) => state.tasks);
-	//const boardCode = useKanbanStore((state) => state.boardCode);
-	//const setBoardCode = useKanbanStore((state) => state.setBoardCode);
 	const setBoards = useKanbanStore((state) => state.setBoards);
 	const setBoard = useKanbanStore((state) => state.setBoard);
-	const setColumns = useKanbanStore((state) => state.setColumns);
 	const setTasks = useKanbanStore((state) => state.setTasks);
 
 	useEffect(() => {

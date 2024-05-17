@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import { IColumns, ITask } from '@/lib/type';
 import { updateTaskOrder } from '@/lib/_actions';
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction } from "react";
 
 export const Tasks = ({
 	columns,
@@ -11,7 +10,7 @@ export const Tasks = ({
 }: {
 	columns: IColumns[] | undefined;
 	tasks: ITask[];
-	setTasks: Dispatch<SetStateAction<ITask[]>>;
+	setTasks: (tasks: ITask[]) => void;
 }) => {
 	return (
 		<span className="flex gap-4">
@@ -28,6 +27,7 @@ export const Tasks = ({
 		</span>
 	);
 };
+
 
 const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 	const router = useRouter();
@@ -54,11 +54,11 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 		const task_code = e.dataTransfer.getData("task_code");
 		const old_column = e.dataTransfer.getData("current_column");
 
-		// console.log("current column", old_column);
-		// console.log("current position", old_position);
-		// console.log("task code", task_code);
-		// console.log("spot drop column", column);
-		// console.log("spot drop position", position);
+		console.log("current column", old_column);
+		console.log("current position", old_position);
+		console.log("task code", task_code);
+		console.log("spot drop column", column);
+		console.log("spot drop position", position);
 
 		if (task_code && old_column && column) {
 			const tasks = await updateTaskOrder(task_code, position, Number(old_position), column, old_column);
@@ -68,7 +68,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 				setTasks(tasks);
 				router.refresh();
 			}
-			//console.log("tasks", tasks);
+			console.log("tasks", tasks);
 		}
 	}
 
@@ -140,62 +140,3 @@ const DropSpot = ({
 };
 
 export default Tasks
-
-
-// <span className="px-8 py-4 gap-8 flex">
-// 	<span className="tasks">
-// 		<span className="flex items-center gap-2 mb-6">
-// 			<FaCircle className="text-red-500" />
-// 			<span className="uppercase">todo (4)</span>
-// 		</span>
-// 		<span className="sub-tasks flex flex-col gap-6">
-// 			<span className="task shadow-lg">
-// 				<p className="text-[14px] mb-2">
-// 					Build UI for onboarding flow Build UI for onboarding flow
-// 				</p>
-// 				<span className="text-[#828fa3] font-bold text-[12px]">
-// 					0 of 3 subtasks
-// 				</span>
-// 			</span>
-// 			<span className="task shadow-lg">
-// 				<p className="text-[14px] mb-2">
-// 					Build UI for onboarding flow Build UI for onboarding flow
-// 				</p>
-// 				<span className="text-[#828fa3] font-bold text-[12px]">
-// 					0 of 3 subtasks
-// 				</span>
-// 			</span>
-// 		</span>
-// 	</span>
-// 	<span className="tasks">
-// 		<span className="flex items-center gap-2 mb-6">
-// 			<FaCircle className="text-green-500" />
-// 			<span className="uppercase">doing (2)</span>
-// 		</span>
-// 		<span className="sub-tasks flex flex-col gap-6">
-// 			<span className="task shadow-lg">
-// 				<p className="text-[14px] mb-2">
-// 					Build UI for onboarding flow Build UI for onboarding flow
-// 				</p>
-// 				<span className="text-[#828fa3] font-bold text-[12px]">
-// 					0 of 3 subtasks
-// 				</span>
-// 			</span>
-// 			<span className="task shadow-lg">
-// 				<p className="text-[14px] mb-2">
-// 					Build UI for onboarding flow Build UI for onboarding flow
-// 				</p>
-// 				<span className="text-[#828fa3] font-bold text-[12px]">
-// 					0 of 3 subtasks
-// 				</span>
-// 			</span>
-// 		</span>
-// 	</span>
-// 	<span className="tasks">
-// 		<span className="flex items-center gap-2 mb-6">
-// 			<FaCircle />
-// 			<span className="uppercase">done (4)</span>
-// 		</span>
-// 		<span className="sub-tasks"></span>
-// 	</span>
-// </span>
