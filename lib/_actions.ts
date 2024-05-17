@@ -166,23 +166,28 @@ export const updateTaskOrder = async (
 				});
 			}
 		} else {
-			const new_column = await prisma.task.findMany({
-				where: {
-					column: column,
-				},
-				orderBy: [
-					{
-						order: "asc",
-					},
-				],
-			});
 
-			for (let i = position; i < new_column.length; i++) {
-				await prisma.task.update({
-					where: { id: new_column[i].id },
-					data: { order: i + 1 },
+			if(position !== old_position) {
+				const new_column = await prisma.task.findMany({
+					where: {
+						column: column,
+					},
+					orderBy: [
+						{
+							order: "asc",
+						},
+					],
 				});
+
+				for (let i = position; i < new_column.length; i++) {
+					await prisma.task.update({
+						where: { id: new_column[i].id },
+						data: { order: i + 1 },
+					});
+				}
 			}
+
+
 		}
 
 		const task = await prisma.task.update({
