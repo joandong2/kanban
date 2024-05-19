@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
 		<html lang="en">
-			<body className={`${plusJakartaSans.variable}light h-[100%]`}>
+			<body className={`${plusJakartaSans.variable} light h-[100%]`}>
 				<Toaster position="top-right" />
 				{children}
 			</body>

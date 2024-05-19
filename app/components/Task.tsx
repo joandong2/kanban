@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react'
 import { IColumns, ITask } from '@/lib/type';
 import { updateTaskOrder } from '@/lib/_actions';
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 export const Tasks = ({
 	columns,
@@ -13,7 +14,7 @@ export const Tasks = ({
 	setTasks: (tasks: ITask[]) => void;
 }) => {
 	return (
-		<span className="flex gap-4">
+		<span className="flex w-full gap-6 px-4 py-6">
 			{columns &&
 				columns.map((column) => (
 					<Column
@@ -71,11 +72,15 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 		}
 	}
 
+	const handleClick = () => {
+		console.log('heelo')
+	}
+
 
 
 	return (
 		<span
-			className="flex flex-col"
+			className="flex flex-col w-[280px] min-w-[280px]"
 			onDrop={(e) => handleColumnDrop(e)}
 			onDragOver={(e) => handleDragOver(e)}
 		>
@@ -85,22 +90,28 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 				tasks.map(
 					(task: ITask, index) =>
 						task.column == column && (
-							<span key={index} className="flex flex-col">
-								<span
-									draggable
-									onDragStart={(e) =>
-										handleDragStart && handleDragStart(e, { ...task })
-									}
-									className="cursor-grab rounded border p-3 border-neutral-700 bg-white-800 active:cursor-grabbing"
+							<>
+								<motion.div
+									layout
+									key={index}
+									className="flex flex-col rounded-[5px] bg-white px-5 py-5"
 								>
-									{task.title + " " + task.order + " " + task.column}
-								</span>
+									<span
+										draggable="true"
+										onDragStart={(e) =>
+											handleDragStart && handleDragStart(e, { ...task })
+										}
+										className="cursor-grab rounded border-neutral-700 bg-white-800 active:cursor-grabbing"
+										onClick={handleClick}
+									>
+										{task.title}
+									</span>
+								</motion.div>
 								<DropSpot
 									handleSpotDrop={handleSpotDrop}
 									position={task.order + 1}
 								/>
-								{/* {task.order + 1} */}
-							</span>
+							</>
 						)
 				)}
 		</span>

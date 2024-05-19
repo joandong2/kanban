@@ -65,10 +65,10 @@ const Sidebar = () => {
 	};
 
 	const toggleClass = clsx({
-		"transition-all duration-1500 h-screen pt-4 flex flex-col bg-white h-screen pointer mt-[-86px] pt-[86px] relative z-1":
+		"transition-all duration-1500 h-screen pt-4 flex flex-col bg-white h-screen pointer mt-[-86px] pt-[113px] relative z-1":
 			true,
 		"opacity-0 w-0": hideSide,
-		"opacity-100 w-[260px]": !hideSide,
+		"opacity-100 w-[260px] max-w-[260px]": !hideSide,
 	});
 
 	const toggleEye = clsx({
@@ -106,12 +106,15 @@ const Sidebar = () => {
 					<span className="flex justify-between flex-col h-full ">
 						<span>
 							<ul className="flex flex-col gap-1 sidebar">
-								<li className="uppercase">
+								<li className="uppercase mb-[1.1875rem] ml-6 text-[0.75rem] font-bold tracking-[2.4px] text-medium-grey-#828FA3">
 									<span>All Boards (3)</span>
 								</li>
 								{boards
 									? boards.map((board: IBoard, index: number) => (
-											<li key={index}>
+											<li
+												key={index}
+												className="flex h-[48px] w-[90%] items-center gap-3 rounded-r-[100px] px-6 text-[0.9375rem] font-bold bg-purple-#635FC7 text-white "
+											>
 												<span
 													onClick={() =>
 														handleBoardLinks(board.boardCode.toLowerCase())
@@ -122,7 +125,7 @@ const Sidebar = () => {
 											</li>
 									  ))
 									: "No boards created!"}
-								<li>
+								<li className="flex h-[48px] w-[90%] items-center gap-3 rounded-r-[100px] px-6 text-[0.9375rem] font-bold bg-purple-#635FC7 text-white ">
 									<span>
 										<DialogTrigger asChild className="border-none">
 											<button>+ Create a New Board</button>
