@@ -113,7 +113,7 @@ export const getTasks = async (boardCode : string) => {
 		console.error("Error fetching tasks:", error);
 		throw error; // Optionally handle or rethrow the error
 	}
-};111
+};
 
 export const updateTaskOrder = async (
 	taskCode: string,

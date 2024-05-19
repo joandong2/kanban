@@ -41,6 +41,7 @@ body {
 
 .active_drop {
   opacity: 1;
+  transition: all 0.1s ease-in;
 }
 
 .hide_drop {

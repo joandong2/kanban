@@ -54,11 +54,11 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 		const task_code = e.dataTransfer.getData("task_code");
 		const old_column = e.dataTransfer.getData("current_column");
 
-		console.log("current column", old_column);
-		console.log("current position", old_position);
-		console.log("task code", task_code);
-		console.log("spot drop column", column);
-		console.log("spot drop position", position);
+		// console.log("current column", old_column);
+		// console.log("current position", old_position);
+		// console.log("task code", task_code);
+		// console.log("spot drop column", column);
+		// console.log("spot drop position", position);
 
 		if (task_code && old_column && column) {
 			const tasks = await updateTaskOrder(task_code, position, Number(old_position), column, old_column);
@@ -68,7 +68,6 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 				setTasks(tasks);
 				router.refresh();
 			}
-			console.log("tasks", tasks);
 		}
 	}
 
@@ -76,7 +75,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 
 	return (
 		<span
-			className="flex flex-col gap-4"
+			className="flex flex-col"
 			onDrop={(e) => handleColumnDrop(e)}
 			onDragOver={(e) => handleDragOver(e)}
 		>
@@ -92,7 +91,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 									onDragStart={(e) =>
 										handleDragStart && handleDragStart(e, { ...task })
 									}
-									className="rounded border p-3 border-neutral-700 bg-white-800 active:cursor-grabbing"
+									className="cursor-grab rounded border p-3 border-neutral-700 bg-white-800 active:cursor-grabbing"
 								>
 									{task.title + " " + task.order + " " + task.column}
 								</span>
@@ -100,7 +99,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 									handleSpotDrop={handleSpotDrop}
 									position={task.order + 1}
 								/>
-								{task.order + 1}
+								{/* {task.order + 1} */}
 							</span>
 						)
 				)}
@@ -130,11 +129,11 @@ const DropSpot = ({
 				handleSpotDrop(e, position);
 				setActive(false);
 			}}
-			className={`rounded border text-black ${
+			className={`rounded border text-black p-2 w-full bg-violet-400 ${
 				active ? "active_drop" : "hide_drop"
 			}`}
 		>
-			Drop Here
+			{' '}
 		</span>
 	);
 };
