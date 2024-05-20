@@ -3,6 +3,7 @@ import { IColumns, ITask } from '@/lib/type';
 import { updateTaskOrder } from '@/lib/_actions';
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { FaCircle } from 'react-icons/fa';
 
 export const Tasks = ({
 	columns,
@@ -14,7 +15,7 @@ export const Tasks = ({
 	setTasks: (tasks: ITask[]) => void;
 }) => {
 	return (
-		<span className="flex w-full gap-6 px-4 py-6">
+		<span className="flex w-full gap-6 px-8 py-6">
 			{columns &&
 				columns.map((column) => (
 					<Column
@@ -25,6 +26,9 @@ export const Tasks = ({
 						setTasks={setTasks}
 					/>
 				))}
+			<span className="mt-8 rounded-[10px] w-[280px] bg-[#f0effa] py-5 flex justify-center items-center">
+				+ New Columnn
+			</span>
 		</span>
 	);
 };
@@ -32,6 +36,7 @@ export const Tasks = ({
 
 const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 	const router = useRouter();
+	const colors = ['red', 'green', 'violet', 'orange', 'yellow']
 	const handleDragStart = (e: React.DragEvent, task: ITask) => {
 		e.dataTransfer.setData("id", task?.order.toString() || "");
 		e.dataTransfer.setData("task_code", task?.taskCode || "");
@@ -64,7 +69,6 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 		if (task_code && old_column && column) {
 			const tasks = await updateTaskOrder(task_code, position, Number(old_position), column, old_column);
 
-			//console.log('tasks', tasks);
 			if(tasks && setTasks) {
 				setTasks(tasks);
 				router.refresh();
@@ -76,15 +80,18 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 		console.log('heelo')
 	}
 
-
-
 	return (
 		<span
 			className="flex flex-col w-[280px] min-w-[280px]"
 			onDrop={(e) => handleColumnDrop(e)}
 			onDragOver={(e) => handleDragOver(e)}
 		>
-			<h2>{column}</h2>
+			<h2>
+				<span className="flex gap-2 items-center">
+					{}
+					<FaCircle className="text-red-900" /> {column}
+				</span>
+			</h2>
 			<DropSpot handleSpotDrop={handleSpotDrop} position={0} />
 			{tasks &&
 				tasks.map(
@@ -93,18 +100,20 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 							<>
 								<motion.div
 									layout
-									key={index}
-									className="flex flex-col rounded-[5px] bg-white px-5 py-5"
+									className="flex flex-col rounded-[5px] bg-white"
 								>
 									<span
 										draggable="true"
 										onDragStart={(e) =>
 											handleDragStart && handleDragStart(e, { ...task })
 										}
-										className="cursor-grab rounded border-neutral-700 bg-white-800 active:cursor-grabbing"
+										className="flex flex-col cursor-grab rounded border-neutral-700 bg-white-800 active:cursor-grabbing px-5 py-5 shadow-lg"
 										onClick={handleClick}
 									>
 										{task.title}
+										<span className="text-[#828fa3] font-bold text-[12px]">
+											{"0 of 3 subtasks"}
+										</span>
 									</span>
 								</motion.div>
 								<DropSpot
@@ -140,7 +149,7 @@ const DropSpot = ({
 				handleSpotDrop(e, position);
 				setActive(false);
 			}}
-			className={`rounded border text-black p-2 w-full bg-violet-400 ${
+			className={`rounded border text-black-700 p-1 w-full bg-violet-400 ${
 				active ? "active_drop" : "hide_drop"
 			}`}
 		>

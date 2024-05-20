@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ColumnDataSchema } from '@/lib/schema';
 import { AiFillDelete } from 'react-icons/ai';
+import { TbLayoutBoardSplit } from "react-icons/tb";
 import { createBoard, getBoardAndColumns } from "@/lib/_actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -68,7 +69,8 @@ const Sidebar = () => {
 		"transition-all duration-1500 h-screen pt-4 flex flex-col bg-white h-screen pointer mt-[-86px] pt-[113px] relative z-1":
 			true,
 		"opacity-0 w-0": hideSide,
-		"opacity-100 w-[260px] max-w-[260px]": !hideSide,
+		"opacity-100 w-[260px] max-w-[260px] xl:w-[300px] xl:min-w-[300px]":
+			!hideSide,
 	});
 
 	const toggleEye = clsx({
@@ -96,6 +98,8 @@ const Sidebar = () => {
 		}
 	}
 
+	console.log('board', board)
+
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<span className="relative">
@@ -105,32 +109,36 @@ const Sidebar = () => {
 				<span className={toggleClass}>
 					<span className="flex justify-between flex-col h-full ">
 						<span>
-							<ul className="flex flex-col gap-1 sidebar">
-								<li className="uppercase mb-[1.1875rem] ml-6 text-[0.75rem] font-bold tracking-[2.4px] text-medium-grey-#828FA3">
+							<ul className="flex flex-col sidebar">
+								<li className="uppercase ml-6 font-bold tracking-[2.4px] text-[12px] text-medium-grey-#828FA3 mb-2">
 									<span>All Boards (3)</span>
 								</li>
 								{boards
-									? boards.map((board: IBoard, index: number) => (
+									? boards.map((res: IBoard, index: number) => (
 											<li
 												key={index}
-												className="flex h-[48px] w-[90%] items-center gap-3 rounded-r-[100px] px-6 text-[0.9375rem] font-bold bg-purple-#635FC7 text-white "
+												className={`flex h-[48px] w-[90%] items-center gap-3 rounded-r-[100px] px-6 font-bold bg-purple-#635FC7 text-white ${
+													res.boardCode === board.boardCode ? 'active' : ''
+												}`}
 											>
+												<TbLayoutBoardSplit className="text-[#828fa3] text-[24px]" />
 												<span
 													onClick={() =>
-														handleBoardLinks(board.boardCode.toLowerCase())
+														handleBoardLinks(res.boardCode.toLowerCase())
 													}
 												>
-													{board.name}
+													{res.name}
 												</span>
 											</li>
 									  ))
 									: "No boards created!"}
-								<li className="flex h-[48px] w-[90%] items-center gap-3 rounded-r-[100px] px-6 text-[0.9375rem] font-bold bg-purple-#635FC7 text-white ">
-									<span>
-										<DialogTrigger asChild className="border-none">
+								<li className="flex h-[48px] w-[90%] items-center gap-3 rounded-r-[100px] px-6 font-bold bg-purple-#635FC7 text-white">
+									<DialogTrigger asChild className="border-none">
+										<span className="fle">
+											<TbLayoutBoardSplit className="text-[#828fa3] text-[24px]" />
 											<button>+ Create a New Board</button>
-										</DialogTrigger>
-									</span>
+										</span>
+									</DialogTrigger>
 								</li>
 							</ul>
 						</span>

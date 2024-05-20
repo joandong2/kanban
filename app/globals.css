@@ -5,7 +5,7 @@
 body {
   background-color: #E4EBFA;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .sidebar li span {
@@ -19,7 +19,10 @@ body {
   background: #635fc7;
   border-top-right-radius: 45px;
   border-bottom-right-radius: 45px;
-  color: #fff;
+}
+
+.sidebar li.active span {
+  color: #fff !important;
 }
 
 .sidebar li:hover:not(:first-child) {
@@ -27,6 +30,10 @@ body {
   border-top-right-radius: 45px;
   border-bottom-right-radius: 45px;
   color: #635fc7;
+}
+
+.sidebar li:hover span {
+  color: #635fc7 !important;
 }
 
 .sub-tasks {
@@ -42,6 +49,7 @@ body {
 .active_drop {
   opacity: 1;
   transition: all 0.1s ease-in;
+  height: 50px;
 }
 
 .hide_drop {
