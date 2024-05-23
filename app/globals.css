@@ -43,12 +43,12 @@ body {
 .task {
   background-color: #fff;
   border-radius: 10px;
-  padding: 15px
+  padding: 15px;
 }
 
 .active_drop {
   opacity: 1;
-  transition: all 0.1s ease-in;
+  transition: all 0.3s ease-in;
   height: 50px;
 }
 
@@ -71,3 +71,9 @@ body {
   text-align: center;
   padding: 10px
 }
+
+.color-0 { color: red }
+.color-1 { color: green }
+.color-2 { color: orange }
+.color-3 { color: purple }
+.color-4 { color: indigo }

@@ -15,28 +15,35 @@ export const Tasks = ({
 	setTasks: (tasks: ITask[]) => void;
 }) => {
 	return (
-		<span className="flex w-full gap-6 px-8 py-6">
+		<span className="flex w-full gap-6 px-8 py-6 overflow-x-auto">
 			{columns &&
-				columns.map((column) => (
+				columns.map((column, index) => (
 					<Column
 						key={column.id}
 						column={column.columnCode}
 						name={column.name}
 						tasks={tasks}
+						count={index}
 						setTasks={setTasks}
 					/>
 				))}
-			<span className="mt-8 rounded-[10px] w-[280px] bg-[#f0effa] py-5 flex justify-center items-center">
+			<span className="mt-8 rounded-[10px] min-w-[280px] bg-[#f0effa] py-5 flex justify-center items-center">
 				+ New Columnn
 			</span>
+			{/* <span className="mt-8 rounded-[10px] min-w-[280px] bg-[#f0effa] py-5 flex justify-center items-center">
+				+ New Columnn
+			</span>
+			<span className="mt-8 rounded-[10px] min-w-[280px] bg-[#f0effa] py-5 flex justify-center items-center">
+				+ New Columnn
+			</span> */}
 		</span>
 	);
 };
 
 
-const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
+const Column: React.FC<IColumns> = ({ tasks, column, setTasks, count}) => {
 	const router = useRouter();
-	const colors = ['red', 'green', 'violet', 'orange', 'yellow']
+	const colors = ["indigo", "purple", "green", "violet", "blue", "pink"];
 	const handleDragStart = (e: React.DragEvent, task: ITask) => {
 		e.dataTransfer.setData("id", task?.order.toString() || "");
 		e.dataTransfer.setData("task_code", task?.taskCode || "");
@@ -88,8 +95,9 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks}) => {
 		>
 			<h2>
 				<span className="flex gap-2 items-center">
-					{}
-					<FaCircle className="text-red-900" /> {column}
+					<span className="flex gap-1 items-center">
+						<FaCircle className={"color-" + count }/> {column}
+					</span>
 				</span>
 			</h2>
 			<DropSpot handleSpotDrop={handleSpotDrop} position={0} />

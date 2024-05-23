@@ -10,6 +10,7 @@ import Tasks from "./Task";
 const Board = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const board = useKanbanStore((state) => state.board);
+	const boards = useKanbanStore((state) => state.boards);
 	const tasks = useKanbanStore((state) => state.tasks);
 	const setBoards = useKanbanStore((state) => state.setBoards);
 	const setBoard = useKanbanStore((state) => state.setBoard);

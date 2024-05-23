@@ -24,7 +24,7 @@ import { z } from "zod";
 import { ColumnDataSchema } from '@/lib/schema';
 import { AiFillDelete } from 'react-icons/ai';
 import { TbLayoutBoardSplit } from "react-icons/tb";
-import { createBoard, getBoardAndColumns } from "@/lib/_actions";
+import { createBoard, getBoardAndColumns, getBoards } from "@/lib/_actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { IBoard } from '@/lib/type';
@@ -39,7 +39,7 @@ const Sidebar = () => {
 	const board = useKanbanStore((state) => state.board);
 	const setBoardCode = useKanbanStore((state) => state.setBoardCode);
 	const setBoard = useKanbanStore((state) => state.setBoard);
-	const router = useRouter();
+	const setBoards = useKanbanStore((state) => state.setBoards);
 
 	const {
 		register,
@@ -82,9 +82,13 @@ const Sidebar = () => {
 
 	const processAddBoard: SubmitHandler<FormValues> = async (data) => {
 		const result = await createBoard(data);
-		if (result?.status == "success") {
+		if (result) {
 			setOpen(false);
-			toast.success("Board Created", {});
+			const res = await getBoards();
+			if(res) {
+				setBoards(res);
+				toast.success("Board Created", {});
+			}
 			reset();
 		}
 	};
@@ -98,7 +102,7 @@ const Sidebar = () => {
 		}
 	}
 
-	console.log('board', board)
+	 //console.log('board', board)
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -157,7 +161,7 @@ const Sidebar = () => {
 			</span>
 			<DialogContent className="bg-white">
 				<DialogHeader>
-					<DialogTitle className="text-[24px]">Add New Board</DialogTitle>
+					<DialogTitle className="text-[16px] mb-4">Add New Board</DialogTitle>
 					<DialogDescription>
 						<span className="flex flex-col">
 							<form onSubmit={handleSubmit(processAddBoard)}>

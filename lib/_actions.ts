@@ -68,22 +68,6 @@ export const getBoardAndColumns = async (boardCode: string) => {
 			}
 		});
 
-		// Fetch the columns associated with the board, including tasks
-		// const columns = await prisma.column.findMany({
-		// 	where: {
-		// 		boardCode: boardCode,
-		// 	},
-		// 	include: {
-		// 		tasks: true,
-		// 	},
-		// });
-
-		// Combine the board and columns into a single object or array
-		// const boardWithColumns = {
-		// 	board: board,
-		// 	columns: columns,
-		// };
-
 		return board;
 	} catch (error) {
 		console.error("Error fetching board and columns:", error);

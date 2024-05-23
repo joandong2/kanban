@@ -21,6 +21,7 @@ export interface IColumns {
 	name?: string;
 	column?: string;
 	tasks?: ITask[];
+	count?: number;
 	position?: number;
 	setTasks?: (tasks: ITask[]) => void;
 }
