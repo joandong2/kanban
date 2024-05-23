@@ -47,7 +47,12 @@ const Board = () => {
 			<div className="flex">
 				<Sidebar />
 				{board && tasks ? (
-					<Tasks tasks={tasks} columns={board.columns} setTasks={setTasks} />
+					<Tasks
+						tasks={tasks}
+						columns={board.columns}
+						setTasks={setTasks}
+						boardCode={board?.boardCode}
+					/>
 				) : (
 					"No active board"
 				)}

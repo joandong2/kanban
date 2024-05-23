@@ -9,10 +9,12 @@ export const Tasks = ({
 	columns,
 	tasks,
 	setTasks,
+	boardCode,
 }: {
 	columns: IColumns[] | undefined;
 	tasks: ITask[];
 	setTasks: (tasks: ITask[]) => void;
+	boardCode: string;
 }) => {
 	return (
 		<span className="flex w-full gap-6 px-8 py-6 overflow-x-auto">
@@ -25,6 +27,7 @@ export const Tasks = ({
 						tasks={tasks}
 						count={index}
 						setTasks={setTasks}
+						boardCode={boardCode}
 					/>
 				))}
 			<span className="mt-8 rounded-[10px] min-w-[280px] bg-[#f0effa] py-5 flex justify-center items-center">
@@ -41,7 +44,13 @@ export const Tasks = ({
 };
 
 
-const Column: React.FC<IColumns> = ({ tasks, column, setTasks, count}) => {
+const Column: React.FC<IColumns> = ({
+	tasks,
+	column,
+	setTasks,
+	count,
+	boardCode,
+}) => {
 	const router = useRouter();
 	const colors = ["indigo", "purple", "green", "violet", "blue", "pink"];
 	const handleDragStart = (e: React.DragEvent, task: ITask) => {
@@ -57,7 +66,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks, count}) => {
 		//setTasks((pv) => pv.filter((c) => c.id !== id));
 	};
 
-	 const handleDragOver = (e: React.DragEvent) => {
+	const handleDragOver = (e: React.DragEvent) => {
 		e.preventDefault();
 	};
 
@@ -74,18 +83,25 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks, count}) => {
 		// console.log("spot drop position", position);
 
 		if (task_code && old_column && column) {
-			const tasks = await updateTaskOrder(task_code, position, Number(old_position), column, old_column);
+			const tasks = await updateTaskOrder(
+				task_code,
+				position,
+				Number(old_position),
+				column,
+				old_column,
+				boardCode
+			);
 
-			if(tasks && setTasks) {
+			if (tasks && setTasks) {
 				setTasks(tasks);
 				router.refresh();
 			}
 		}
-	}
+	};
 
 	const handleClick = () => {
-		console.log('heelo')
-	}
+		console.log("heelo");
+	};
 
 	return (
 		<span
@@ -96,7 +112,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks, count}) => {
 			<h2>
 				<span className="flex gap-2 items-center">
 					<span className="flex gap-1 items-center">
-						<FaCircle className={"color-" + count }/> {column}
+						<FaCircle className={"color-" + count} /> {column}
 					</span>
 				</span>
 			</h2>
@@ -133,7 +149,7 @@ const Column: React.FC<IColumns> = ({ tasks, column, setTasks, count}) => {
 				)}
 		</span>
 	);
-}
+};
 
 const DropSpot = ({
 	handleSpotDrop,

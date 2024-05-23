@@ -105,6 +105,7 @@ export const updateTaskOrder = async (
 	old_position: number,
 	column: string,
 	old_column: string,
+	boardCode: string
 ) => {
 
 	try {
@@ -113,6 +114,7 @@ export const updateTaskOrder = async (
 			// Update each task in old column
 			const old_column_tasks = await prisma.task.findMany({
 				where: {
+					boardCode: boardCode,
 					column: old_column,
 				},
 				orderBy: [
@@ -134,6 +136,7 @@ export const updateTaskOrder = async (
 			// Update each task in new column
 			const new_column = await prisma.task.findMany({
 				where: {
+					boardCode: boardCode,
 					column: column,
 				},
 				orderBy: [
@@ -154,6 +157,7 @@ export const updateTaskOrder = async (
 			if(position !== old_position) {
 				const new_column = await prisma.task.findMany({
 					where: {
+						boardCode: boardCode,
 						column: column,
 					},
 					orderBy: [
@@ -186,6 +190,9 @@ export const updateTaskOrder = async (
 
 		if(task) {
 			const tasks = await prisma.task.findMany({
+				where: {
+					boardCode: boardCode
+				},
 				include: {
 					subTasks: true,
 				},
