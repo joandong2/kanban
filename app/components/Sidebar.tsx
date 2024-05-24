@@ -26,7 +26,6 @@ import { AiFillDelete } from 'react-icons/ai';
 import { TbLayoutBoardSplit } from "react-icons/tb";
 import { createBoard, getBoardAndColumns, getBoards } from "@/lib/_actions";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import { IBoard } from '@/lib/type';
 import { useKanbanStore } from "@/lib/store";
 
@@ -66,7 +65,7 @@ const Sidebar = () => {
 	};
 
 	const toggleClass = clsx({
-		"transition-all duration-1500 h-screen pt-4 flex flex-col bg-white h-screen pointer mt-[-86px] pt-[113px] relative z-1":
+		"transition-all duration-1500 h-full h-screen overflow-y-hidden pt-4 flex flex-col bg-white pointer mt-[-86px] pt-[113px] relative z-1":
 			true,
 		"opacity-0 w-0": hideSide,
 		"opacity-100 w-[260px] max-w-[260px] xl:w-[300px] xl:min-w-[300px]":
@@ -115,7 +114,7 @@ const Sidebar = () => {
 						<span>
 							<ul className="flex flex-col sidebar">
 								<li className="uppercase ml-6 font-bold tracking-[2.4px] text-[12px] text-medium-grey-#828FA3 mb-2">
-									<span>All Boards (3)</span>
+									<span>All Boards ({boards.length})</span>
 								</li>
 								{boards
 									? boards.map((res: IBoard, index: number) => (

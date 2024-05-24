@@ -82,7 +82,7 @@ const Column: React.FC<IColumns> = ({
 		// console.log("spot drop column", column);
 		// console.log("spot drop position", position);
 
-		if (task_code && old_column && column) {
+		if (task_code && old_column && column && boardCode) {
 			const tasks = await updateTaskOrder(
 				task_code,
 				position,

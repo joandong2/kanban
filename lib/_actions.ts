@@ -174,8 +174,6 @@ export const updateTaskOrder = async (
 					});
 				}
 			}
-
-
 		}
 
 		const task = await prisma.task.update({
