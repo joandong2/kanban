@@ -5,10 +5,8 @@ import clsx from 'clsx';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import {
 	Dialog,
-	DialogClose,
 	DialogContent,
 	DialogDescription,
-	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -86,6 +84,7 @@ const Sidebar = () => {
 			const res = await getBoards();
 			if(res) {
 				setBoards(res);
+				setBoard(res[res.length - 1])
 				toast.success("Board Created", {});
 			}
 			reset();
@@ -101,8 +100,6 @@ const Sidebar = () => {
 		}
 	}
 
-	 //console.log('board', board)
-
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<span className="relative">
@@ -113,14 +110,14 @@ const Sidebar = () => {
 					<span className="flex justify-between flex-col h-full ">
 						<span>
 							<ul className="flex flex-col sidebar">
-								<li className="uppercase ml-6 font-bold tracking-[2.4px] text-[12px] text-medium-grey-#828FA3 mb-2">
+								<li className="uppercase ml-6 tracking-[2.4px] text-[12px] text-medium-grey-#828FA3 mb-2">
 									<span>All Boards ({boards.length})</span>
 								</li>
 								{boards
 									? boards.map((res: IBoard, index: number) => (
 											<li
 												key={index}
-												className={`flex h-[48px] w-[90%] items-center gap-3 rounded-r-[100px] px-6 font-bold bg-purple-#635FC7 text-white ${
+												className={`flex h-[48px] w-[90%] items-center gap-3 rounded-r-[100px] px-6 bg-purple-#635FC7 text-white ${
 													res.boardCode === board.boardCode ? 'active' : ''
 												}`}
 											>
@@ -135,7 +132,7 @@ const Sidebar = () => {
 											</li>
 									  ))
 									: "No boards created!"}
-								<li className="flex h-[48px] w-[90%] items-center gap-3 rounded-r-[100px] px-6 font-bold bg-purple-#635FC7 text-white">
+								<li className="flex h-[48px] w-[90%] items-center gap-3 rounded-r-[100px] px-6 bg-purple-#635FC7 text-white">
 									<DialogTrigger asChild className="border-none">
 										<span className="fle">
 											<TbLayoutBoardSplit className="text-[#828fa3] text-[24px]" />
@@ -191,10 +188,6 @@ const Sidebar = () => {
 											<input
 												type="hidden"
 												{...register(`columnLists.${index}.columnCode`)}
-												defaultValue={Math.random()
-													.toString(36)
-													.slice(1, 9)
-													.toUpperCase()}
 											/>
 											<span
 												onClick={() => remove(index)}

@@ -43,7 +43,7 @@ const Board = () => {
 
 	return (
 		<>
-			<Header board={board} />
+			<Header board={board}/>
 			<div className="flex">
 				<Sidebar />
 				{board && tasks ? (

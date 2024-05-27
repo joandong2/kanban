@@ -211,3 +211,100 @@ export const updateTaskOrder = async (
 
 
 };
+
+
+export const deleteBoard = async (boardCode: string) => {
+	try {
+
+        await prisma.task.deleteMany({
+            where: {
+                board: {
+                    boardCode,
+                },
+            },
+        });
+
+        // Delete all columns associated with the board
+        await prisma.column.deleteMany({
+				where: {
+					board: {
+						boardCode,
+					},
+				},
+			});
+
+
+		const tasks = await prisma.board.delete({
+			where: {
+				boardCode: boardCode,
+			},
+		});
+
+		return {
+			status: "success",
+		};
+
+
+	} catch (error) {
+		console.error("Error fetching tasks:", error);
+		throw error; // Optionally handle or rethrow the error
+	}
+};
+
+export const updateBoard = async (data: ColumnData) => {
+	try {
+		// Update board columns
+		for (let i = 0; i < Number(data.columnLists.length); i++) {
+			//const updatedItem = data.itemLists[i];
+			await prisma.column.upsert({
+				where: {
+					invoiceID_ItemName: {
+						invoiceID: data.invoiceCode as string,
+						itemName: data.itemLists[i].itemName as string,
+					},
+				},
+				update: {
+					itemName: data.itemLists[i].itemName as string,
+					itemQuantity: Number(data.itemLists[i].itemQuantity),
+					itemPrice: Number(data.itemLists[i].itemPrice),
+				},
+				create: {
+					invoiceID: data.invoiceCode as string,
+					itemName: data.itemLists[i].itemName as string,
+					itemQuantity: Number(data.itemLists[i].itemQuantity),
+					itemPrice: Number(data.itemLists[i].itemPrice),
+				},
+			});
+		}
+
+		await prisma.invoiceItem.deleteMany({
+			where: {
+				AND: [
+					{ invoiceID: data.invoiceCode as string },
+					{
+						// exclude items with the same 'itemName' as any item in the itemLists
+						NOT: {
+							itemName: {
+								in: data.itemLists.map((item) => item.itemName),
+							},
+						},
+					},
+				],
+			},
+		});
+
+		const tasks = await prisma.board.delete({
+			where: {
+				boardCode: boardCode,
+			},
+		});
+
+		return {
+			status: "success",
+		};
+	} catch (error) {
+		console.error("Error fetching tasks:", error);
+		throw error; // Optionally handle or rethrow the error
+	}
+};
+

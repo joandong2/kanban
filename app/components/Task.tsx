@@ -52,7 +52,7 @@ const Column: React.FC<IColumns> = ({
 	boardCode,
 }) => {
 	const router = useRouter();
-	const colors = ["indigo", "purple", "green", "violet", "blue", "pink"];
+
 	const handleDragStart = (e: React.DragEvent, task: ITask) => {
 		e.dataTransfer.setData("id", task?.order.toString() || "");
 		e.dataTransfer.setData("task_code", task?.taskCode || "");
@@ -134,7 +134,7 @@ const Column: React.FC<IColumns> = ({
 										className="flex flex-col cursor-grab rounded border-neutral-700 bg-white-800 active:cursor-grabbing px-5 py-5 shadow-lg"
 										onClick={handleClick}
 									>
-										{task.title}
+										<span>{task.title}</span>
 										<span className="text-[#828fa3] font-bold text-[12px]">
 											{"0 of 3 subtasks"}
 										</span>

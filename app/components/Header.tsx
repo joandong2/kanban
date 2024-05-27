@@ -1,10 +1,10 @@
 import React from 'react'
 import Image from "next/image";
-import NewTask from './NewTask';
 import { IBoard, IColumns } from '@/lib/type';
+import TaskAction from './TaskAction';
 
 // destructure props
-const Header = ({board}: {board: IBoard}) => {
+const Header = ({board, }: {board: IBoard}) => {
   	return (
 			<span className="relative flex justify-between border-[#e4ebfa] bg-white z-50">
 				<span className="flex gap-4 md:gap-0">
@@ -33,7 +33,7 @@ const Header = ({board}: {board: IBoard}) => {
 					</span>
 				</span>
 				<span>
-					<NewTask />
+					<TaskAction />
 				</span>
 			</span>
 		);
