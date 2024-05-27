@@ -47,9 +47,9 @@ const EditBoard = ({
 				? board.columns.map((column) => ({
 						columnName: column.name,
 						columnCode: column.columnCode,
-						id: column.id
+						column: column.column,
 				  }))
-				: [{ columnName: "", columnCode: "" }],
+				: [{ columnName: "", columnCode: "", column: "" }],
 		},
 	});
 
@@ -61,7 +61,7 @@ const EditBoard = ({
 				columnLists: board.columns.map((column) => ({
 					columnName: column.name,
 					columnCode: column.columnCode,
-					id: column.id,
+					column: column.column,
 				})),
 			});
 		}
@@ -126,6 +126,10 @@ const EditBoard = ({
 												type="hidden"
 												{...register(`columnLists.${index}.columnCode`)}
 											/>
+											<input
+												type="hidden"
+												{...register(`columnLists.${index}.column`)}
+											/>
 											<span
 												onClick={() => remove(index)}
 												className="total col-span-1 cursor-pointer flex flex-col justify-center"
@@ -141,6 +145,7 @@ const EditBoard = ({
 											append({
 												columnName: "",
 												columnCode: "",
+												column: "",
 											})
 										}
 									>

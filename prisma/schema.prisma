@@ -22,7 +22,8 @@ model Board {
 
 model Column {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  columnCode String
+  columnCode String @unique
+  column String
   name String
   boardCode String
   board Board @relation(fields: [boardCode], references:[boardCode])

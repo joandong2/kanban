@@ -23,9 +23,12 @@ export const createBoard = async (data: ColumnData) => {
 							data: {
 								boardCode: newBoard.boardCode,
 								name: data.columnLists[i].columnName as string,
+								column: data.columnLists[i].columnName
+									.replace(/[^A-Z0-9]/gi, "-")
+									.toLowerCase(),
 								columnCode: data.columnLists[i].columnName
 									.replace(/[^A-Z0-9]/gi, "-")
-									.toLowerCase() as string,
+									.toLowerCase() + "-" + newBoard.boardCode as string,
 							},
 						});
             }

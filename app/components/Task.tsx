@@ -22,7 +22,7 @@ export const Tasks = ({
 				columns.map((column, index) => (
 					<Column
 						key={column.id}
-						column={column.columnCode}
+						column={column.column}
 						name={column.name}
 						tasks={tasks}
 						count={index}

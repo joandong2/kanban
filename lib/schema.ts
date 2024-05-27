@@ -5,6 +5,7 @@ export const ColumnDataSchema = z.object({
 	columnLists: z
 		.array(
 			z.object({
+				column: z.string(),
 				columnName: z.string(),
 				columnCode: z.string(),
 			})
