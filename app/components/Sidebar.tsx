@@ -79,6 +79,7 @@ const Sidebar = () => {
 
 	const processAddBoard: SubmitHandler<FormValues> = async (data) => {
 		const result = await createBoard(data);
+		console.log(result)
 		if (result) {
 			setOpen(false);
 			const res = await getBoards();
@@ -118,7 +119,7 @@ const Sidebar = () => {
 											<li
 												key={index}
 												className={`flex h-[48px] w-[90%] items-center gap-3 rounded-r-[100px] px-6 bg-purple-#635FC7 text-white ${
-													res.boardCode === board.boardCode ? 'active' : ''
+													res.boardCode === board.boardCode ? "active" : ""
 												}`}
 											>
 												<TbLayoutBoardSplit className="text-[#828fa3] text-[24px]" />
@@ -189,6 +190,10 @@ const Sidebar = () => {
 												type="hidden"
 												{...register(`columnLists.${index}.columnCode`)}
 											/>
+											<input
+												type="hidden"
+												{...register(`columnLists.${index}.column`)}
+											/>
 											<span
 												onClick={() => remove(index)}
 												className="total col-span-1 cursor-pointer flex flex-col justify-center"
@@ -204,6 +209,7 @@ const Sidebar = () => {
 											append({
 												columnName: "",
 												columnCode: "",
+												column: "",
 											})
 										}
 									>

@@ -43,7 +43,7 @@ const Board = () => {
 
 	return (
 		<>
-			<Header board={board}/>
+			<Header board={board} />
 			<div className="flex">
 				<Sidebar />
 				{board && tasks ? (
@@ -54,7 +54,7 @@ const Board = () => {
 						boardCode={board?.boardCode}
 					/>
 				) : (
-					"No active board"
+					<span className="p-8">No active board!</span>
 				)}
 			</div>
 		</>

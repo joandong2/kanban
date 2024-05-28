@@ -8,6 +8,7 @@ export const ColumnDataSchema = z.object({
 				column: z.string(),
 				columnName: z.string(),
 				columnCode: z.string(),
+				boardCode: z.string()
 			})
 		)
 		.nonempty("Items area required."),

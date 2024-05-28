@@ -21,11 +21,12 @@ import { z } from "zod";
 import { ColumnDataSchema } from "@/lib/schema";
 import { IBoard } from '@/lib/type';
 import toast from 'react-hot-toast';
-import { updateBoard } from '@/lib/_actions';
+import { getBoardAndColumns, updateBoard } from '@/lib/_actions';
 
 const EditBoard = ({
 	setIsEditDialogOpen,
 	board,
+	setBoard
 }: {
 	setIsEditDialogOpen: (bool: boolean) => void;
 	setBoards: (boards: IBoard[]) => void;
@@ -42,14 +43,15 @@ const EditBoard = ({
 	} = useForm<FormValues>({
 		resolver: zodResolver(ColumnDataSchema),
 		defaultValues: {
-			name: board.name,
-			columnLists: board.columns
+			name: board ? board.name : undefined,
+			columnLists: board ? board.columns
 				? board.columns.map((column) => ({
 						columnName: column.name,
 						columnCode: column.columnCode,
 						column: column.column,
+						boardCode: column.boardCode
 				  }))
-				: [{ columnName: "", columnCode: "", column: "" }],
+				: [{ columnName: "", columnCode: "", column: "", boardCode: "" }] : undefined,
 		},
 	});
 
@@ -62,6 +64,7 @@ const EditBoard = ({
 					columnName: column.name,
 					columnCode: column.columnCode,
 					column: column.column,
+					boardCode: column.boardCode
 				})),
 			});
 		}
@@ -73,21 +76,17 @@ const EditBoard = ({
 	});
 
 	const processEditBoard: SubmitHandler<FormValues> = async (data) => {
-		const result = await updateBoard(data);
-		// if (result) {
-		// 	const res = await getBoards();
-		// 	if (res) {
-		// 		setBoards(res);
-		// 		setBoard(res[res.length - 1]);
-		// 		toast.success("Board Created", {});
-		// 	}
-		// 	reset();
-		// 	setIsDeleteDialogOpen(false);
-		// }
+		const result = await updateBoard(data, board.boardCode);
+		if (result.status == "success") {
+			const updatedBoard = await getBoardAndColumns(result.boardCode);
+			if (updatedBoard) {
+				setBoard(updatedBoard);
+				toast.success("Board Updated", {});
+				reset();
+				setIsEditDialogOpen(false);
+			}
+		}
 	};
-
-	console.log("fields", fields);
-	console.log("board", board.columns);
 
 	return (
 		<>
@@ -96,7 +95,7 @@ const EditBoard = ({
 					<DialogTitle className="text-[16px] mb-4">Edit Board</DialogTitle>
 					<DialogDescription>
 						<span className="flex flex-col">
-							<form onSubmit={() => handleSubmit(processEditBoard)}>
+							<form onSubmit={handleSubmit(processEditBoard)}>
 								<span className="form-control w-full mb-2 flex flex-col">
 									<span className="label-text text-[#7e88c3] font-medium">
 										Name
@@ -122,14 +121,6 @@ const EditBoard = ({
 												{...register(`columnLists.${index}.columnName`)}
 												className="input p-3 border rounded w-full mb-2"
 											/>
-											<input
-												type="hidden"
-												{...register(`columnLists.${index}.columnCode`)}
-											/>
-											<input
-												type="hidden"
-												{...register(`columnLists.${index}.column`)}
-											/>
 											<span
 												onClick={() => remove(index)}
 												className="total col-span-1 cursor-pointer flex flex-col justify-center"
@@ -146,6 +137,7 @@ const EditBoard = ({
 												columnName: "",
 												columnCode: "",
 												column: "",
+												boardCode: "",
 											})
 										}
 									>
@@ -156,7 +148,7 @@ const EditBoard = ({
 									type="submit"
 									className="text-[#fff] font-bold bg-[#7c5dfa] rounded-[25px] py-3 px-8 border-none w-full"
 								>
-									Create New Board
+									Edit Board
 								</button>
 							</form>
 						</span>

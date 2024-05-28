@@ -66,20 +66,28 @@ const TaskAction = () => {
 				</DropdownMenuContent>
 			</DropdownMenu>
 			<Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-				<EditBoard
-					setIsEditDialogOpen={setIsEditDialogOpen}
-					setBoards={setBoards}
-					setBoard={setBoard}
-					board={board}
-				/>
+				{board ? (
+					<EditBoard
+						setIsEditDialogOpen={setIsEditDialogOpen}
+						setBoards={setBoards}
+						setBoard={setBoard}
+						board={board}
+					/>
+				) : (
+					""
+				)}
 			</Dialog>
 			<Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-				<DeleteBoard
-					setIsDeleteDialogOpen={setIsDeleteDialogOpen}
-					setBoards={setBoards}
-					setBoard={setBoard}
-					board={board}
-				/>
+				{board ? (
+					<DeleteBoard
+						setIsDeleteDialogOpen={setIsDeleteDialogOpen}
+						setBoards={setBoards}
+						setBoard={setBoard}
+						board={board}
+					/>
+				) : (
+					""
+				)}
 			</Dialog>
 		</span>
 	);
