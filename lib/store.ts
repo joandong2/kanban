@@ -13,11 +13,16 @@ type KanbanStore = {
 	setBoard: (board: IBoard) => void;
 	setColumns: (columns: IColumns[]) => void;
 	setTasks: (tasks: ITask[]) => void;
+	isEditDialogOpen: boolean;
+	setIsEditDialogOpen: (status: boolean) => void;
 };
 
 export const useKanbanStore = create<KanbanStore>()(
 	devtools(
 		(set) => ({
+			isEditDialogOpen: false,
+			setIsEditDialogOpen: (status) =>
+				set(() => ({ isEditDialogOpen: status })),
 			boardCode: "",
 			boards: [],
 			board: {

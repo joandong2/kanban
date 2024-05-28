@@ -22,12 +22,14 @@ import AddTask from "./AddTask";
 const TaskAction = () => {
 	const [position, setPosition] = useState("bottom right");
 	const [isAddTaskDialogOpen, setIsAddTaskDialogOpen] = useState(false);
-	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+	//const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 	const setBoards = useKanbanStore((state) => state.setBoards);
 	const setBoard = useKanbanStore((state) => state.setBoard);
 	const setTasks = useKanbanStore((state) => state.setTasks);
 	const board = useKanbanStore(state => state.board)
+	const isEditDialogOpen = useKanbanStore((state) => state.isEditDialogOpen);
+	const setIsEditDialogOpen = useKanbanStore((state) => state.setIsEditDialogOpen)
 
 	return (
 		<span className="flex gap-5 items-center cursor-pointer py-7 px-9">

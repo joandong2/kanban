@@ -81,6 +81,15 @@ export const getBoardAndColumns = async (boardCode: string) => {
 
 export const deleteBoard = async (boardCode: string) => {
 	try {
+		// Delete all sub-tasks associated with the board's tasks
+		await prisma.subTask.deleteMany({
+			where: {
+				task: {
+					boardCode: boardCode,
+				},
+			},
+		});
+
 		await prisma.task.deleteMany({
 			where: {
 				board: {
@@ -107,7 +116,6 @@ export const deleteBoard = async (boardCode: string) => {
 		return {
 			status: "success",
 		};
-
 	} catch (error) {
 		console.error("Error fetching tasks:", error);
 		throw error; // Optionally handle or rethrow the error

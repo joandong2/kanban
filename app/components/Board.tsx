@@ -15,6 +15,9 @@ const Board = () => {
 	const setBoards = useKanbanStore((state) => state.setBoards);
 	const setBoard = useKanbanStore((state) => state.setBoard);
 	const setTasks = useKanbanStore((state) => state.setTasks);
+	const setIsEditDialogOpen = useKanbanStore(
+		(state) => state.setIsEditDialogOpen
+	);
 
 	useEffect(() => {
 		const fetchBoards = async () => {
@@ -52,6 +55,7 @@ const Board = () => {
 						columns={board.columns}
 						setTasks={setTasks}
 						boardCode={board?.boardCode}
+						setIsEditDialogOpen={setIsEditDialogOpen}
 					/>
 				) : (
 					<span className="p-8">No active board!</span>

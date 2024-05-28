@@ -10,11 +10,13 @@ export const Tasks = ({
 	tasks,
 	setTasks,
 	boardCode,
+	setIsEditDialogOpen,
 }: {
 	columns: IColumns[] | undefined;
 	tasks: ITask[];
 	setTasks: (tasks: ITask[]) => void;
 	boardCode: string;
+	setIsEditDialogOpen: (status: boolean) => void
 }) => {
 	return (
 		<span className="flex w-full gap-6 px-8 py-6 overflow-x-auto">
@@ -30,15 +32,9 @@ export const Tasks = ({
 						boardCode={boardCode}
 					/>
 				))}
-			<span className="mt-8 rounded-[10px] min-w-[280px] bg-[#f0effa] py-5 flex justify-center items-center">
+			<span className="mt-8 rounded-[10px] min-w-[280px] bg-[#f0effa] py-5 flex justify-center items-center cursor-pointer" onClick={() => setIsEditDialogOpen(true)}>
 				+ New Columnn
 			</span>
-			{/* <span className="mt-8 rounded-[10px] min-w-[280px] bg-[#f0effa] py-5 flex justify-center items-center">
-				+ New Columnn
-			</span>
-			<span className="mt-8 rounded-[10px] min-w-[280px] bg-[#f0effa] py-5 flex justify-center items-center">
-				+ New Columnn
-			</span> */}
 		</span>
 	);
 };
@@ -99,8 +95,6 @@ const Column: React.FC<IColumns> = ({
 		}
 	};
 
-	console.log(tasks)
-
 	const handleClick = () => {
 		console.log("heelo");
 	};
@@ -114,7 +108,7 @@ const Column: React.FC<IColumns> = ({
 			<h2>
 				<span className="flex gap-2 items-center">
 					<span className="flex gap-1 items-center">
-						<FaCircle className={"color-" + count} /> {column}
+						<FaCircle className={"color-" + count} /> <span className="capitalize">{column}</span>
 					</span>
 				</span>
 			</h2>
