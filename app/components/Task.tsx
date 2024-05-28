@@ -99,6 +99,8 @@ const Column: React.FC<IColumns> = ({
 		}
 	};
 
+	console.log(tasks)
+
 	const handleClick = () => {
 		console.log("heelo");
 	};
@@ -134,9 +136,9 @@ const Column: React.FC<IColumns> = ({
 										className="flex flex-col cursor-grab rounded border-neutral-700 bg-white-800 active:cursor-grabbing px-5 py-5 shadow-lg"
 										onClick={handleClick}
 									>
-										<span>{task.title}</span>
+										<span className="leading-4 mb-2">{task.title}</span>
 										<span className="text-[#828fa3] font-bold text-[12px]">
-											{"0 of 3 subtasks"}
+											{`0 of 3 subtasks`}
 										</span>
 									</span>
 								</motion.div>
