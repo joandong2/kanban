@@ -2,9 +2,10 @@
 
 import { prisma } from "@/prisma";
 import { z } from "zod";
-import { ColumnDataSchema } from "@/lib/schema";
+import { ColumnDataSchema, TasksSchema } from "@/lib/schema";
 
 type ColumnData = z.infer<typeof ColumnDataSchema>;
+type TaskData = z.infer<typeof TasksSchema>;
 
 export const createBoard = async (data: ColumnData) => {
 	try {
@@ -254,6 +255,48 @@ export const getTasks = async (boardCode : string) => {
 	} catch (error) {
 		console.error("Error fetching tasks:", error);
 		throw error; // Optionally handle or rethrow the error
+	}
+};
+
+export const addTask = async (data: TaskData, boardCode: string) => {
+	try {
+
+		const existingTasks = await prisma.task.findMany({
+			where: {
+				boardCode: boardCode,
+				column: data.column
+			}
+		})
+
+		const newTask = await prisma.task.create({
+			data: {
+				title: data.title,
+				description: data.description,
+				order: existingTasks.length <= 0 ? 0 : existingTasks.length,
+				column: data.column,
+				boardCode: boardCode,
+				taskCode: data.title.replace(/[^A-Z0-9]/gi, "-").toLowerCase() + "-" + boardCode,
+			},
+		});
+
+		// optional
+		if (data.subTaskLists.length > 0) {
+			for (let i = 0; i < Number(data.subTaskLists.length); i++) {
+				await prisma.subTask.create({
+					data: {
+						title: data.subTaskLists[i].subTitle as string,
+						taskCode: newTask.taskCode as string,
+					},
+				});
+			}
+		}
+
+		return {
+			status: "success",
+		};
+
+	} catch (error) {
+		console.error("Error:", error);
 	}
 };
 

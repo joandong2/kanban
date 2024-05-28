@@ -43,7 +43,6 @@ model Task {
 
 model SubTask {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  subTaskCode String @unique
   title String
   taskCode String
   task Task @relation(fields: [taskCode], references:[taskCode])

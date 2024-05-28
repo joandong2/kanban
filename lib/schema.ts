@@ -10,3 +10,16 @@ export const ColumnDataSchema = z.object({
 		)
 		.nonempty("Items area required."),
 });
+
+export const TasksSchema = z.object({
+	title: z.string().nonempty("Field is required."),
+	description: z.string().nonempty("Field is required."),
+	column: z.string().nonempty("Field is required."),
+	subTaskLists: z
+		.array(
+			z.object({
+				subTitle: z.string(),
+			})
+		)
+		.nonempty("Items area required."),
+});

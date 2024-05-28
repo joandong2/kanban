@@ -17,18 +17,24 @@ import { Dialog } from "@/components/ui/dialog";
 import EditBoard from "./EditBoard";
 import { IBoard } from "@/lib/type";
 import { useKanbanStore } from "@/lib/store";
+import AddTask from "./AddTask";
 
 const TaskAction = () => {
 	const [position, setPosition] = useState("bottom right");
+	const [isAddTaskDialogOpen, setIsAddTaskDialogOpen] = useState(false);
 	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 	const setBoards = useKanbanStore((state) => state.setBoards);
 	const setBoard = useKanbanStore((state) => state.setBoard);
+	const setTasks = useKanbanStore((state) => state.setTasks);
 	const board = useKanbanStore(state => state.board)
 
 	return (
 		<span className="flex gap-5 items-center cursor-pointer py-7 px-9">
-			<span className="bg-[#635FC7] text-white rounded-[55px] py-2 px-6 font-medium">
+			<span
+				className="bg-[#635FC7] text-white rounded-[55px] py-2 px-6 font-medium"
+				onClick={() => setIsAddTaskDialogOpen(true)}
+			>
 				{" "}
 				+ Add New Task
 			</span>
@@ -65,6 +71,17 @@ const TaskAction = () => {
 					</DropdownMenuRadioGroup>
 				</DropdownMenuContent>
 			</DropdownMenu>
+			<Dialog open={isAddTaskDialogOpen} onOpenChange={setIsAddTaskDialogOpen}>
+				{board ? (
+					<AddTask
+						setIsAddTaskDialogOpen={setIsAddTaskDialogOpen}
+						setTasks={setTasks}
+						board={board}
+					/>
+				) : (
+					""
+				)}
+			</Dialog>
 			<Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
 				{board ? (
 					<EditBoard

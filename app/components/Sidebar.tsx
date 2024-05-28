@@ -86,9 +86,9 @@ const Sidebar = () => {
 			if(res) {
 				setBoards(res);
 				setBoard(res[res.length - 1])
+				reset();
 				toast.success("Board Created", {});
 			}
-			reset();
 		}
 	};
 

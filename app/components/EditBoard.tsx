@@ -15,7 +15,6 @@ import {
 } from "react-hook-form";
 import { AiFillDelete } from "react-icons/ai";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 type FormValues = z.infer<typeof ColumnDataSchema>;
 import { z } from "zod";
 import { ColumnDataSchema } from "@/lib/schema";
