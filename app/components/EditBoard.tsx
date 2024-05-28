@@ -135,9 +135,6 @@ const EditBoard = ({
 										onClick={() =>
 											append({
 												columnName: "",
-												columnCode: "",
-												column: "",
-												boardCode: "",
 											})
 										}
 									>

@@ -186,14 +186,6 @@ const Sidebar = () => {
 												{...register(`columnLists.${index}.columnName`)}
 												className="input p-3 border rounded w-full mb-2"
 											/>
-											<input
-												type="hidden"
-												{...register(`columnLists.${index}.columnCode`)}
-											/>
-											<input
-												type="hidden"
-												{...register(`columnLists.${index}.column`)}
-											/>
 											<span
 												onClick={() => remove(index)}
 												className="total col-span-1 cursor-pointer flex flex-col justify-center"
@@ -208,8 +200,6 @@ const Sidebar = () => {
 										onClick={() =>
 											append({
 												columnName: "",
-												columnCode: "",
-												column: "",
 											})
 										}
 									>
