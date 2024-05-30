@@ -50,9 +50,9 @@ const Column: React.FC<IColumns> = ({
 	const router = useRouter();
 
 	const handleDragStart = (e: React.DragEvent, task: ITask) => {
-		e.dataTransfer.setData("id", task?.order.toString() || "");
-		e.dataTransfer.setData("task_code", task?.taskCode || "");
-		e.dataTransfer.setData("current_column", task?.column || "");
+		e.dataTransfer.setData("id", task.order.toString() || "");
+		e.dataTransfer.setData("task_code", task.taskCode || "");
+		e.dataTransfer.setData("current_column", task.column || "");
 	};
 
 	// task drop position

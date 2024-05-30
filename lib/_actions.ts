@@ -124,10 +124,12 @@ export const deleteBoard = async (boardCode: string) => {
 
 export const updateBoard = async (data: ColumnData, boardCode: string) => {
 	try {
-		console.log(data);
+		//console.log(data);
 		console.log(boardCode);
 
 		const newBoardCode = data.name.replace(/[^A-Z0-9]/gi, "-").toLowerCase();
+		console.log(newBoardCode);
+
 
 		// Update or create board columns
 		for (let i = 0; i < data.columnLists.length; i++) {
@@ -205,31 +207,48 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 			// Update columns with the new board code
 			// Update the board code for columns with a matching board code
 			for (const column of existingColumns) {
-				const columnNameSlug = column.name
-					.replace(/[^A-Z0-9]/gi, "-")
-					.toLowerCase();
-				const newColumnCode = `${columnNameSlug}-${newBoardCode}`;
-
 				await prisma.column.updateMany({
 					where: {
 						columnCode: column.columnCode,
 					},
 					data: {
 						boardCode: newBoardCode,
-						columnCode: newColumnCode,
+						columnCode: column.name.replace(/[^A-Z0-9]/gi, "-").toLowerCase() + "-" + newBoardCode,
 					},
 				});
 			}
 
 			// Update tasks with the new board code
-			await prisma.task.updateMany({
+			const tasks = await prisma.task.findMany({
 				where: {
 					boardCode: boardCode,
 				},
-				data: {
-					boardCode: newBoardCode,
-				},
 			});
+
+			for (const task of tasks) {
+
+				await prisma.task.update({
+					where: {
+						taskCode: task.taskCode,
+					},
+					data: {
+						boardCode: newBoardCode,
+						taskCode:
+							task.title.split(" ")[0].toLowerCase() + "-" + newBoardCode,
+					},
+				});
+
+				// Update subtasks with the new taskCode
+				await prisma.subTask.updateMany({
+					where: {
+						taskCode: task.title.split(" ")[0].toLowerCase() + "-" + boardCode,
+					},
+					data: {
+						taskCode:
+							task.title.split(" ")[0].toLowerCase() + "-" + newBoardCode,
+					},
+				});
+			}
 		}
 
 		return {
@@ -242,7 +261,31 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 	}
 };
 
-export const getTasks = async (boardCode : string) => {
+export const getTask = async (boardCode : string) => {
+	try {
+		// Fetch the board details
+		const tasks = await prisma.task.findMany({
+			where: {
+				boardCode: boardCode,
+			},
+			include: {
+				subTasks: true,
+			},
+			orderBy: [
+				{
+					order: "asc",
+				},
+			],
+		});
+
+		return tasks;
+	} catch (error) {
+		console.error("Error fetching tasks:", error);
+		throw error; // Optionally handle or rethrow the error
+	}
+};
+
+export const getTasks = async (boardCode: string) => {
 	try {
 		// Fetch the board details
 		const tasks = await prisma.task.findMany({
@@ -283,7 +326,7 @@ export const addTask = async (data: TaskData, boardCode: string) => {
 				order: existingTasks.length <= 0 ? 0 : existingTasks.length,
 				column: data.column,
 				boardCode: boardCode,
-				taskCode: data.title.replace(/[^A-Z0-9]/gi, "-").toLowerCase() + "-" + boardCode,
+				taskCode: data.title.split(" ")[0].toLowerCase() + "-" + boardCode,
 			},
 		});
 

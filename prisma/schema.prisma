@@ -47,5 +47,4 @@ model SubTask {
   taskCode String
   status Boolean
   task Task @relation(fields: [taskCode], references:[taskCode])
-  @@unique([taskCode, title], name: "taskCode_Title")
 }

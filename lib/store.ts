@@ -8,11 +8,13 @@ type KanbanStore = {
 	board: IBoard;
 	columns: IColumns[];
 	tasks: ITask[];
+	task: ITask;
 	setBoardCode: (boardCode: string) => void;
 	setBoards: (boards: IBoard[]) => void;
 	setBoard: (board: IBoard) => void;
 	setColumns: (columns: IColumns[]) => void;
 	setTasks: (tasks: ITask[]) => void;
+	setTask: (tasks: ITask) => void;
 	isEditDialogOpen: boolean;
 	setIsEditDialogOpen: (status: boolean) => void;
 };
@@ -32,6 +34,13 @@ export const useKanbanStore = create<KanbanStore>()(
 			},
 			columns: [],
 			tasks: [],
+			task: {
+				title: "",
+				description: "",
+				column: "",
+				order: 0,
+			},
+			setTask: (task) => set(() => ({ task })),
 			setBoardCode: (boardCode) => set(() => ({ boardCode })),
 			setBoards: (boards) => set(() => ({ boards })),
 			setBoard: (board) => set(() => ({ board })),
