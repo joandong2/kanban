@@ -21,17 +21,15 @@ export const createBoard = async (data: ColumnData) => {
         if (data.columnLists.length > 0) {
             for (let i = 0; i < Number(data.columnLists.length); i++) {
             await prisma.column.create({
-					data: {
-						boardCode: newBoard.boardCode as string,
-						name: data.columnLists[i].columnName as string,
-						column: data.columnLists[i].columnName
-							.replace(/[^A-Z0-9]/gi, "-")
-							.toLowerCase() as string,
-						columnCode: data.columnLists[i].columnName
-							.replace(/[^A-Z0-9]/gi, "-")
-							.toLowerCase() + "-" + newBoard.boardCode as string,
-					},
-				});
+							data: {
+								boardCode: newBoard.boardCode,
+								name: data.columnLists[i].columnName,
+								column: data.columnLists[i].columnName
+									.replace(/[^A-Z0-9]/gi, "-")
+									.toLowerCase(),
+								columnCode: Math.random().toString(36).slice(2) ,
+							},
+						});
             }
         }
 
@@ -126,10 +124,8 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 	try {
 		//console.log(data);
 		console.log(boardCode);
-
 		const newBoardCode = data.name.replace(/[^A-Z0-9]/gi, "-").toLowerCase();
 		console.log(newBoardCode);
-
 
 		// Update or create board columns
 		for (let i = 0; i < data.columnLists.length; i++) {
@@ -139,19 +135,19 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 
 			await prisma.column.upsert({
 				where: {
-					columnCode: columnNameSlug + "-" + boardCode,
+					columnCode: columnNameSlug + "-" + newBoardCode,
 				},
 				update: {
+					boardCode: newBoardCode,
 					name: data.columnLists[i].columnName,
 					column: columnNameSlug,
-					columnCode: columnNameSlug + "-" + boardCode,
-					boardCode: newBoardCode,
+					columnCode: columnNameSlug + "-" + newBoardCode,
 				},
 				create: {
 					boardCode: newBoardCode,
 					name: data.columnLists[i].columnName,
 					column: columnNameSlug,
-					columnCode: columnNameSlug + "-" + boardCode,
+					columnCode: columnNameSlug + "-" + newBoardCode,
 				},
 			});
 		}
@@ -164,8 +160,8 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 		});
 
 		// update columns
-		const columnsToKeep = data.columnLists.map((column) => {
-			const columnNameSlug = column.columnName
+		const columnsToKeep = existingColumns.map((column) => {
+			const columnNameSlug = column.name
 				.replace(/[^A-Z0-9]/gi, "-")
 				.toLowerCase();
 			return `${columnNameSlug}-${newBoardCode}`;
@@ -174,8 +170,9 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 			(column) => !columnsToKeep.includes(column.columnCode)
 		);
 
-		// console.log("", columnsToKeep);
-		// console.log('delete', columnsToDelete)
+		console.log("existing", existingColumns);
+		console.log("keep", columnsToKeep);
+		console.log('delete', columnsToDelete)
 
 		for (const column of columnsToDelete) {
 			await prisma.column.delete({
@@ -232,9 +229,9 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 						taskCode: task.taskCode,
 					},
 					data: {
-						boardCode: newBoardCode,
 						taskCode:
-							task.title.split(" ")[0].toLowerCase() + "-" + newBoardCode,
+							task.title.split(" ")[0].toLowerCase(),
+						boardCode: newBoardCode,
 					},
 				});
 
@@ -245,7 +242,7 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 					},
 					data: {
 						taskCode:
-							task.title.split(" ")[0].toLowerCase() + "-" + newBoardCode,
+							task.title.split(" ")[0].toLowerCase(),
 					},
 				});
 			}
