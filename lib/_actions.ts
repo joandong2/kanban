@@ -27,7 +27,7 @@ export const createBoard = async (data: ColumnData) => {
 								column: data.columnLists[i].columnName
 									.replace(/[^A-Z0-9]/gi, "-")
 									.toLowerCase(),
-								columnCode: Math.random().toString(36).slice(2) ,
+								columnCode: Math.random().toString(36).slice(2),
 							},
 						});
             }
@@ -135,19 +135,18 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 
 			await prisma.column.upsert({
 				where: {
-					columnCode: columnNameSlug + "-" + newBoardCode,
+					columnCode: data.columnLists[i].columnCode,
 				},
 				update: {
 					boardCode: newBoardCode,
 					name: data.columnLists[i].columnName,
 					column: columnNameSlug,
-					columnCode: columnNameSlug + "-" + newBoardCode,
 				},
 				create: {
 					boardCode: newBoardCode,
 					name: data.columnLists[i].columnName,
 					column: columnNameSlug,
-					columnCode: columnNameSlug + "-" + newBoardCode,
+					columnCode: Math.random().toString(36).slice(2),
 				},
 			});
 		}
@@ -161,10 +160,7 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 
 		// update columns
 		const columnsToKeep = existingColumns.map((column) => {
-			const columnNameSlug = column.name
-				.replace(/[^A-Z0-9]/gi, "-")
-				.toLowerCase();
-			return `${columnNameSlug}-${newBoardCode}`;
+			return `${column.columnCode}`;
 		});
 		const columnsToDelete = existingColumns.filter(
 			(column) => !columnsToKeep.includes(column.columnCode)
@@ -210,7 +206,6 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 					},
 					data: {
 						boardCode: newBoardCode,
-						columnCode: column.name.replace(/[^A-Z0-9]/gi, "-").toLowerCase() + "-" + newBoardCode,
 					},
 				});
 			}
@@ -229,20 +224,7 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 						taskCode: task.taskCode,
 					},
 					data: {
-						taskCode:
-							task.title.split(" ")[0].toLowerCase(),
 						boardCode: newBoardCode,
-					},
-				});
-
-				// Update subtasks with the new taskCode
-				await prisma.subTask.updateMany({
-					where: {
-						taskCode: task.title.split(" ")[0].toLowerCase() + "-" + boardCode,
-					},
-					data: {
-						taskCode:
-							task.title.split(" ")[0].toLowerCase(),
 					},
 				});
 			}
@@ -323,7 +305,7 @@ export const addTask = async (data: TaskData, boardCode: string) => {
 				order: existingTasks.length <= 0 ? 0 : existingTasks.length,
 				column: data.column,
 				boardCode: boardCode,
-				taskCode: data.title.split(" ")[0].toLowerCase() + "-" + boardCode,
+				taskCode: Math.random().toString(36).slice(2),
 			},
 		});
 
@@ -332,8 +314,8 @@ export const addTask = async (data: TaskData, boardCode: string) => {
 			for (let i = 0; i < Number(data.subTaskLists.length); i++) {
 				await prisma.subTask.create({
 					data: {
-						title: data.subTaskLists[i].subTitle as string,
-						taskCode: newTask.taskCode as string,
+						title: data.subTaskLists[i].subTitle,
+						taskCode: newTask.taskCode,
 					},
 				});
 			}

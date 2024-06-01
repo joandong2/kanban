@@ -87,6 +87,8 @@ const EditBoard = ({
 		}
 	};
 
+	//console.log('board', board)
+
 	return (
 		<>
 			<DialogContent className="bg-white">
@@ -120,6 +122,11 @@ const EditBoard = ({
 												{...register(`columnLists.${index}.columnName`)}
 												className="input p-3 border rounded w-full mb-2"
 											/>
+											<input
+												{...register(`columnLists.${index}.columnCode`)}
+												type="hidden"
+												className="input p-3 border rounded w-full mb-2"
+											/>
 											<span
 												onClick={() => remove(index)}
 												className="total col-span-1 cursor-pointer flex flex-col justify-center"
@@ -134,6 +141,7 @@ const EditBoard = ({
 										onClick={() =>
 											append({
 												columnName: "",
+												columnCode: "",
 											})
 										}
 									>
