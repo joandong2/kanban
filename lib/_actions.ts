@@ -122,10 +122,9 @@ export const deleteBoard = async (boardCode: string) => {
 
 export const updateBoard = async (data: ColumnData, boardCode: string) => {
 	try {
-		//console.log(data);
-		console.log(boardCode);
+		console.log("Original boardCode:", boardCode);
 		const newBoardCode = data.name.replace(/[^A-Z0-9]/gi, "-").toLowerCase();
-		console.log(newBoardCode);
+		console.log("New boardCode:", newBoardCode);
 
 		// Update or create board columns
 		for (let i = 0; i < data.columnLists.length; i++) {
@@ -151,83 +150,79 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 			});
 		}
 
-		//Find columns that were not included in the update and delete them
+		// Find columns that were not included in the update and delete them
 		const existingColumns = await prisma.column.findMany({
 			where: {
 				boardCode: boardCode,
 			},
 		});
 
-		// update columns
-		const columnsToKeep = existingColumns.map((column) => {
-			return `${column.columnCode}`;
-		});
+		const columnsToKeep = data.columnLists.map((column) => column.columnCode);
 		const columnsToDelete = existingColumns.filter(
 			(column) => !columnsToKeep.includes(column.columnCode)
 		);
 
-		console.log("existing", existingColumns);
-		console.log("keep", columnsToKeep);
-		console.log('delete', columnsToDelete)
+		console.log("Existing columns:", existingColumns);
+		console.log("Columns to keep:", columnsToKeep);
+		console.log("Columns to delete:", columnsToDelete);
 
 		for (const column of columnsToDelete) {
-			await prisma.column.delete({
+			// Get tasks related to the column
+			const tasks = await prisma.task.findMany({
 				where: {
-					columnCode: column.columnCode,
+					boardCode: boardCode,
+					column: column.column,
 				},
 			});
 
+			// Delete subtasks related to tasks in the column
+			for (const task of tasks) {
+				await prisma.subTask.deleteMany({
+					where: {
+						taskCode: task.taskCode,
+					},
+				});
+			}
+
+			// Delete tasks related to the column
 			await prisma.task.deleteMany({
 				where: {
 					boardCode: boardCode,
 					column: column.column,
 				},
 			});
+
+			// Finally, delete the column
+			await prisma.column.delete({
+				where: {
+					columnCode: column.columnCode,
+				},
+			});
 		}
 
-		// Update the board name and board code if needed
-		const updatedBoard = await prisma.board.update({
-			where: {
-				boardCode: boardCode,
-			},
-			data: {
-				name: data.name,
-				boardCode: newBoardCode,
-			},
-		});
-
+		// If the board code is changing, update related columns and tasks
 		if (newBoardCode !== boardCode) {
-			// Update columns with the new board code
-			// Update the board code for columns with a matching board code
-			for (const column of existingColumns) {
-				await prisma.column.updateMany({
-					where: {
-						columnCode: column.columnCode,
-					},
-					data: {
-						boardCode: newBoardCode,
-					},
-				});
-			}
+			console.log("Updating board code for columns and tasks.");
 
-			// Update tasks with the new board code
-			const tasks = await prisma.task.findMany({
+			// Update columns with the new board code
+			await prisma.column.updateMany({
 				where: {
 					boardCode: boardCode,
 				},
+				data: {
+					boardCode: newBoardCode,
+				},
 			});
 
-			for (const task of tasks) {
-
-				await prisma.task.update({
-					where: {
-						taskCode: task.taskCode,
-					},
-					data: {
-						boardCode: newBoardCode,
-					},
-				});
-			}
+			// Update tasks with the new board code
+			await prisma.task.updateMany({
+				where: {
+					boardCode: boardCode,
+				},
+				data: {
+					boardCode: newBoardCode,
+				},
+			});
 		}
 
 		return {
@@ -235,7 +230,7 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 			boardCode: newBoardCode,
 		};
 	} catch (error) {
-		console.error("Error fetching tasks:", error);
+		console.error("Error updating board:", error);
 		throw error; // Optionally handle or rethrow the error
 	}
 };
