@@ -141,7 +141,7 @@ const EditBoard = ({
 										onClick={() =>
 											append({
 												columnName: "",
-												columnCode: "",
+												columnCode: Math.random().toString(36).slice(2),
 											})
 										}
 									>

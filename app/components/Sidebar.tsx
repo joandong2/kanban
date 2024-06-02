@@ -78,8 +78,9 @@ const Sidebar = () => {
 	});
 
 	const processAddBoard: SubmitHandler<FormValues> = async (data) => {
+
 		const result = await createBoard(data);
-		console.log(result)
+		// console.log(result)
 		if (result) {
 			setOpen(false);
 			const res = await getBoards();
@@ -186,6 +187,13 @@ const Sidebar = () => {
 												{...register(`columnLists.${index}.columnName`)}
 												className="input p-3 border rounded w-full mb-2"
 											/>
+
+											<input
+												{...register(`columnLists.${index}.columnCode`)}
+												className="input p-3 border rounded w-full mb-2"
+												type="hidden"
+												defaultValue={Math.random().toString(36).slice(2)}
+											/>
 											<span
 												onClick={() => remove(index)}
 												className="total col-span-1 cursor-pointer flex flex-col justify-center"
@@ -200,6 +208,7 @@ const Sidebar = () => {
 										onClick={() =>
 											append({
 												columnName: "",
+												columnCode: "",
 											})
 										}
 									>

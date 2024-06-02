@@ -45,6 +45,7 @@ const Column: React.FC<IColumns> = ({
 	column,
 	setTasks,
 	count,
+	name,
 	boardCode,
 }) => {
 	const router = useRouter();
@@ -108,7 +109,7 @@ const Column: React.FC<IColumns> = ({
 			<h2>
 				<span className="flex gap-2 items-center">
 					<span className="flex gap-1 items-center">
-						<FaCircle className={"color-" + count} /> <span className="capitalize">{column}</span>
+						<FaCircle className={"color-" + count} /> <span className="capitalize">{name}</span>
 					</span>
 				</span>
 			</h2>

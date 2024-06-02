@@ -145,7 +145,7 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 					boardCode: newBoardCode,
 					name: data.columnLists[i].columnName,
 					column: columnNameSlug,
-					columnCode: Math.random().toString(36).slice(2),
+					columnCode: data.columnLists[i].columnCode,
 				},
 			});
 		}
@@ -162,9 +162,12 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 			(column) => !columnsToKeep.includes(column.columnCode)
 		);
 
+		console.log('---------------------')
+		console.log("after submit columns", data.columnLists);
 		console.log("Existing columns:", existingColumns);
 		console.log("Columns to keep:", columnsToKeep);
 		console.log("Columns to delete:", columnsToDelete);
+
 
 		for (const column of columnsToDelete) {
 			// Get tasks related to the column
@@ -202,17 +205,14 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 
 		// If the board code is changing, update related columns and tasks
 		if (newBoardCode !== boardCode) {
-			console.log("Updating board code for columns and tasks.");
-
-			// Update columns with the new board code
-			await prisma.column.updateMany({
+			await prisma.board.update({
 				where: {
-					boardCode: boardCode,
-				},
-				data: {
-					boardCode: newBoardCode,
-				},
-			});
+					boardCode: boardCode
+				}, data: {
+					name: data.name,
+					boardCode: newBoardCode
+				}
+			})
 
 			// Update tasks with the new board code
 			await prisma.task.updateMany({
