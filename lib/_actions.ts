@@ -235,12 +235,12 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 	}
 };
 
-export const getTask = async (boardCode : string) => {
+export const getTask = async (taskCode: string) => {
 	try {
 		// Fetch the board details
-		const tasks = await prisma.task.findMany({
+		const task = await prisma.task.findMany({
 			where: {
-				boardCode: boardCode,
+				taskCode: taskCode,
 			},
 			include: {
 				subTasks: true,
@@ -252,7 +252,9 @@ export const getTask = async (boardCode : string) => {
 			],
 		});
 
-		return tasks;
+		return {
+			task: task
+		};
 	} catch (error) {
 		console.error("Error fetching tasks:", error);
 		throw error; // Optionally handle or rethrow the error

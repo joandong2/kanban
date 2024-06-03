@@ -6,18 +6,16 @@ import Image from "next/image";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuLabel,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import DeleteBoard from "./DeleteBoard";
 import { Dialog } from "@/components/ui/dialog";
 import EditBoard from "./EditBoard";
-import { IBoard } from "@/lib/type";
 import { useKanbanStore } from "@/lib/store";
 import AddTask from "./AddTask";
+import Task from "./Task";
 
 const TaskAction = () => {
 	const [position, setPosition] = useState("bottom right");
@@ -28,8 +26,13 @@ const TaskAction = () => {
 	const setBoard = useKanbanStore((state) => state.setBoard);
 	const setTasks = useKanbanStore((state) => state.setTasks);
 	const board = useKanbanStore(state => state.board)
+	const task = useKanbanStore(state => state.task)
 	const isEditDialogOpen = useKanbanStore((state) => state.isEditDialogOpen);
 	const setIsEditDialogOpen = useKanbanStore((state) => state.setIsEditDialogOpen)
+	const isTaskDialogOpen = useKanbanStore((state) => state.isTaskDialogOpen);
+	const setIsTaskDialogOpen = useKanbanStore(
+		(state) => state.setIsTaskDialogOpen
+	);
 
 	return (
 		<span className="flex gap-5 items-center cursor-pointer py-7 px-9">
@@ -105,6 +108,13 @@ const TaskAction = () => {
 						board={board}
 					/>
 				) : (
+					""
+				)}
+			</Dialog>
+			<Dialog open={isTaskDialogOpen} onOpenChange={setIsTaskDialogOpen}>
+				{board ? (
+					<Task task={task}/>
+				):(
 					""
 				)}
 			</Dialog>

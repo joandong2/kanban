@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { getBoards, getTasks } from "@/lib/_actions";
-import Tasks from "./Task";
+import Tasks from "./Tasks";
 
 const Board = () => {
 	const [loading, setLoading] = useState<boolean>(false);
@@ -14,9 +14,13 @@ const Board = () => {
 	const tasks = useKanbanStore((state) => state.tasks);
 	const setBoards = useKanbanStore((state) => state.setBoards);
 	const setBoard = useKanbanStore((state) => state.setBoard);
+	const setTask = useKanbanStore((state) => state.setTask);
 	const setTasks = useKanbanStore((state) => state.setTasks);
 	const setIsEditDialogOpen = useKanbanStore(
 		(state) => state.setIsEditDialogOpen
+	);
+	const setIsTaskDialogOpen = useKanbanStore(
+		(state) => state.setIsTaskDialogOpen
 	);
 
 	useEffect(() => {
@@ -54,8 +58,10 @@ const Board = () => {
 						tasks={tasks}
 						columns={board.columns}
 						setTasks={setTasks}
+						setTask={setTask}
 						boardCode={board?.boardCode}
 						setIsEditDialogOpen={setIsEditDialogOpen}
+						setIsTaskDialogOpen={setIsTaskDialogOpen}
 					/>
 				) : (
 					<span className="p-8">No active board!</span>

@@ -24,6 +24,8 @@ export interface IColumns {
 	count?: number;
 	position?: number;
 	setTasks?: (tasks: ITask[]) => void;
+	setTask?: (tasks: ITask) => void;
+	setIsTaskDialogOpen?: (status: boolean) => void;
 }
 
 export interface ITask {
@@ -33,6 +35,11 @@ export interface ITask {
 	description?: string;
 	column: string;
 	order: number;
+	subTasks?: ISubTask[];
 	//position?: number | undefined;
 	handleDragStart?: (e: React.DragEvent, info: ITask) => void;
+}
+
+export interface ISubTask {
+	title: string
 }
