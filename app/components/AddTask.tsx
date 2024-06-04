@@ -95,10 +95,11 @@ const AddTask = ({
 									<span className="label-text text-[#7e88c3] font-medium">
 										Description
 									</span>
-									<input
+									<textarea
 										className="input p-3 border rounded w-full mb-2"
 										{...register("description")}
-									/>
+										rows={4}
+									></textarea>
 									{errors.description?.message && (
 										<span className="text-sm text-red-400">
 											{errors.description.message}

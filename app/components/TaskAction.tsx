@@ -113,7 +113,7 @@ const TaskAction = () => {
 			</Dialog>
 			<Dialog open={isTaskDialogOpen} onOpenChange={setIsTaskDialogOpen}>
 				{board ? (
-					<Task task={task}/>
+					<Task task={task} board={board}/>
 				):(
 					""
 				)}

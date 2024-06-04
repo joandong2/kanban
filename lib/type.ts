@@ -41,5 +41,7 @@ export interface ITask {
 }
 
 export interface ISubTask {
-	title: string
+	title: string;
+	status: number;
+	subTaskCode: string
 }

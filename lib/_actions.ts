@@ -313,6 +313,8 @@ export const addTask = async (data: TaskData, boardCode: string) => {
 					data: {
 						title: data.subTaskLists[i].subTitle,
 						taskCode: newTask.taskCode,
+						status: 0,
+						subTaskCode: Math.random().toString(36).slice(2),
 					},
 				});
 			}
