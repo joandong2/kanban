@@ -162,12 +162,11 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 			(column) => !columnsToKeep.includes(column.columnCode)
 		);
 
-		console.log('---------------------')
-		console.log("after submit columns", data.columnLists);
-		console.log("Existing columns:", existingColumns);
-		console.log("Columns to keep:", columnsToKeep);
-		console.log("Columns to delete:", columnsToDelete);
-
+		// console.log('---------------------')
+		// console.log("after submit columns", data.columnLists);
+		// console.log("Existing columns:", existingColumns);
+		// console.log("Columns to keep:", columnsToKeep);
+		// console.log("Columns to delete:", columnsToDelete);
 
 		for (const column of columnsToDelete) {
 			// Get tasks related to the column
@@ -253,7 +252,8 @@ export const getTask = async (taskCode: string) => {
 		});
 
 		return {
-			task: task
+			task: task,
+			status: 'success'
 		};
 	} catch (error) {
 		console.error("Error fetching tasks:", error);
@@ -313,7 +313,7 @@ export const addTask = async (data: TaskData, boardCode: string) => {
 					data: {
 						title: data.subTaskLists[i].subTitle,
 						taskCode: newTask.taskCode,
-						status: 0,
+						status: false,
 						subTaskCode: Math.random().toString(36).slice(2),
 					},
 				});
@@ -438,8 +438,64 @@ export const updateTaskOrder = async (
 	} catch (error) {
 		console.error("Error editing invoice:", error);
 	}
-
-
 };
 
+export const updateTaskColumn = async (
+	taskCode: string,
+	column: string
+) => {
+	try {
 
+		const tasks = await prisma.task.findMany({
+			where: {
+				column: column
+			}
+		})
+
+		const task = await prisma.task.update({
+			where: {
+				taskCode,
+			},
+			data: {
+				column: column,
+				order: tasks.length
+			},
+		});
+
+		return {
+			status: "success",
+		};
+
+	} catch (error) {
+		console.error("Error editing invoice:", error);
+	}
+}
+
+export const updateSubTaskStatus = async (subTaskCode: string ) => {
+	try {
+		const subTask = await prisma.subTask.findUnique({
+			where: {
+				subTaskCode,
+			},
+		});
+
+		if (!subTask) {
+			throw new Error("Sub-task not found");
+		}
+
+		const updatedSubTask = await prisma.subTask.update({
+			where: {
+				subTaskCode,
+			},
+			data: {
+				status: !subTask.status,
+			},
+		});
+
+		return {
+			status: "success",
+		};
+	} catch (error) {
+		console.error("Error editing invoice:", error);
+	}
+};

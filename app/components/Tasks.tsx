@@ -152,7 +152,7 @@ const Column: React.FC<IColumns> = ({
 									>
 										<span className="leading-4 mb-2">{task.title}</span>
 										<span className="text-[#828fa3] font-bold text-[12px]">
-											{`0 of 3 subtasks`}
+											{`${task.subTasks?.filter(subTask => subTask.status).length} of ${task.subTasks?.length} subtasks`}
 										</span>
 									</span>
 								</motion.div>

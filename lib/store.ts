@@ -9,15 +9,15 @@ type KanbanStore = {
 	columns: IColumns[];
 	tasks: ITask[];
 	task: ITask;
+	isEditDialogOpen: boolean;
+	isTaskDialogOpen: boolean;
+	isTaskEditDialogOpen: boolean;
 	setBoardCode: (boardCode: string) => void;
 	setBoards: (boards: IBoard[]) => void;
 	setBoard: (board: IBoard) => void;
 	setColumns: (columns: IColumns[]) => void;
 	setTasks: (tasks: ITask[]) => void;
 	setTask: (tasks: ITask) => void;
-	isEditDialogOpen: boolean;
-	isTaskDialogOpen: boolean;
-	isTaskEditDialogOpen: boolean;
 	setIsEditDialogOpen: (status: boolean) => void;
 	setIsTaskDialogOpen: (status: boolean) => void;
 	setIsTaskEditDialogOpen: (status: boolean) => void;

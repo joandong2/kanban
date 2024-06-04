@@ -30,10 +30,10 @@ export interface IColumns {
 
 export interface ITask {
 	id?: string;
-	title?: string;
+	title: string;
 	taskCode?: string;
-	description?: string;
-	column: string;
+	description: string;
+	column?: string;
 	order: number;
 	subTasks?: ISubTask[];
 	//position?: number | undefined;
@@ -41,7 +41,8 @@ export interface ITask {
 }
 
 export interface ISubTask {
+	id?: string;
 	title: string;
-	status: number;
-	subTaskCode: string
+	status: boolean;
+	subTaskCode: string;
 }

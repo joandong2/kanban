@@ -25,6 +25,7 @@ const TaskAction = () => {
 	const setBoards = useKanbanStore((state) => state.setBoards);
 	const setBoard = useKanbanStore((state) => state.setBoard);
 	const setTasks = useKanbanStore((state) => state.setTasks);
+	const setTask = useKanbanStore((state) => state.setTask);
 	const board = useKanbanStore(state => state.board)
 	const task = useKanbanStore(state => state.task)
 	const isEditDialogOpen = useKanbanStore((state) => state.isEditDialogOpen);
@@ -113,7 +114,7 @@ const TaskAction = () => {
 			</Dialog>
 			<Dialog open={isTaskDialogOpen} onOpenChange={setIsTaskDialogOpen}>
 				{board ? (
-					<Task task={task} board={board}/>
+					<Task task={task} board={board} setTask={setTask} setTasks={setTasks}/>
 				):(
 					""
 				)}

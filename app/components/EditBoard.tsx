@@ -87,8 +87,6 @@ const EditBoard = ({
 		}
 	};
 
-	//console.log('board', board)
-
 	return (
 		<>
 			<DialogContent className="bg-white">
