@@ -33,8 +33,6 @@ const Task = ({
 	setTask: (task: ITask) => void;
 	setTasks: (tasks: ITask[]) => void;
 }) => {
-
-	console.log(task);
 	const [selectedColumn, setSelectedColumn] = useState(task.column);
 
 	const {
@@ -69,10 +67,12 @@ const Task = ({
 
 	const handleCheckBox = async (subTaskCode: string) => {
 		const res = await updateSubTaskStatus(subTaskCode);
+		const tasks = await getTasks(board.boardCode);
 		if (res && task.taskCode) {
 			const taskRes = await getTask(task.taskCode);
 			if (taskRes?.status == "success" && taskRes.task) {
 				setTask(taskRes.task[0]);
+				setTasks(tasks);
 				toast.success("Task Updated", {});
 			}
 		}

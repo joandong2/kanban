@@ -46,7 +46,9 @@ const Board = () => {
 			}
 		};
 		fetchBoard();
-	}, [board?.boardCode]);
+	}, [board?.boardCode,setTasks]);
+
+	console.log('tasks', tasks)
 
 	return (
 		<>
