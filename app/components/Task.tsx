@@ -110,13 +110,13 @@ const Task = ({
 							{task.subTasks &&
 								task.subTasks.map((subTask: ISubTask, index: number) => (
 									<span
-										key={index}
+										key={subTask.subTaskCode}
 										className="bg-[#f4f7fd] py-2 px-4 items-center mb-3 flex gap-3"
 									>
 										<input
 											type="checkbox"
-											id="subTask"
-											defaultChecked={subTask.status}
+											id={`subTask-${subTask.subTaskCode}`}
+											checked={subTask.status}
 											name={subTask.subTaskCode}
 											onChange={() =>
 												subTask.subTaskCode &&
