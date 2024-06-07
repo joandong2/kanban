@@ -21,19 +21,33 @@ import { TasksSchema } from '@/lib/schema';
 import { getTask, getTasks, updateSubTaskStatus, updateTaskColumn } from '@/lib/_actions';
 import toast from 'react-hot-toast';
 type FormValues = z.infer<typeof TasksSchema>;
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Task = ({
 	task,
 	board,
 	setTask,
 	setTasks,
+	setIsTaskEditDialogOpen,
+	setIsTaskDeleteDialogOpen,
+	setIsTaskDialogOpen
 }: {
 	task: ITask;
 	board: IBoard;
 	setTask: (task: ITask) => void;
 	setTasks: (tasks: ITask[]) => void;
+	setIsTaskDialogOpen: (status: boolean) => void;
+	setIsTaskEditDialogOpen: (status: boolean) => void;
+	setIsTaskDeleteDialogOpen: (status: boolean) => void;
 }) => {
 	const [selectedColumn, setSelectedColumn] = useState(task.column);
+	const [position, setPosition] = useState("top center");
 
 	const {
 		register,
@@ -78,6 +92,12 @@ const Task = ({
 		}
 	};
 
+	const handleShowTask = () => {
+		setIsTaskEditDialogOpen(false);
+		setIsTaskDialogOpen(false);
+		setIsTaskDeleteDialogOpen(true);
+	}
+
 	return (
 		<DialogContent className="bg-white">
 			<form>
@@ -85,14 +105,40 @@ const Task = ({
 					<DialogTitle className="text-[16px] mb-4">
 						<span className="flex justify-between">
 							<span>{task.title}</span>
-							<span className="mr-4">
-								<Image
-									src="/assets/icon-vertical-ellipsis.svg"
-									alt="Image Best Gear"
-									height="10"
-									width="10"
-									className="h-[20px] w-[6px]"
-								/>
+							<span className="cursor-pointer">
+								<DropdownMenu>
+									<DropdownMenuTrigger asChild>
+										<Image
+											src="/assets/icon-vertical-ellipsis.svg"
+											alt="Image Best Gear"
+											height="10"
+											width="10"
+											className="h-[20px] w-[7px]"
+										/>
+									</DropdownMenuTrigger>
+									<DropdownMenuContent className="w-[190px] mt-[10px] py-4 px-4 rounded-[5px] bg-white text-black mr-[185px]">
+										<DropdownMenuRadioGroup
+											value={position}
+											onValueChange={setPosition}
+											className="flex flex-col gap-1"
+										>
+											<DropdownMenuRadioItem
+												value="top"
+												className="cursor-pointer p-0"
+												onClick={() => setIsTaskEditDialogOpen(true)}
+											>
+												Edit
+											</DropdownMenuRadioItem>
+											<DropdownMenuRadioItem
+												value="bottom"
+												className="text-red-800 cursor-pointer p-0"
+												onClick={handleShowTask}
+											>
+												Delete
+											</DropdownMenuRadioItem>
+										</DropdownMenuRadioGroup>
+									</DropdownMenuContent>
+								</DropdownMenu>
 							</span>
 						</span>
 					</DialogTitle>

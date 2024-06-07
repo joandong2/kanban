@@ -19,6 +19,7 @@ const DeleteBoard = ({
 	const router = useRouter();
 
 	const handleDelete = async () => {
+		setIsDeleteDialogOpen(true);
 		await deleteBoard(board.boardCode);
 		const boards = await getBoards();
 		if (boards) {

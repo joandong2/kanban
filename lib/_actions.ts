@@ -499,3 +499,27 @@ export const updateSubTaskStatus = async (subTaskCode: string ) => {
 		console.error("Error editing invoice:", error);
 	}
 };
+
+export const deleteTask = async (taskCode: string) => {
+	try {
+		// Delete all sub-tasks associated with the board's tasks
+		await prisma.subTask.deleteMany({
+			where: {
+				taskCode,
+			},
+		});
+
+		await prisma.task.delete({
+			where: {
+				taskCode,
+			},
+		});
+
+		return {
+			status: "success",
+		};
+	} catch (error) {
+		console.error("Error fetching tasks:", error);
+		throw error; // Optionally handle or rethrow the error
+	}
+};

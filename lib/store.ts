@@ -12,6 +12,7 @@ type KanbanStore = {
 	isEditDialogOpen: boolean;
 	isTaskDialogOpen: boolean;
 	isTaskEditDialogOpen: boolean;
+	isTaskDeleteDialogOpen: boolean;
 	setBoardCode: (boardCode: string) => void;
 	setBoards: (boards: IBoard[]) => void;
 	setBoard: (board: IBoard) => void;
@@ -21,6 +22,7 @@ type KanbanStore = {
 	setIsEditDialogOpen: (status: boolean) => void;
 	setIsTaskDialogOpen: (status: boolean) => void;
 	setIsTaskEditDialogOpen: (status: boolean) => void;
+	setIsTaskDeleteDialogOpen: (status: boolean) => void;
 };
 
 export const useKanbanStore = create<KanbanStore>()(
@@ -29,12 +31,15 @@ export const useKanbanStore = create<KanbanStore>()(
 			isEditDialogOpen: false,
 			isTaskDialogOpen: false,
 			isTaskEditDialogOpen: false,
+			isTaskDeleteDialogOpen: false,
 			setIsEditDialogOpen: (status) =>
 				set(() => ({ isEditDialogOpen: status })),
 			setIsTaskDialogOpen: (status) =>
 				set(() => ({ isTaskDialogOpen: status })),
 			setIsTaskEditDialogOpen: (status) =>
 				set(() => ({ isTaskEditDialogOpen: status })),
+			setIsTaskDeleteDialogOpen: (status) =>
+				set(() => ({ isTaskDeleteDialogOpen: status })),
 			boardCode: "",
 			boards: [],
 			board: {
@@ -49,7 +54,7 @@ export const useKanbanStore = create<KanbanStore>()(
 				description: "",
 				column: "",
 				order: 0,
-				subTasks: []
+				subTasks: [],
 			},
 			setTask: (task) => set(() => ({ task })),
 			setBoardCode: (boardCode) => set(() => ({ boardCode })),

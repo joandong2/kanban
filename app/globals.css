@@ -80,3 +80,13 @@ body {
 .color-2 { color: orange }
 .color-3 { color: purple }
 .color-4 { color: indigo }
+
+div[role=dialog] button svg path{
+  display: none;
+  visibility: hidden;
+  width: 0;
+}
+
+div[role=dialog] {
+  outline: none;
+}

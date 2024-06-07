@@ -16,6 +16,8 @@ import EditBoard from "./EditBoard";
 import { useKanbanStore } from "@/lib/store";
 import AddTask from "./AddTask";
 import Task from "./Task";
+import EditTask from "./EditTask";
+import DeleteTask from "./DeleteTask";
 
 const TaskAction = () => {
 	const [position, setPosition] = useState("bottom right");
@@ -29,11 +31,24 @@ const TaskAction = () => {
 	const board = useKanbanStore(state => state.board)
 	const task = useKanbanStore(state => state.task)
 	const isEditDialogOpen = useKanbanStore((state) => state.isEditDialogOpen);
-	const setIsEditDialogOpen = useKanbanStore((state) => state.setIsEditDialogOpen)
 	const isTaskDialogOpen = useKanbanStore((state) => state.isTaskDialogOpen);
+	const isTaskEditDialogOpen = useKanbanStore(
+		(state) => state.isTaskEditDialogOpen
+	);
+	const isTaskDeleteDialogOpen = useKanbanStore(
+		(state) => state.isTaskDeleteDialogOpen
+	);
+	const setIsTaskEditDialogOpen = useKanbanStore(
+		(state) => state.setIsTaskEditDialogOpen
+	);
+	const setIsTaskDeleteDialogOpen = useKanbanStore(
+		(state) => state.setIsTaskDeleteDialogOpen
+	);
+	const setIsEditDialogOpen = useKanbanStore((state) => state.setIsEditDialogOpen)
 	const setIsTaskDialogOpen = useKanbanStore(
 		(state) => state.setIsTaskDialogOpen
 	);
+
 
 	return (
 		<span className="flex gap-5 items-center cursor-pointer py-7 px-9">
@@ -112,10 +127,50 @@ const TaskAction = () => {
 					""
 				)}
 			</Dialog>
+			{/* show task */}
 			<Dialog open={isTaskDialogOpen} onOpenChange={setIsTaskDialogOpen}>
 				{board ? (
-					<Task task={task} board={board} setTask={setTask} setTasks={setTasks}/>
-				):(
+					<Task
+						task={task}
+						board={board}
+						setTask={setTask}
+						setTasks={setTasks}
+						setIsTaskEditDialogOpen={setIsTaskEditDialogOpen}
+						setIsTaskDeleteDialogOpen={setIsTaskDeleteDialogOpen}
+						setIsTaskDialogOpen={setIsTaskDialogOpen}
+					/>
+				) : (
+					""
+				)}
+			</Dialog>
+			{/* edit task */}
+			<Dialog
+				open={isTaskEditDialogOpen}
+				onOpenChange={setIsTaskEditDialogOpen}
+			>
+				{board
+					? // <EditTask
+					  // 	task={task}
+					  // 	board={board}
+					  // 	setTask={setTask}
+					  // 	setTasks={setTasks}
+					  // />
+					  ""
+					: ""}
+			</Dialog>
+			{/* delete task */}
+			<Dialog
+				open={isTaskDeleteDialogOpen}
+				onOpenChange={setIsTaskDeleteDialogOpen}
+			>
+				{board ? (
+					<DeleteTask
+						task={task}
+						board={board}
+						setTasks={setTasks}
+						setIsTaskDeleteDialogOpen={setIsTaskDeleteDialogOpen}
+					/>
+				) : (
 					""
 				)}
 			</Dialog>

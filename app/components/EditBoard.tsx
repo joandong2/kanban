@@ -88,76 +88,74 @@ const EditBoard = ({
 	};
 
 	return (
-		<>
-			<DialogContent className="bg-white">
-				<DialogHeader>
-					<DialogTitle className="text-[16px] mb-4">Edit Board</DialogTitle>
-					<DialogDescription>
-						<span className="flex flex-col">
-							<form onSubmit={handleSubmit(processEditBoard)}>
-								<span className="form-control w-full mb-2 flex flex-col">
-									<span className="label-text text-[#7e88c3] font-medium">
-										Name
-									</span>
-									<input
-										className="input p-3 border rounded w-full mb-2"
-										{...register("name")}
-										defaultValue={board.name}
-									/>
-									{errors.name?.message && (
-										<span className="text-sm text-red-400">
-											{errors.name.message}
-										</span>
-									)}
+		<DialogContent className="bg-white">
+			<DialogHeader>
+				<DialogTitle className="text-[16px] mb-4">Edit Board</DialogTitle>
+				<DialogDescription>
+					<span className="flex flex-col">
+						<form onSubmit={handleSubmit(processEditBoard)}>
+							<span className="form-control w-full mb-2 flex flex-col">
+								<span className="label-text text-[#7e88c3] font-medium">
+									Name
 								</span>
-								<span className="columns" id="columns">
-									<span className="label-text text-[#7e88c3] font-medium">
-										Columns
+								<input
+									className="input p-3 border rounded w-full mb-2"
+									{...register("name")}
+									defaultValue={board.name}
+								/>
+								{errors.name?.message && (
+									<span className="text-sm text-red-400">
+										{errors.name.message}
 									</span>
-									{fields.map((field, index) => (
-										<span className="flex gap-2 mb-1 w-full" key={index}>
-											<input
-												{...register(`columnLists.${index}.columnName`)}
-												className="input p-3 border rounded w-full mb-2"
-											/>
-											<input
-												{...register(`columnLists.${index}.columnCode`)}
-												type="hidden"
-												className="input p-3 border rounded w-full mb-2"
-											/>
-											<span
-												onClick={() => remove(index)}
-												className="total col-span-1 cursor-pointer flex flex-col justify-center"
-											>
-												<AiFillDelete className="text-[18px] text-[#888eb0]" />
-											</span>
-										</span>
-									))}
-									<button
-										type="button"
-										className="btn text-[#7e88c3] font-bold bg-[#f9fafe] rounded-[25px] w-full border-none mb-4 py-3 mt-5"
-										onClick={() =>
-											append({
-												columnName: "",
-												columnCode: Math.random().toString(36).slice(2),
-											})
-										}
-									>
-										+ Add New Column
-									</button>
+								)}
+							</span>
+							<span className="columns" id="columns">
+								<span className="label-text text-[#7e88c3] font-medium">
+									Columns
 								</span>
+								{fields.map((field, index) => (
+									<span className="flex gap-2 mb-1 w-full" key={index}>
+										<input
+											{...register(`columnLists.${index}.columnName`)}
+											className="input p-3 border rounded w-full mb-2"
+										/>
+										<input
+											{...register(`columnLists.${index}.columnCode`)}
+											type="hidden"
+											className="input p-3 border rounded w-full mb-2"
+										/>
+										<span
+											onClick={() => remove(index)}
+											className="total col-span-1 cursor-pointer flex flex-col justify-center"
+										>
+											<AiFillDelete className="text-[18px] text-[#888eb0]" />
+										</span>
+									</span>
+								))}
 								<button
-									type="submit"
-									className="text-[#fff] font-bold bg-[#7c5dfa] rounded-[25px] py-3 px-8 border-none w-full"
+									type="button"
+									className="btn text-[#7e88c3] font-bold bg-[#f9fafe] rounded-[25px] w-full border-none mb-4 py-3 mt-5"
+									onClick={() =>
+										append({
+											columnName: "",
+											columnCode: Math.random().toString(36).slice(2),
+										})
+									}
 								>
-									Edit Board
+									+ Add New Column
 								</button>
-							</form>
-						</span>
-					</DialogDescription>
-				</DialogHeader>
-			</DialogContent>
-		</>
+							</span>
+							<button
+								type="submit"
+								className="text-[#fff] font-bold bg-[#7c5dfa] rounded-[25px] py-3 px-8 border-none w-full"
+							>
+								Edit Board
+							</button>
+						</form>
+					</span>
+				</DialogDescription>
+			</DialogHeader>
+		</DialogContent>
 	);
 };
 
