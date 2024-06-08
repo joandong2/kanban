@@ -20,6 +20,9 @@ import {
 import { TasksSchema } from '@/lib/schema';
 import { getTask, getTasks, updateSubTaskStatus, updateTaskColumn } from '@/lib/_actions';
 import toast from 'react-hot-toast';
+import { FaEllipsisVertical } from "react-icons/fa6";
+
+
 type FormValues = z.infer<typeof TasksSchema>;
 import {
 	DropdownMenu,
@@ -28,6 +31,7 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Button } from '@/components/ui/button';
 
 const Task = ({
 	task,
@@ -108,13 +112,9 @@ const Task = ({
 							<span className="cursor-pointer">
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
-										<Image
-											src="/assets/icon-vertical-ellipsis.svg"
-											alt="Image Best Gear"
-											height="10"
-											width="10"
-											className="h-[20px] w-[7px]"
-										/>
+										<span>
+											<FaEllipsisVertical className="text-[26px] text-[#828fa3]" />
+										</span>
 									</DropdownMenuTrigger>
 									<DropdownMenuContent className="w-[190px] mt-[10px] py-4 px-4 rounded-[5px] bg-white text-black mr-[185px]">
 										<DropdownMenuRadioGroup
