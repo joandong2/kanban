@@ -2,6 +2,7 @@ import React from 'react'
 import Image from "next/image";
 import { IBoard, IColumns } from '@/lib/type';
 import TaskAction from './TaskAction';
+import { FaEllipsisVertical } from 'react-icons/fa6';
 
 // destructure props
 const Header = ({board, }: {board: IBoard}) => {

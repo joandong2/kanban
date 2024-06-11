@@ -122,9 +122,9 @@ export const deleteBoard = async (boardCode: string) => {
 
 export const updateBoard = async (data: ColumnData, boardCode: string) => {
 	try {
-		console.log("Original boardCode:", boardCode);
+		//console.log("Original boardCode:", boardCode);
 		const newBoardCode = data.name.replace(/[^A-Z0-9]/gi, "-").toLowerCase();
-		console.log("New boardCode:", newBoardCode);
+		//console.log("New boardCode:", newBoardCode);
 
 		// Update or create board columns
 		for (let i = 0; i < data.columnLists.length; i++) {
@@ -499,6 +499,77 @@ export const updateSubTaskStatus = async (subTaskCode: string ) => {
 		console.error("Error editing invoice:", error);
 	}
 };
+
+export const updateTask = async (data: TaskData, taskCode: string) => {
+	try {
+		const existingTask = await prisma.task.findMany({
+			where: {
+				taskCode
+			},
+		});
+
+		if (existingTask) {
+			// Find columns that were not included in the update and delete them
+			const existingSubTask = await prisma.subTask.findMany({
+				where: {
+					taskCode,
+				},
+			});
+
+			const subTaskToKeep = data.subTaskLists.map((subTask) => subTask.subTaskCode);
+			const subTaskToDelete = existingSubTask.filter(
+				(subTask) => !subTaskToKeep.includes(subTask.subTaskCode)
+			);
+
+			for (const subtask of subTaskToDelete) {
+				// Delete tasks related to the column
+				await prisma.subTask.deleteMany({
+					where: {
+						taskCode: taskCode,
+						subTaskCode: subtask.subTaskCode,
+					},
+				});
+			}
+
+			await prisma.task.update({
+				where: {
+					taskCode,
+				},
+				data: {
+					title: data.title,
+					description: data.description,
+					column: data.column,
+				},
+			});
+
+			for (let i = 0; i < data.subTaskLists.length; i++) {
+				await prisma.subTask.upsert({
+					where: {
+						subTaskCode: data.subTaskLists[i].subTaskCode,
+					},
+					update: {
+						title: data.subTaskLists[i].subTitle,
+						status: data.subTaskLists[i].status ?? false,
+					},
+					create: {
+						title: data.subTaskLists[i].subTitle,
+						subTaskCode: Math.random().toString(36).slice(2),
+						taskCode: taskCode,
+						status: data.subTaskLists[i].status ?? false, // default to false if undefined
+					},
+				});
+			}
+		}
+
+
+		return {
+			status: "success",
+		};
+	} catch (error) {
+		console.error("Error:", error);
+	}
+};
+
 
 export const deleteTask = async (taskCode: string) => {
 	try {

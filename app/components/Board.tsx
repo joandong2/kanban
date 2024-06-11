@@ -48,8 +48,6 @@ const Board = () => {
 		fetchBoard();
 	}, [board?.boardCode,setTasks]);
 
-	console.log('tasks', tasks)
-
 	return (
 		<>
 			<Header board={board} />

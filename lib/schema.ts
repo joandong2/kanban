@@ -20,6 +20,8 @@ export const TasksSchema = z.object({
 		.array(
 			z.object({
 				subTitle: z.string(),
+				status: z.boolean().optional(),
+				subTaskCode: z.string().optional()
 			})
 		)
 		.nonempty("Items area required."),

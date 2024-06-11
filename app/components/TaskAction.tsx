@@ -148,15 +148,17 @@ const TaskAction = () => {
 				open={isTaskEditDialogOpen}
 				onOpenChange={setIsTaskEditDialogOpen}
 			>
-				{board
-					? // <EditTask
-					  // 	task={task}
-					  // 	board={board}
-					  // 	setTask={setTask}
-					  // 	setTasks={setTasks}
-					  // />
-					  ""
-					: ""}
+				{board ? (
+					<EditTask
+						task={task}
+						board={board}
+						setTask={setTask}
+						setTasks={setTasks}
+						setIsTaskEditDialogOpen={setIsTaskEditDialogOpen}
+					/>
+				) : (
+					""
+				)}
 			</Dialog>
 			{/* delete task */}
 			<Dialog

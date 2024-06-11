@@ -31,7 +31,6 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from '@/components/ui/button';
 
 const Task = ({
 	task,
@@ -96,6 +95,12 @@ const Task = ({
 		}
 	};
 
+	const handleEditTask = () => {
+		setIsTaskDeleteDialogOpen(false);
+		setIsTaskDialogOpen(false);
+		setIsTaskEditDialogOpen(true);
+	}
+
 	const handleShowTask = () => {
 		setIsTaskEditDialogOpen(false);
 		setIsTaskDialogOpen(false);
@@ -125,7 +130,7 @@ const Task = ({
 											<DropdownMenuRadioItem
 												value="top"
 												className="cursor-pointer p-0"
-												onClick={() => setIsTaskEditDialogOpen(true)}
+												onClick={handleEditTask}
 											>
 												Edit
 											</DropdownMenuRadioItem>
@@ -174,7 +179,7 @@ const Task = ({
 												subTask.status ? "line-through" : ""
 											}`}
 										>
-											{subTask.title}
+											<span className="">{subTask.title}</span>
 										</span>
 									</span>
 								))}
