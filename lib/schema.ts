@@ -16,6 +16,7 @@ export const TasksSchema = z.object({
 	title: z.string().nonempty("Field is required."),
 	description: z.string().nonempty("Field is required."),
 	column: z.string().nonempty("Field is required."),
+	columnCode: z.string().optional(),
 	subTaskLists: z
 		.array(
 			z.object({

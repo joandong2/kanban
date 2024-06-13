@@ -29,6 +29,7 @@ export const Tasks = ({
 					<Column
 						key={index}
 						column={column.column}
+						columnCode={column.columnCode}
 						name={column.name}
 						tasks={tasks}
 						count={index}
@@ -56,6 +57,7 @@ const Column: React.FC<IColumns> = ({
 	setTask,
 	count,
 	name,
+	columnCode,
 	boardCode,
 	setIsTaskDialogOpen,
 }) => {
@@ -99,13 +101,14 @@ const Column: React.FC<IColumns> = ({
 		// console.log("spot drop column", column);
 		// console.log("spot drop position", position);
 
-		if (task_code && old_column && column && boardCode) {
+		if (task_code && old_column && column && columnCode && boardCode) {
 			const tasks = await updateTaskOrder(
 				task_code,
 				position,
 				Number(old_position),
 				column,
 				old_column,
+				columnCode,
 				boardCode
 			);
 

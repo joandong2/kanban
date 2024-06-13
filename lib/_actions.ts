@@ -162,11 +162,14 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 			(column) => !columnsToKeep.includes(column.columnCode)
 		);
 
-		// console.log('---------------------')
-		// console.log("after submit columns", data.columnLists);
-		// console.log("Existing columns:", existingColumns);
-		// console.log("Columns to keep:", columnsToKeep);
-		// console.log("Columns to delete:", columnsToDelete);
+		console.log('---------------------')
+		console.log("after submit columns", data.columnLists);
+		console.log("Existing columns:", existingColumns);
+		console.log("Columns to keep:", columnsToKeep);
+		console.log("Columns to delete:", columnsToDelete);
+
+
+		// delete current column and create new column with the same name issue
 
 		for (const column of columnsToDelete) {
 			// Get tasks related to the column
@@ -186,18 +189,17 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 				});
 			}
 
-			// Delete tasks related to the column
-			await prisma.task.deleteMany({
-				where: {
-					boardCode: boardCode,
-					column: column.column,
-				},
-			});
-
 			// Finally, delete the column
 			await prisma.column.delete({
 				where: {
 					columnCode: column.columnCode,
+				},
+			});
+
+			await prisma.task.deleteMany({
+				where: {
+					boardCode: boardCode,
+					column: column.column,
 				},
 			});
 		}
@@ -301,6 +303,7 @@ export const addTask = async (data: TaskData, boardCode: string) => {
 				description: data.description,
 				order: existingTasks.length <= 0 ? 0 : existingTasks.length,
 				column: data.column,
+				columnCode: data.columnCode || '',
 				boardCode: boardCode,
 				taskCode: Math.random().toString(36).slice(2),
 			},
@@ -335,6 +338,7 @@ export const updateTaskOrder = async (
 	old_position: number,
 	column: string,
 	old_column: string,
+	columnCode: string,
 	boardCode: string
 ) => {
 
@@ -413,6 +417,7 @@ export const updateTaskOrder = async (
 			data: {
 				order: position as number,
 				column: column,
+				columnCode: columnCode
 			},
 		});
 

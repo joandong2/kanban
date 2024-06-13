@@ -146,7 +146,14 @@ const AddTask = ({
 										{...register("column")}
 									>
 										{board.columns?.map((column) => (
-											<option value={column.column}>{column.name}</option>
+											<>
+												<option value={column.column}>{column.name}</option>
+												<input
+													type="hidden"
+													{...register("columnCode")}
+													value={column.columnCode}
+												/>
+											</>
 										))}
 									</select>
 								</span>

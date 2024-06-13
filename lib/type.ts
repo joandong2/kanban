@@ -34,6 +34,7 @@ export interface ITask {
 	taskCode?: string;
 	description: string;
 	column?: string;
+	columnCode?: string;
 	order: number;
 	subTasks?: ISubTask[];
 	//position?: number | undefined;

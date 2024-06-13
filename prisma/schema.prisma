@@ -36,6 +36,7 @@ model Task {
   description String
   order Int
   boardCode String
+  columnCode String
   column String
   board Board @relation(fields: [boardCode], references:[boardCode])
   subTasks SubTask[]
