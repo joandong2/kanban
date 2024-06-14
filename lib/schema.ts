@@ -8,8 +8,7 @@ export const ColumnDataSchema = z.object({
 				columnName: z.string(),
 				columnCode: z.string()
 			})
-		)
-		.nonempty("Items area required."),
+		),
 });
 
 export const TasksSchema = z.object({
