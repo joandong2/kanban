@@ -127,28 +127,44 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 		//console.log("New boardCode:", newBoardCode);
 
 		// Update or create board columns
-		for (let i = 0; i < data.columnLists.length; i++) {
-			const columnNameSlug = data.columnLists[i].columnName
-				.replace(/[^A-Z0-9]/gi, "-")
-				.toLowerCase();
+        for (let i = 0; i < data.columnLists.length; i++) {
+				const columnNameSlug = data.columnLists[i].columnName
+					.replace(/[^A-Z0-9]/gi, "-")
+					.toLowerCase();
 
-			await prisma.column.upsert({
-				where: {
-					columnCode: data.columnLists[i].columnCode,
-				},
-				update: {
-					boardCode: newBoardCode,
-					name: data.columnLists[i].columnName,
-					column: columnNameSlug,
-				},
-				create: {
-					boardCode: newBoardCode,
-					name: data.columnLists[i].columnName,
-					column: columnNameSlug,
-					columnCode: data.columnLists[i].columnCode,
-				},
-			});
-		}
+				const columnCode = data.columnLists[i].columnCode;
+
+				console.log("column", data.columnLists[i].columnCode);
+
+				// Update tasks with the new column name and column code
+				await prisma.task.updateMany({
+					where: {
+						boardCode: boardCode,
+						columnCode: columnCode,
+					},
+					data: {
+						column: columnNameSlug,
+					},
+				});
+
+				// Upsert column
+				await prisma.column.upsert({
+					where: {
+						columnCode: columnCode,
+					},
+					update: {
+						boardCode: newBoardCode,
+						name: data.columnLists[i].columnName,
+						column: columnNameSlug,
+					},
+					create: {
+						boardCode: newBoardCode,
+						name: data.columnLists[i].columnName,
+						column: columnNameSlug,
+						columnCode: columnCode,
+					},
+				});
+			}
 
 		// Find columns that were not included in the update and delete them
 		const existingColumns = await prisma.column.findMany({
@@ -162,11 +178,11 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 			(column) => !columnsToKeep.includes(column.columnCode)
 		);
 
-		console.log('---------------------')
-		console.log("after submit columns", data.columnLists);
-		console.log("Existing columns:", existingColumns);
-		console.log("Columns to keep:", columnsToKeep);
-		console.log("Columns to delete:", columnsToDelete);
+		// console.log('---------------------')
+		// console.log("after submit columns", data.columnLists);
+		// console.log("Existing columns:", existingColumns);
+		// console.log("Columns to keep:", columnsToKeep);
+		// console.log("Columns to delete:", columnsToDelete);
 
 		// delete current column and create new column with the same name issue
 		for (const column of columnsToDelete) {
@@ -207,12 +223,13 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 		if (newBoardCode !== boardCode) {
 			await prisma.board.update({
 				where: {
-					boardCode: boardCode
-				}, data: {
+					boardCode: boardCode,
+				},
+				data: {
 					name: data.name,
-					boardCode: newBoardCode
-				}
-			})
+					boardCode: newBoardCode,
+				},
+			});
 
 			// Update tasks with the new board code
 			await prisma.task.updateMany({

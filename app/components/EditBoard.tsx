@@ -20,7 +20,7 @@ import { z } from "zod";
 import { ColumnDataSchema } from "@/lib/schema";
 import { IBoard } from '@/lib/type';
 import toast from 'react-hot-toast';
-import { getBoardAndColumns, updateBoard } from '@/lib/_actions';
+import { getBoardAndColumns, getTasks, updateBoard } from '@/lib/_actions';
 
 const EditBoard = ({
 	setIsEditDialogOpen,
@@ -78,8 +78,10 @@ const EditBoard = ({
 		const result = await updateBoard(data, board.boardCode);
 		if (result.status == "success") {
 			const updatedBoard = await getBoardAndColumns(result.boardCode);
-			if (updatedBoard) {
+			const updatedTasks = await getTasks(result.boardCode);
+			if (updatedBoard && updatedTasks) {
 				setBoard(updatedBoard);
+				setTasks(updatedTasks) // check task update tomorrow
 				toast.success("Board Updated", {});
 				reset();
 				setIsEditDialogOpen(false);
