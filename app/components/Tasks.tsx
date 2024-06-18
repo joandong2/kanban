@@ -133,7 +133,7 @@ const Column: React.FC<IColumns> = ({
 					</span>
 				</span>
 			</h2>
-			<DropSpot handleSpotDrop={handleSpotDrop} position={0} />
+			<DropSpot handleSpotDrop={handleSpotDrop} position={0}/>
 			{tasks &&
 				tasks.map(
 					(task: ITask, index) =>
@@ -186,13 +186,14 @@ const DropSpot = ({
 
 	return (
 		<span
+			key={position}
 			onDragOver={handleDragOver}
 			onDragLeave={() => setActive(false)}
 			onDrop={(e) => {
 				handleSpotDrop(e, position);
 				setActive(false);
 			}}
-			className={`rounded border text-black-700 p-1 w-full bg-violet-400 ${
+			className={`drop-${position} rounded border text-black-700 p-1 w-full bg-violet-400 ${
 				active ? "active_drop" : "hide_drop"
 			}`}
 		>

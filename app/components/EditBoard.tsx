@@ -18,18 +18,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 type FormValues = z.infer<typeof ColumnDataSchema>;
 import { z } from "zod";
 import { ColumnDataSchema } from "@/lib/schema";
-import { IBoard } from '@/lib/type';
+import { IBoard, ITask } from '@/lib/type';
 import toast from 'react-hot-toast';
 import { getBoardAndColumns, getTasks, updateBoard } from '@/lib/_actions';
 
 const EditBoard = ({
 	setIsEditDialogOpen,
 	board,
-	setBoard
+	setBoard,
+	setTasks,
 }: {
 	setIsEditDialogOpen: (bool: boolean) => void;
 	setBoards: (boards: IBoard[]) => void;
 	setBoard: (boards: IBoard) => void;
+	setTasks: (tasks: ITask[]) => void;
 	board: IBoard;
 }) => {
 	const {
@@ -43,14 +45,16 @@ const EditBoard = ({
 		resolver: zodResolver(ColumnDataSchema),
 		defaultValues: {
 			name: board ? board.name : undefined,
-			columnLists: board ? board.columns
-				? board.columns.map((column) => ({
-						columnName: column.name,
-						columnCode: column.columnCode,
-						column: column.column,
-						boardCode: column.boardCode
-				  }))
-				: [{ columnName: "", columnCode: "", column: "", boardCode: "" }] : undefined,
+			columnLists: board
+				? board.columns
+					? board.columns.map((column) => ({
+							columnName: column.name,
+							columnCode: column.columnCode,
+							column: column.column,
+							boardCode: column.boardCode,
+					  }))
+					: [{ columnName: "", columnCode: "", column: "", boardCode: "" }]
+				: undefined,
 		},
 	});
 
@@ -63,7 +67,7 @@ const EditBoard = ({
 					columnName: column.name,
 					columnCode: column.columnCode,
 					column: column.column,
-					boardCode: column.boardCode
+					boardCode: column.boardCode,
 				})),
 			});
 		}
@@ -81,7 +85,7 @@ const EditBoard = ({
 			const updatedTasks = await getTasks(result.boardCode);
 			if (updatedBoard && updatedTasks) {
 				setBoard(updatedBoard);
-				setTasks(updatedTasks) // check task update tomorrow
+				setTasks(updatedTasks); // udpate tasks
 				toast.success("Board Updated", {});
 				reset();
 				setIsEditDialogOpen(false);

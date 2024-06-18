@@ -107,6 +107,7 @@ const TaskAction = () => {
 				{board ? (
 					<EditBoard
 						setIsEditDialogOpen={setIsEditDialogOpen}
+						setTasks={setTasks}
 						setBoards={setBoards}
 						setBoard={setBoard}
 						board={board}

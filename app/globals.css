@@ -55,6 +55,12 @@ body {
   height: 50px;
 }
 
+.drop-0.active_drop,
+.active_drop:last-child {
+  height: 150px;
+}
+
+
 .hide_drop {
   opacity: 0;
 }

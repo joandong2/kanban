@@ -134,7 +134,7 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 
 				const columnCode = data.columnLists[i].columnCode;
 
-				console.log("column", data.columnLists[i].columnCode);
+				//console.log("column", data.columnLists[i].columnCode);
 
 				// Update tasks with the new column name and column code
 				await prisma.task.updateMany({
