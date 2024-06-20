@@ -145,7 +145,7 @@ const Sidebar = () => {
 								</li>
 							</ul>
 						</span>
-						<span className="relative p-12 flex flex-col gap-3 justify-center w-full">
+						<span className="relative py-12 px-8 flex flex-col gap-3 justify-center w-full">
 							<span>
 								<ToggleSwitch />
 							</span>

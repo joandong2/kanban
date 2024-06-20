@@ -10,7 +10,7 @@ const ToggleSwitch = () => {
 			<Label htmlFor="airplane-mode">
 				<IoIosSunny className="text-[24px]" />
 			</Label>
-			<Switch id="color-mode" />
+			<Switch onCheckedChange={field.onChange}  id="color-mode" />
 			<Label htmlFor="airplane-mode">
 				<BsMoonStarsFill className="text-[18px]" />
 			</Label>

@@ -3,6 +3,7 @@ import { devtools, persist } from "zustand/middleware";
 import { IBoard, IColumns, ITask } from "./type";
 
 type KanbanStore = {
+	theme: boolean;
 	boardCode: string;
 	boards: IBoard[];
 	board: IBoard;
@@ -23,11 +24,14 @@ type KanbanStore = {
 	setIsTaskDialogOpen: (status: boolean) => void;
 	setIsTaskEditDialogOpen: (status: boolean) => void;
 	setIsTaskDeleteDialogOpen: (status: boolean) => void;
+	setTheme: () => void;
 };
 
 export const useKanbanStore = create<KanbanStore>()(
 	devtools(
 		(set) => ({
+			theme: false,
+			setTheme: () => set((state) => ({ theme: !state.theme })),
 			isEditDialogOpen: false,
 			isTaskDialogOpen: false,
 			isTaskEditDialogOpen: false,
