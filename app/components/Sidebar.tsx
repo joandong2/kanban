@@ -38,6 +38,8 @@ const Sidebar = () => {
 	const setBoardCode = useKanbanStore((state) => state.setBoardCode);
 	const setBoard = useKanbanStore((state) => state.setBoard);
 	const setBoards = useKanbanStore((state) => state.setBoards);
+	//const theme = useKanbanStore((state) => state.theme);
+	const setTheme = useKanbanStore((state) => state.setTheme);
 
 	const {
 		register,
@@ -147,7 +149,7 @@ const Sidebar = () => {
 						</span>
 						<span className="relative py-12 px-8 flex flex-col gap-3 justify-center w-full">
 							<span>
-								<ToggleSwitch />
+								<ToggleSwitch setTheme={setTheme}/>
 							</span>
 							<span
 								onClick={hideSidebar}

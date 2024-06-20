@@ -10,7 +10,8 @@ import Tasks from "./Tasks";
 const Board = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const board = useKanbanStore((state) => state.board);
-	const boards = useKanbanStore((state) => state.boards);
+	//const boards = useKanbanStore((state) => state.boards);
+	const theme = useKanbanStore((state) => state.theme);
 	const tasks = useKanbanStore((state) => state.tasks);
 	const setBoards = useKanbanStore((state) => state.setBoards);
 	const setBoard = useKanbanStore((state) => state.setBoard);
@@ -49,7 +50,7 @@ const Board = () => {
 	}, [board?.boardCode,setTasks]);
 
 	return (
-		<>
+		<span className={`${theme ? 'dark' : 'light' }`}>
 			<Header board={board} />
 			<div className="flex">
 				<Sidebar />
@@ -67,7 +68,7 @@ const Board = () => {
 					<span className="p-8">No active board!</span>
 				)}
 			</div>
-		</>
+		</span>
 	);
 };
 
