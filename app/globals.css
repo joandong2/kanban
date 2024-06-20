@@ -52,13 +52,13 @@ body {
 .active_drop {
   opacity: 1;
   transition: all 0.3s ease-in;
-  height: 50px;
+  height: 80px;
 }
 
-.drop-0.active_drop,
+/* .drop-0.active_drop,
 .active_drop:last-child {
   height: 150px;
-}
+} */
 
 
 .hide_drop {
@@ -95,4 +95,16 @@ div[role=dialog] button svg path{
 
 div[role=dialog] {
   outline: none;
+}
+
+div[role=menuitemradio] span{
+  display: none;
+}
+
+.switch button {
+  background-color: #635fc7 !important;
+}
+
+.switch button span{
+  background-color: white !important;
 }

@@ -26,6 +26,7 @@ import { createBoard, getBoardAndColumns, getBoards } from "@/lib/_actions";
 import toast from "react-hot-toast";
 import { IBoard } from '@/lib/type';
 import { useKanbanStore } from "@/lib/store";
+import ToggleSwitch from './ToggleSwitch';
 
 type FormValues = z.infer<typeof ColumnDataSchema>;
 
@@ -144,11 +145,13 @@ const Sidebar = () => {
 								</li>
 							</ul>
 						</span>
-						<span className="relative p-12 flex flex-col gap-3">
-							<span></span>
+						<span className="relative p-12 flex flex-col gap-3 justify-center w-full">
+							<span>
+								<ToggleSwitch />
+							</span>
 							<span
 								onClick={hideSidebar}
-								className="cursor-pointer flex items-center gap-3 text-[#828fa3]"
+								className="cursor-pointer flex items-center gap-3 text-[#828fa3] justify-center"
 							>
 								<FaEyeSlash />
 								Hide Sidebar
