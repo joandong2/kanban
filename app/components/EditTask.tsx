@@ -19,7 +19,7 @@ import {
 } from "react-hook-form";
 import { AiFillDelete } from "react-icons/ai";
 import toast from "react-hot-toast";
-import { addTask, getBoardAndColumns, getTask, getTasks, updateTask } from "@/lib/_actions";
+import { getTasks, updateTask } from "@/lib/_actions";
 type FormValues = z.infer<typeof TasksSchema>;
 
 const EditTask = ({
@@ -96,7 +96,7 @@ const EditTask = ({
 	};
 
 	return (
-			<DialogContent className="bg-white overflow-auto h-auto max-h-screen">
+			<DialogContent className="bg-white overflow-auto h-auto max-h-screen bg-background">
 				<DialogHeader>
 					<DialogTitle className="text-[16px] mb-4">Edit Task</DialogTitle>
 					<DialogDescription>

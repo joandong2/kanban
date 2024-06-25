@@ -108,12 +108,12 @@ const Task = ({
 	}
 
 	return (
-		<DialogContent className="bg-white">
+		<DialogContent>
 			<form>
 				<DialogHeader>
 					<DialogTitle className="text-[16px] mb-4">
 						<span className="flex justify-between">
-							<span>{task.title}</span>
+							<span className="text-lg">{task.title}</span>
 							<span className="cursor-pointer">
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
@@ -121,7 +121,7 @@ const Task = ({
 											<FaEllipsisVertical className="text-[26px] text-[#828fa3]" />
 										</span>
 									</DropdownMenuTrigger>
-									<DropdownMenuContent className="w-[190px] mt-[10px] py-4 px-4 rounded-[5px] bg-white text-black mr-[185px]">
+									<DropdownMenuContent className="w-[190px] mt-[10px] py-4 px-4 rounded-[5px] backgound-toggle text-black mr-[185px]">
 										<DropdownMenuRadioGroup
 											value={position}
 											onValueChange={setPosition}
@@ -152,7 +152,7 @@ const Task = ({
 							{task.description}
 						</span>
 						<span className="flex flex-col my-5">
-							<span className="mb-4 text-[#828fa3]">
+							<span className="mb-4 text-toggle">
 								Subtasks{" "}
 								{`${
 									task.subTasks?.filter((subTask) => subTask.status).length
@@ -162,7 +162,7 @@ const Task = ({
 								task.subTasks.map((subTask: ISubTask, index: number) => (
 									<span
 										key={subTask.subTaskCode}
-										className="bg-[#f4f7fd] py-2 px-4 items-center mb-3 flex gap-3"
+										className="check-box py-2 px-4 items-center mb-3 flex gap-3"
 									>
 										<input
 											type="checkbox"
@@ -176,7 +176,7 @@ const Task = ({
 										/>
 										<span
 											className={`capitalize ${
-												subTask.status ? "line-through" : ""
+												subTask.status ? "line-through line-text" : ""
 											}`}
 										>
 											<span className="">{subTask.title}</span>
@@ -185,7 +185,7 @@ const Task = ({
 								))}
 						</span>
 						<span className="form-control w-full mb-2 flex flex-col">
-							<span className="label-text text-[#7e88c3] font-medium mb-2">
+							<span className="label-text text-toggle font-medium mb-2">
 								Column
 							</span>
 							{task && (

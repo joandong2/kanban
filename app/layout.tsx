@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { plusJakartaSans } from "./utils/font";
-import { Toaster } from "react-hot-toast";
+import Body from "./components/Body";
 
 export const metadata: Metadata = {
   title: "Kanban Task Management",
@@ -15,10 +14,7 @@ export default function RootLayout({
 }>) {
   return (
 		<html lang="en">
-			<body className={`${plusJakartaSans.variable} light h-[100%]`}>
-				<Toaster position="top-right" />
-				{children}
-			</body>
+			<Body children={children}/>
 		</html>
 	);
 }

@@ -40,7 +40,7 @@ export const Tasks = ({
 					/>
 				))}
 			<span
-				className="mt-8 rounded-[10px] min-w-[280px] bg-[#f0effa] py-5 flex justify-center items-center cursor-pointer"
+				className="mt-8 rounded-[10px] min-w-[280px] bg-new-col py-5 flex justify-center items-center cursor-pointer"
 				onClick={() => setIsEditDialogOpen(true)}
 			>
 				+ New Columnn
@@ -133,7 +133,7 @@ const Column: React.FC<IColumns> = ({
 					</span>
 				</span>
 			</h2>
-			<DropSpot handleSpotDrop={handleSpotDrop} position={0}/>
+			<DropSpot handleSpotDrop={handleSpotDrop} position={0} />
 			{tasks &&
 				tasks.map(
 					(task: ITask, index) =>
@@ -141,21 +141,24 @@ const Column: React.FC<IColumns> = ({
 							<>
 								<motion.div
 									layout
-									className="flex flex-col rounded-[5px] bg-white"
+									className="flex flex-col rounded-[5px] backgound-toggle"
 								>
 									<span
 										draggable="true"
 										onDragStart={(e) =>
 											handleDragStart && handleDragStart(e, { ...task })
 										}
-										className="flex flex-col cursor-grab rounded border-neutral-700 bg-white-800 active:cursor-grabbing px-5 py-5 shadow-lg"
+										className="flex flex-col cursor-grab rounded border-neutral-700 backgound-toggle active:cursor-grabbing px-5 py-5 shadow-lg"
 										onClick={() =>
 											task.taskCode && handleOnClickTask(task.taskCode)
 										}
 									>
 										<span className="leading-4 mb-2">{task.title}</span>
 										<span className="text-[#828fa3] font-bold text-[12px]">
-											{`${task.subTasks?.filter(subTask => subTask.status).length} of ${task.subTasks?.length} subtasks`}
+											{`${
+												task.subTasks?.filter((subTask) => subTask.status)
+													.length
+											} of ${task.subTasks?.length} subtasks`}
 										</span>
 									</span>
 								</motion.div>

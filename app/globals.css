@@ -3,12 +3,15 @@
 @tailwind utilities;
 
 body {
-  background-color: #E4EBFA;
   font-weight: 600;
   font-size: 14px;
   overflow: hidden;
   font-optical-sizing: auto;
   font-style: normal;
+}
+
+input[type='checkbox'] {
+  cursor: pointer
 }
 
 .sidebar li span {
@@ -107,4 +110,75 @@ div[role=menuitemradio] span{
 
 .switch button span{
   background-color: white !important;
+}
+
+.light {
+  background: #E4EBFA;
+}
+
+.dark {
+  background-color: #20212c;
+  color: white
+}
+
+.light .backgound-toggle,
+.light .bg-background {
+  background-color: #fff !important;
+  border: none;
+}
+
+.dark .backgound-toggle,
+.dark .bg-background {
+  background: #2b2c37 !important;
+  color: #fff;
+  border: none;
+}
+
+.light .border-toggle {
+  border-color: #e4ebfa
+}
+
+.dark .border-toggle {
+  border-color: #3e3f4e
+}
+
+.light .bg-new-col {
+  background-color: #f0effa
+}
+
+.dark .bg-new-col {
+  background-color: #23232e
+}
+
+.light .text-toggle {
+  color: #828fa3;
+}
+
+.dark .text-toggle {
+  color: #fff;
+}
+
+.light .check-box {
+  background-color: #f4f7fd;
+}
+
+.dark .check-box {
+  background-color: #16161c;
+}
+
+.dark .line-text {
+  color: #8f9095;
+}
+.dark select,
+.dark input,
+.dark textarea {
+  background: #2b2c37;
+}
+
+.dark .toggle-bg {
+  background-color: #635fc7;
+}
+
+.light .toggle-bg {
+  background-color: #f4f7fd;
 }

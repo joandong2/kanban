@@ -50,7 +50,7 @@ const Board = () => {
 	}, [board?.boardCode,setTasks]);
 
 	return (
-		<span className={`${theme ? 'dark' : 'light' }`}>
+		<div>
 			<Header board={board} />
 			<div className="flex">
 				<Sidebar />
@@ -68,7 +68,7 @@ const Board = () => {
 					<span className="p-8">No active board!</span>
 				)}
 			</div>
-		</span>
+		</div>
 	);
 };
 

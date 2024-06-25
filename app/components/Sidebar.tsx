@@ -66,7 +66,7 @@ const Sidebar = () => {
 	};
 
 	const toggleClass = clsx({
-		"transition-all duration-1500 h-full h-screen overflow-y-hidden pt-4 flex flex-col bg-white pointer mt-[-86px] pt-[113px] relative z-1":
+		"transition-all duration-1500 h-full h-screen overflow-y-hidden pt-4 flex flex-col backgound-toggle pointer mt-[-86px] pt-[113px] relative z-1":
 			true,
 		"opacity-0 w-0": hideSide,
 		"opacity-100 w-[260px] max-w-[260px] xl:w-[300px] xl:min-w-[300px]":
@@ -162,7 +162,7 @@ const Sidebar = () => {
 					</span>
 				</span>
 			</span>
-			<DialogContent className="bg-white">
+			<DialogContent className="bg-toggle">
 				<DialogHeader>
 					<DialogTitle className="text-[16px] mb-4">Add New Board</DialogTitle>
 					<DialogDescription>
