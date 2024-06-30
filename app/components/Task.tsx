@@ -113,7 +113,7 @@ const Task = ({
 				<DialogHeader>
 					<DialogTitle className="text-[16px] mb-4">
 						<span className="flex justify-between">
-							<span className="text-lg">{task.title}</span>
+							<span className="text-[17px] leading-[24px]">{task.title}</span>
 							<span className="cursor-pointer">
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
@@ -162,7 +162,7 @@ const Task = ({
 								task.subTasks.map((subTask: ISubTask, index: number) => (
 									<span
 										key={subTask.subTaskCode}
-										className="check-box py-2 px-4 items-center mb-3 flex gap-3"
+										className="check-box py-2 px-4 items-center mb-2 flex gap-3"
 									>
 										<input
 											type="checkbox"
@@ -179,7 +179,7 @@ const Task = ({
 												subTask.status ? "line-through line-text" : ""
 											}`}
 										>
-											<span className="">{subTask.title}</span>
+											<span className="text-[13px]">{subTask.title}</span>
 										</span>
 									</span>
 								))}

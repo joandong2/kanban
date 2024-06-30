@@ -28,7 +28,7 @@ const Header = ({board, theme }: {board: IBoard, theme:boolean}) => {
 						/>{" "}
 					</span>
 					<span className="border-r-1 py-7 px-9">
-						<p className="text-[20px] font-bold">
+						<p className="text-[20px] font-bold tracking-wide">
 							{board ? board.name : "No active board!"}
 						</p>
 					</span>
