@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +8,7 @@ body {
   font-weight: 600;
   font-size: 14px;
   overflow: hidden;
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
 }
@@ -173,12 +176,20 @@ div[role=menuitemradio] span{
 .dark input,
 .dark textarea {
   background: #2b2c37;
+  border-color: #404552;
+}
+
+.light input,
+.light textarea,
+.light select, {
+  border-color: #dfe3e8;
 }
 
 .dark .toggle-bg {
-  background-color: #635fc7;
+  background-color: #20212c;
 }
 
 .light .toggle-bg {
   background-color: #f4f7fd;
 }
+

@@ -40,7 +40,7 @@ export const Tasks = ({
 					/>
 				))}
 			<span
-				className="mt-8 rounded-[10px] min-w-[280px] bg-new-col py-5 flex justify-center items-center cursor-pointer"
+				className="mt-8 rounded-[10px] min-w-[300px] bg-new-col py-5 flex justify-center items-center cursor-pointer"
 				onClick={() => setIsEditDialogOpen(true)}
 			>
 				+ New Columnn
@@ -121,7 +121,7 @@ const Column: React.FC<IColumns> = ({
 
 	return (
 		<span
-			className="flex flex-col w-[280px] min-w-[280px]"
+			className="flex flex-col w-[300px] min-w-[300px]"
 			onDrop={(e) => handleColumnDrop(e)}
 			onDragOver={(e) => handleDragOver(e)}
 		>

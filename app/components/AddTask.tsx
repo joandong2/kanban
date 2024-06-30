@@ -71,14 +71,14 @@ const AddTask = ({
 
 	return (
 		<>
-			<DialogContent className="bg-white overflow-auto h-auto max-h-screen">
+			<DialogContent className="bg-background overflow-auto h-auto max-h-screen">
 				<DialogHeader>
 					<DialogTitle className="text-[16px] mb-4">Add New Task</DialogTitle>
 					<DialogDescription>
 						<span className="flex flex-col">
 							<form onSubmit={handleSubmit(handleAddTask)}>
 								<span className="form-control w-full mb-2 flex flex-col">
-									<span className="label-text text-[#7e88c3] font-medium">
+									<span className="label-text text-toggle font-medium">
 										Title
 									</span>
 									<input
@@ -92,7 +92,7 @@ const AddTask = ({
 									)}
 								</span>
 								<span className="form-control w-full mb-2 flex flex-col">
-									<span className="label-text text-[#7e88c3] font-medium">
+									<span className="label-text text-toggle font-medium">
 										Description
 									</span>
 									<textarea
@@ -107,7 +107,7 @@ const AddTask = ({
 									)}
 								</span>
 								<span className="columns" id="columns">
-									<span className="label-text text-[#7e88c3] font-medium">
+									<span className="label-text text-toggle font-medium">
 										SubTasks
 									</span>
 									{fields.map((field, index) => (
@@ -138,7 +138,7 @@ const AddTask = ({
 								</span>
 
 								<span className="form-control w-full mb-2 flex flex-col">
-									<span className="label-text text-[#7e88c3] font-medium">
+									<span className="label-text text-toggle font-medium">
 										Column
 									</span>
 									<select
@@ -162,7 +162,7 @@ const AddTask = ({
 									type="submit"
 									className="text-[#fff] font-bold bg-[#7c5dfa] rounded-[25px] py-3 px-8 border-none w-full"
 								>
-									Add Task
+									Create Task
 								</button>
 							</form>
 						</span>

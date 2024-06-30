@@ -32,33 +32,31 @@ const DeleteBoard = ({
 	};
 
 	return (
-		<>
-			<DialogContent className="bg-white">
-				<DialogHeader>
-					<DialogTitle className="text-[20px] mb-4 text-red-600">
-						Delete this board?
-					</DialogTitle>
-					<span className="text-[#828fa3] !mb-[30px]">
-						Are you sure you want to delete the '{board.name}' board? This
-						action will remove all columns and tasks and cannot be reversed.
+		<DialogContent className="bg-background">
+			<DialogHeader>
+				<DialogTitle className="text-[20px] mb-4 text-red-600">
+					Delete this board?
+				</DialogTitle>
+				<span className="text-toggle !mb-[30px]">
+					Are you sure you want to delete the '{board.name}' board? This
+					action will remove all columns and tasks and cannot be reversed.
+				</span>
+				<span className="mt-14 flex align-middle items-center gap-2">
+					<span
+						onClick={handleDelete}
+						className="w-[50%] rounded bg-[#ea5555] py-2 px-16 cursor-pointer text-white text-center"
+					>
+						Delete
 					</span>
-					<span className="mt-14 flex align-middle items-center gap-2">
-						<span
-							onClick={handleDelete}
-							className="w-[50%] rounded bg-[#ea5555] py-2 px-16 cursor-pointer text-white text-center"
-						>
-							Delete
-						</span>
-						<span
-							onClick={() => setIsDeleteDialogOpen(false)}
-							className="w-[50%] rounded bg-[#efeff9] py-2 px-16 cursor-pointer text-[#635fc7] text-center"
-						>
-							Cancel
-						</span>
+					<span
+						onClick={() => setIsDeleteDialogOpen(false)}
+						className="w-[50%] rounded bg-[#efeff9] py-2 px-16 cursor-pointer text-[#635fc7] text-center"
+					>
+						Cancel
 					</span>
-				</DialogHeader>
-			</DialogContent>
-		</>
+				</span>
+			</DialogHeader>
+		</DialogContent>
 	);
 };
 

@@ -94,16 +94,14 @@ const EditBoard = ({
 	};
 
 	return (
-		<DialogContent className="bg-white">
+		<DialogContent className="bg-background">
 			<DialogHeader>
 				<DialogTitle className="text-[16px] mb-4">Edit Board</DialogTitle>
 				<DialogDescription>
 					<span className="flex flex-col">
 						<form onSubmit={handleSubmit(processEditBoard)}>
 							<span className="form-control w-full mb-2 flex flex-col">
-								<span className="label-text text-[#7e88c3] font-medium">
-									Name
-								</span>
+								<span className="label-text text-toggle font-medium">Name</span>
 								<input
 									className="input p-3 border rounded w-full mb-2"
 									{...register("name")}
@@ -116,7 +114,7 @@ const EditBoard = ({
 								)}
 							</span>
 							<span className="columns" id="columns">
-								<span className="label-text text-[#7e88c3] font-medium">
+								<span className="label-text text-toggle font-medium">
 									Columns
 								</span>
 								{fields.map((field, index) => (

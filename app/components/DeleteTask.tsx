@@ -38,12 +38,12 @@ const DeleteBoard = ({
 
 	return (
 		<>
-			<DialogContent className="bg-white">
+			<DialogContent className="bg-background">
 				<DialogHeader>
 					<DialogTitle className="text-[20px] mb-4 text-red-600">
 						Delete this task?
 					</DialogTitle>
-					<span className="text-[#828fa3] !mb-[30px]">
+					<span className="text-toggle !mb-[30px]">
 						Are you sure you want to delete the '{task.title}' board? This
 						action will remove all columns and tasks and cannot be reversed.
 					</span>

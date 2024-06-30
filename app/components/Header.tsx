@@ -4,14 +4,15 @@ import { IBoard, IColumns } from '@/lib/type';
 import TaskAction from './TaskAction';
 
 // destructure props
-const Header = ({board, }: {board: IBoard}) => {
+const Header = ({board, theme }: {board: IBoard, theme:boolean}) => {
   	return (
 			<span className="relative flex justify-between border-toggle backgound-toggle z-50">
 				<span className="flex gap-4 md:gap-0">
 					<span className="hidden md:block w-[261px] border-r-[1px] border-solid border-toggle py-2 px-9 xl:w-[301px] xl:min-w-[301px]">
 						<span className="p-6">
+
 							<Image
-								src="/assets/logo-dark.svg"
+								src={theme ? "/assets/logo-light.svg" :  "/assets/logo-dark.svg"}
 								alt="Image Best Gear"
 								width="153"
 								height="26"

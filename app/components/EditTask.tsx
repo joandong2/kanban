@@ -96,107 +96,107 @@ const EditTask = ({
 	};
 
 	return (
-			<DialogContent className="bg-white overflow-auto h-auto max-h-screen bg-background">
-				<DialogHeader>
-					<DialogTitle className="text-[16px] mb-4">Edit Task</DialogTitle>
-					<DialogDescription>
-						<span className="flex flex-col">
-							<form onSubmit={handleSubmit(handleEditTask)}>
-								<span className="form-control w-full mb-2 flex flex-col">
-									<span className="label-text text-[#7e88c3] font-medium">
-										Title
+		<DialogContent className="bg-white overflow-auto h-auto max-h-screen bg-background">
+			<DialogHeader>
+				<DialogTitle className="text-[16px] mb-4">Edit Task</DialogTitle>
+				<DialogDescription>
+					<span className="flex flex-col">
+						<form onSubmit={handleSubmit(handleEditTask)}>
+							<span className="form-control w-full mb-2 flex flex-col">
+								<span className="label-text text-toggle font-medium">
+									Title
+								</span>
+								<input
+									className="input p-3 border rounded w-full mb-2"
+									{...register("title")}
+								/>
+								{errors.title?.message && (
+									<span className="text-sm text-red-400">
+										{errors.title.message}
 									</span>
-									<input
-										className="input p-3 border rounded w-full mb-2"
-										{...register("title")}
-									/>
-									{errors.title?.message && (
-										<span className="text-sm text-red-400">
-											{errors.title.message}
+								)}
+							</span>
+							<span className="form-control w-full mb-2 flex flex-col">
+								<span className="label-text text-toggle  font-medium">
+									Description
+								</span>
+								<textarea
+									className="input p-3 border rounded w-full mb-2"
+									{...register("description")}
+									rows={4}
+								></textarea>
+								{errors.description?.message && (
+									<span className="text-sm text-red-400">
+										{errors.description.message}
+									</span>
+								)}
+							</span>
+							<span className="columns" id="columns">
+								<span className="label-text text-toggle  font-medium">
+									SubTasks
+								</span>
+								{fields.map((field, index) => (
+									<span className="flex gap-2 mb-1 w-full" key={index}>
+										<input
+											{...register(`subTaskLists.${index}.subTitle`)}
+											className="input p-3 border rounded w-full mb-2"
+										/>
+										<input
+											type="hidden"
+											{...register(`subTaskLists.${index}.status`)}
+										/>
+										<input
+											type="hidden"
+											{...register(`subTaskLists.${index}.subTaskCode`)}
+										/>
+										<span
+											onClick={() => remove(index)}
+											className="total col-span-1 cursor-pointer flex flex-col justify-center"
+										>
+											<AiFillDelete className="text-[18px] text-[#888eb0]" />
 										</span>
-									)}
-								</span>
-								<span className="form-control w-full mb-2 flex flex-col">
-									<span className="label-text text-[#7e88c3] font-medium">
-										Description
 									</span>
-									<textarea
-										className="input p-3 border rounded w-full mb-2"
-										{...register("description")}
-										rows={4}
-									></textarea>
-									{errors.description?.message && (
-										<span className="text-sm text-red-400">
-											{errors.description.message}
-										</span>
-									)}
-								</span>
-								<span className="columns" id="columns">
-									<span className="label-text text-[#7e88c3] font-medium">
-										SubTasks
-									</span>
-									{fields.map((field, index) => (
-										<span className="flex gap-2 mb-1 w-full" key={index}>
-											<input
-												{...register(`subTaskLists.${index}.subTitle`)}
-												className="input p-3 border rounded w-full mb-2"
-											/>
-											<input
-												type="hidden"
-												{...register(`subTaskLists.${index}.status`)}
-											/>
-											<input
-												type="hidden"
-												{...register(`subTaskLists.${index}.subTaskCode`)}
-											/>
-											<span
-												onClick={() => remove(index)}
-												className="total col-span-1 cursor-pointer flex flex-col justify-center"
-											>
-												<AiFillDelete className="text-[18px] text-[#888eb0]" />
-											</span>
-										</span>
-									))}
-									<button
-										type="button"
-										className="btn text-[#7e88c3] font-bold bg-[#f9fafe] rounded-[25px] w-full border-none mb-4 py-3 mt-5"
-										onClick={() =>
-											append({
-												subTitle: "",
-												status: false,
-												subTaskCode: "",
-											})
-										}
-									>
-										+ Add Subtasks
-									</button>
-								</span>
-
-								<span className="form-control w-full mb-2 flex flex-col">
-									<span className="label-text text-[#7e88c3] font-medium">
-										Column
-									</span>
-									<select
-										className="select p-3 border rounded w-full mb-2"
-										{...register("column")}
-									>
-										{board.columns?.map((column) => (
-											<option value={column.column}>{column.name}</option>
-										))}
-									</select>
-								</span>
-
+								))}
 								<button
-									type="submit"
-									className="text-[#fff] font-bold bg-[#7c5dfa] rounded-[25px] py-3 px-8 border-none w-full"
+									type="button"
+									className="btn text-toggle  font-bold bg-[#f9fafe] rounded-[25px] w-full border-none mb-4 py-3 mt-5"
+									onClick={() =>
+										append({
+											subTitle: "",
+											status: false,
+											subTaskCode: "",
+										})
+									}
 								>
-									Edit Task
+									+ Add Subtasks
 								</button>
-							</form>
-						</span>
-					</DialogDescription>
-				</DialogHeader>
-			</DialogContent>
+							</span>
+
+							<span className="form-control w-full mb-2 flex flex-col">
+								<span className="label-text text-[#7e88c3] font-medium">
+									Column
+								</span>
+								<select
+									className="select p-3 border rounded w-full mb-2"
+									{...register("column")}
+								>
+									{board.columns?.map((column) => (
+										<option value={column.column}>{column.name}</option>
+									))}
+								</select>
+							</span>
+
+							<button
+								type="submit"
+								className="text-[#fff] font-bold bg-[#7c5dfa] rounded-[25px] py-3 px-8 border-none w-full"
+							>
+								Edit Task
+							</button>
+						</form>
+					</span>
+				</DialogDescription>
+			</DialogHeader>
+		</DialogContent>
 	);
 };
 
