@@ -181,7 +181,9 @@ const EditTask = ({
 									{...register("column")}
 								>
 									{board.columns?.map((column) => (
-										<option value={column.column}>{column.name}</option>
+										<option value={column.column} className="capitalize">
+											{column.name}
+										</option>
 									))}
 								</select>
 							</span>

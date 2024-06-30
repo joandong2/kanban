@@ -87,11 +87,11 @@ input[type='checkbox'] {
   padding: 10px
 }
 
-.color-0 { color: red }
-.color-1 { color: green }
-.color-2 { color: orange }
-.color-3 { color: purple }
-.color-4 { color: indigo }
+.color-0 { color: #ec5757 }
+.color-1 { color: #33d69f }
+.color-2 { color: #ea5555 }
+.color-3 { color: #9277ff }
+.color-4 { color: #0d99ff }
 
 div[role=dialog] button svg path{
   display: none;

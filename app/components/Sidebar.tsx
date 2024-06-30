@@ -149,7 +149,7 @@ const Sidebar = () => {
 						</span>
 						<span className="relative py-12 px-8 flex flex-col gap-3 justify-center w-full">
 							<span>
-								<ToggleSwitch setTheme={setTheme}/>
+								<ToggleSwitch setTheme={setTheme} />
 							</span>
 							<span
 								onClick={hideSidebar}
@@ -162,7 +162,7 @@ const Sidebar = () => {
 					</span>
 				</span>
 			</span>
-			<DialogContent className="bg-toggle">
+			<DialogContent className="bg-background">
 				<DialogHeader>
 					<DialogTitle className="text-[16px] mb-4">Add New Board</DialogTitle>
 					<DialogDescription>

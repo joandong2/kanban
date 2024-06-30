@@ -147,7 +147,7 @@ const AddTask = ({
 									>
 										{board.columns?.map((column) => (
 											<>
-												<option value={column.column}>{column.name}</option>
+												<option value={column.column} className="capitalize">{column.name}</option>
 												<input
 													type="hidden"
 													{...register("columnCode")}
