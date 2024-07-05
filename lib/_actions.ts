@@ -182,15 +182,16 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 		// console.log("after submit columns", data.columnLists);
 		// console.log("Existing columns:", existingColumns);
 		// console.log("Columns to keep:", columnsToKeep);
-		// console.log("Columns to delete:", columnsToDelete);
+		//console.log("Columns to delete:", columnsToDelete);
 
 		// delete current column and create new column with the same name issue
 		for (const column of columnsToDelete) {
+
 			// Get tasks related to the column
 			const tasks = await prisma.task.findMany({
 				where: {
-					boardCode: boardCode,
-					column: column.columnCode,
+					boardCode: column.boardCode,
+					columnCode: column.columnCode,
 				},
 			});
 
@@ -201,15 +202,14 @@ export const updateBoard = async (data: ColumnData, boardCode: string) => {
 						taskCode: task.taskCode,
 					},
 				});
-			}
 
-			// Delete tasks in the column
-			await prisma.task.deleteMany({
-				where: {
-					boardCode: boardCode,
-					column: column.columnCode,
-				},
-			});
+				// Delete tasks in the column
+				await prisma.task.deleteMany({
+					where: {
+						taskCode: task.taskCode,
+					},
+				});
+			}
 
 			// Finally, delete the column
 			await prisma.column.delete({

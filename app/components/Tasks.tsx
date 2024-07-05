@@ -153,7 +153,7 @@ const Column: React.FC<IColumns> = ({
 											task.taskCode && handleOnClickTask(task.taskCode)
 										}
 									>
-										<span className="leading-4 mb-2">{task.title}</span>
+										<span className="leading-4 mb-2 capiotalize">{task.title}</span>
 										<span className="text-[#828fa3] font-bold text-[12px]">
 											{`${
 												task.subTasks?.filter((subTask) => subTask.status)

@@ -44,7 +44,7 @@ const DeleteBoard = ({
 						Delete this task?
 					</DialogTitle>
 					<span className="text-toggle !mb-[30px]">
-						Are you sure you want to delete the '{task.title}' board? This
+						Are you sure you want to delete the '{task.title}' task? This
 						action will remove all columns and tasks and cannot be reversed.
 					</span>
 					<span className="mt-14 flex align-middle items-center gap-2">

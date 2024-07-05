@@ -159,7 +159,7 @@ const EditTask = ({
 								))}
 								<button
 									type="button"
-									className="btn text-toggle  font-bold bg-[#f9fafe] rounded-[25px] w-full border-none mb-4 py-3 mt-5"
+									className="btn text-[#7e88c3]  font-bold bg-[#f9fafe] rounded-[25px] w-full border-none mb-4 py-3 mt-5"
 									onClick={() =>
 										append({
 											subTitle: "",

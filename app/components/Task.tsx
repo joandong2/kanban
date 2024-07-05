@@ -190,7 +190,7 @@ const Task = ({
 							</span>
 							{task && (
 								<select
-									className="select p-3 border rounded w-full mb-2"
+									className="select p-3 border rounded w-full mb-2 capitalize"
 									{...register("column")}
 									value={selectedColumn}
 									onChange={(e) =>
