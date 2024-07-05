@@ -38,8 +38,8 @@ const DeleteBoard = ({
 					Delete this board?
 				</DialogTitle>
 				<span className="text-toggle !mb-[30px]">
-					Are you sure you want to delete the '{board.name}' board? This
-					action will remove all columns and tasks and cannot be reversed.
+					Are you sure you want to delete the &apos;{board.name}&apos; board?
+					This action will remove all columns and tasks and cannot be reversed.
 				</span>
 				<span className="mt-14 flex align-middle items-center gap-2">
 					<span

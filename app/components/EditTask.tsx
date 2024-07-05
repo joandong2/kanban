@@ -180,8 +180,8 @@ const EditTask = ({
 									className="select p-3 border rounded w-full mb-2"
 									{...register("column")}
 								>
-									{board.columns?.map((column) => (
-										<option value={column.column} className="capitalize">
+									{board.columns?.map((column, index) => (
+										<option key={index} value={column.column} className="capitalize">
 											{column.name}
 										</option>
 									))}

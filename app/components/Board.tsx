@@ -35,7 +35,7 @@ const Board = () => {
 			setLoading(false);
 		};
 		fetchBoards();
-	}, []);
+	}, [setBoards, setBoard]);
 
 	useEffect(() => {
 		const fetchBoard = async () => {
