@@ -20,12 +20,13 @@ import { z } from "zod";
 import { ColumnDataSchema } from "@/lib/schema";
 import { IBoard, ITask } from '@/lib/type';
 import toast from 'react-hot-toast';
-import { getBoardAndColumns, getTasks, updateBoard } from '@/lib/_actions';
+import { getBoardAndColumns, getBoards, getTasks, updateBoard } from '@/lib/_actions';
 
 const EditBoard = ({
 	setIsEditDialogOpen,
 	board,
 	setBoard,
+	setBoards,
 	setTasks,
 }: {
 	setIsEditDialogOpen: (bool: boolean) => void;
@@ -81,10 +82,12 @@ const EditBoard = ({
 	const processEditBoard: SubmitHandler<FormValues> = async (data) => {
 		const result = await updateBoard(data, board.boardCode);
 		if (result.status == "success") {
+			const updatedBoards = await getBoards();
 			const updatedBoard = await getBoardAndColumns(result.boardCode);
 			const updatedTasks = await getTasks(result.boardCode);
-			if (updatedBoard && updatedTasks) {
+			if (updatedBoard && updatedTasks && updatedBoards) {
 				setBoard(updatedBoard);
+				setBoards(updatedBoards);
 				setTasks(updatedTasks); // udpate tasks
 				toast.success("Board Updated", {});
 				reset();
