@@ -121,7 +121,7 @@ const Column: React.FC<IColumns> = ({
 
 	return (
 		<span
-			className="flex flex-col w-[300px] min-w-[300px]"
+			className="flex flex-col w-[300px] min-w-[300px] h-screen max-h-screen overflow-y-auto"
 			onDrop={(e) => handleColumnDrop(e)}
 			onDragOver={(e) => handleDragOver(e)}
 		>
